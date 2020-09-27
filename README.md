@@ -7,7 +7,7 @@ Se puede consultar la justificación del uso de las herramientas [aquí](https:/
 - **Lenguaje**: `TypeScript`
 
 ## Documentos
-Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footstats/).
+Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
 - [Creación y preparación del repositorio de GitHub y configuración de git](https://github.com/ManuelJNunez/footStats/blob/master/docs/git-setup.md)
 
 ## Autor
