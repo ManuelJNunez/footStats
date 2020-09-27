@@ -1,5 +1,6 @@
 # Creación y preparación del repositorio de GitHub y configuración de git
 Lo primero que he hecho ha sido configurar git en mi PC. Para ello he editado el archivo `~/.gitconfig` y lo que dejado como se ve en la imagen de abajo.
+
 ![](img/gitsetup/gitconfig.png)
 
 Después he creado el siguiente repo:
@@ -12,4 +13,5 @@ Después de crearlo he creado un par de claves y he subido a GitHub la clave pú
 ![](img/gitsetup/pubkey.png)
 
 También he realiado el fork del repositorio de la asignatura (IV20-21) y he configurado los repositorios remotos de la siguiente manera en mi PC
+
 ![](img/gitsetup/repos.png)
