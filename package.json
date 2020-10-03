@@ -1,0 +1,23 @@
+{
+  "name": "footstats",
+  "version": "1.0.0",
+  "description": "Pequeña aplicación para que los entrenadores guarden las estadísticas de su equipo para dirigir mejor los entrenamientos.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManuelJNunez/footStats.git"
+  },
+  "author": "Manuel Jesus Nuñez Ruiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManuelJNunez/footStats/issues"
+  },
+  "homepage": "https://github.com/ManuelJNunez/footStats#readme",
+  "dependencies": {}
+}
