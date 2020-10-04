@@ -1,0 +1,3 @@
+entidad:
+  - src/models/partido.model.ts
+  - src/models/usuario.model.ts
