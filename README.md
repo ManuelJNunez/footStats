@@ -21,6 +21,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Historias de Usuario](https://github.com/ManuelJNunez/footStats/blob/master/docs/HU.md)
 - [Explicación de los módulos del proyecto](https://github.com/ManuelJNunez/footStats/blob/master/docs/modulos.md)
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
+- [Interfaces implementadas](https://github.com/ManuelJNunez/footStats/tree/master/src/models)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
