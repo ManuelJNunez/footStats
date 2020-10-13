@@ -1,8 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm";
 import {Partido} from "./partido.model";
 
 @Entity()
-export class Usuario{
+export class Usuario extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id!: number;
@@ -13,10 +13,20 @@ export class Usuario{
     @Column()
     email!: string;
 
-    @Column()
+    @Column({select: false})
     password!: string;
 
     @OneToMany(() => Partido, partido => partido.usuario)
-    partidos: Partido[];
+    partidos!: Partido[];
+
+    constructor(nombre: string, email: string, password: string){
+        super();
+
+        this.id = 0;
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.partidos = [];
+    }
 
 }
