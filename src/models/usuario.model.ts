@@ -5,19 +5,19 @@ import {Partido} from "./partido.model";
 export class Usuario extends BaseEntity{
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
     @Column()
-    nombre!: string;
+    nombre: string;
 
     @Column()
-    email!: string;
+    email: string;
 
     @Column({select: false})
-    password!: string;
+    password: string;
 
     @OneToMany(() => Partido, partido => partido.usuario)
-    partidos!: Partido[];
+    partidos: Partido[];
 
     constructor(nombre: string, email: string, password: string){
         super();
@@ -27,6 +27,21 @@ export class Usuario extends BaseEntity{
         this.email = email;
         this.password = password;
         this.partidos = [];
+    }
+
+    public addPartido(horaIni: Date, horaFin: Date): void {
+        this.partidos.push(new Partido(horaIni, horaFin, this));
+    }
+
+    public removePartido(partido: Partido): boolean {
+        const index = this.partidos.indexOf(partido);
+
+        if(index > -1){
+            this.partidos.splice(index);
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
