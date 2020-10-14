@@ -1,7 +1,8 @@
 import {expect} from "chai";
+import { Partido } from "../src/models/partido.model";
 import {Usuario} from "../src/models/usuario.model";
 
-describe('Test de construcción y alteación de objeto Usuario', function(){
+describe('Tests de construcción y alteación de objeto Usuario', function(){
     let usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234');
 
     it('Debería de crearse un objeto Usuario con los valores que se le han pasado', function(){
@@ -42,5 +43,11 @@ describe('Tests para añadir/eliminar partidos a un Usuario', function(){
 
         expect(eliminado).to.be.equal(true);
         expect(usuario.partidos).to.have.lengthOf(0);
+    })
+
+    it('No debería de eliminar nada', function(){
+        let eliminado = usuario.removePartido(usuario.partidos[0]);
+
+        expect(eliminado).to.be.equal(false);
     })
 })
