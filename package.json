@@ -15,7 +15,7 @@
     "url": "git+https://github.com/ManuelJNunez/footStats.git"
   },
   "author": "Manuel Jesus Nuñez Ruiz",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/ManuelJNunez/footStats/issues"
   },
