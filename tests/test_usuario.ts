@@ -1,5 +1,4 @@
 import {expect} from "chai";
-import { Partido } from "../src/models/partido.model";
 import {Usuario} from "../src/models/usuario.model";
 
 describe('Tests de construcción y alteación de objeto Usuario', function(){
