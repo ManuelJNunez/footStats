@@ -26,8 +26,8 @@ Y para comprobar que la sintaxi/estilo del código es correcta (ejecutar el lint
     npm run lint
 
 ## Clases testadas
-- Usuario: esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos.
-- Partido: para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos.
+- [Usuario](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts): esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos.
+- [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts): para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos.
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
