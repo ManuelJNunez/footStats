@@ -1,5 +1,4 @@
 
-
-export let verificaToken = () : undefined => {
-    return undefined
+export const verificaToken = () : unknown => {
+  return undefined
 }
