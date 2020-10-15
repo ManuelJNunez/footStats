@@ -39,6 +39,10 @@ export class Partido extends BaseEntity{
     constructor(horaIni: Date, horaFin: Date, usuario: Usuario) {
         super();
 
+        if(horaIni > horaFin){
+            throw new Error('Hora de inicio mayor que hora de fin');
+        }
+
         this.id = 0;
         this.horaIni = horaIni;
         this.horaFin = horaFin;
@@ -47,6 +51,10 @@ export class Partido extends BaseEntity{
     }
 
     public addJugada(jugada: IJugada): void {
+        if(!(jugada.momento.getTime() >= this.horaIni.getTime() && jugada.momento.getTime() <= this.horaFin.getTime())){
+            throw new Error('La jugada debe de suceder antes del fin del partido y después del inicio.');
+        }
+
         this.jugadas.push(jugada);
     }
 
