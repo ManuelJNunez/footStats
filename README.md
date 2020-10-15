@@ -21,7 +21,7 @@ Para correr los tests ejecutar la siguiente orden
 
     npm run test
 
-Y para comprobar que la sintaxi/estilo del código es correcta (ejecutar el linter de ES)
+Y para comprobar que la sintaxis/estilo del código es correcta (ejecutar el linter de ES)
 
     npm run lint
 
