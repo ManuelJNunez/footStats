@@ -1,3 +1,6 @@
 entidad:
   - src/models/partido.model.ts
   - src/models/usuario.model.ts
+lenguaje: TypeScript
+test: tests/test_partido.ts
+taskfile: package.json
