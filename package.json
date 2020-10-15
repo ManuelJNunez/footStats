@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "tsc && node dist/src/index.js",
-    "test": "mocha -r ts-node/register 'tests/**/*.ts'"
+    "test": "mocha -r ts-node/register 'tests/**/*.ts'",
+    "lint": "eslint --ext .ts src/"
   },
   "repository": {
     "type": "git",
