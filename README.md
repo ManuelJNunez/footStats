@@ -6,6 +6,7 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 Se puede consultar la justificación del uso de las herramientas [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/herramientas.md).
 - **Lenguaje**: `TypeScript`
 - **Test**: `mocha` y `chai`
+- **Task runner**: `npm`
 
 ## Iniciar aplicación
 Para iniciar esta aplicación, primero hay que instalar las dependencias del proyecto con la siguiente orden
