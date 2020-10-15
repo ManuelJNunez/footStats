@@ -5,6 +5,7 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 ## Herramientas
 Se puede consultar la justificación del uso de las herramientas [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/herramientas.md).
 - **Lenguaje**: `TypeScript`
+- **Test**: `mocha` y `chai`
 
 ## Iniciar aplicación
 Para iniciar esta aplicación, primero hay que instalar las dependencias del proyecto con la siguiente orden
@@ -15,7 +16,15 @@ Después, para iniciar la aplicación hay que enviar la orden
 
     npm start
 
-## Documentos
+Para correr los tests ejecutar la siguiente orden
+
+    npm run test
+
+Y para comprobar que la sintaxi/estilo del código es correcta (ejecutar el linter de ES)
+
+    npm run lint
+
+## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
 - [Creación y preparación del repositorio de GitHub y configuración de git](https://github.com/ManuelJNunez/footStats/blob/master/docs/git-setup.md)
 - [Historias de Usuario](https://github.com/ManuelJNunez/footStats/blob/master/docs/HU.md)
@@ -23,7 +32,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
 - [Clases implementadas](https://github.com/ManuelJNunez/footStats/tree/master/src/models)
 - [Tests de las clases implementadas](https://github.com/ManuelJNunez/footStats/tree/master/tests)
-- [GitHub Actions](https://github.com/ManuelJNunez/footStats/tree/master/.github/workflows)
+- [GitHub Actions para CI](https://github.com/ManuelJNunez/footStats/tree/master/.github/workflows)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
