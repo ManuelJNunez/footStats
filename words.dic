@@ -1,4 +1,4 @@
-23
+27
 FootStats
 API
 focalizarlos
@@ -22,3 +22,7 @@ lint
 Tests
 Actions
 CI
+README
+ESlint
+Node
+js
