@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Instalación de ls módulos
+    - name: Instalar los módulos
       run: npm install
-    - name: Ejecuta de tests
+    - name: Ejecutar los tests
       run: npm test
