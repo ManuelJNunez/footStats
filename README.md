@@ -5,9 +5,10 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 
 ## Herramientas
 Se puede consultar la justificación del uso de las herramientas [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/herramientas.md).
-- **Lenguaje**: `TypeScript`
-- **Test**: `mocha` y `chai`
-- **Task runner**: `npm`
+- **Lenguaje**: `TypeScript` porque es un lenguaje que se puede usar tanto para el front-end como para el back-end y permite programación asíncrona. Además es un superset de JavaScript que además permite, entre otras características, usar tipos para las variables. 
+- **Tests**: `mocha` y `chai`. Mocha lo uso porque permite BDD (Behavior-Driven Development) lo cual me permite agrupar los tests en bloques (en función de su historia) y permite dejar más claro para que sirve cada grupo de tests. Por otro lado, chai lo escogí porque tiene varias interfaces (expect, assert y should) y me permite escoger aquella con la que me sienta más cómodo.
+- **Task runner**: `npm` porque las órdenes que llevo implementadas hasta ahora no requiren más complejidad, todo lo puedo ejecutar desde npm sin problema (la aplicación, los tests, el linter).
+- **ORM**: `TypeORM`, debido a que que se integra muy bien en TypeScript, pues tiene soporte nativo para decoradores.
 
 ## Iniciar aplicación
 Para iniciar esta aplicación, primero hay que instalar las dependencias del proyecto con la siguiente orden
