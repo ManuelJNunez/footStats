@@ -27,8 +27,14 @@ Y para comprobar que la sintaxis/estilo del código es correcta (ejecutar el lin
     npm run lint
 
 ## Clases testadas
-- [Usuario](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts): esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos.
-- [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts): para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos.
+- [Usuario](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts): esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/test_usuario.ts).
+- [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts): para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/test_partido.ts).
+
+## GitHub Actions
+Se están usando GitHub Actions ahora mismo para tres tareas:
+- **[lint](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/lint.yml).** Para checkear que la sintaxis y el estilo de todo el código implementado en TypeScript es correcto.
+- **[check-ortography](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/check-ortography.yml).** Para comprobar que no se han producido ninguna falta de ortografía en este fichero que estás leyendo ahora mismo.
+- **[ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml).** ejecuta los tests escritos para comprobar que el código funciona correctamente.
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
@@ -36,9 +42,6 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Historias de Usuario](https://github.com/ManuelJNunez/footStats/blob/master/docs/HU.md)
 - [Explicación de los módulos del proyecto](https://github.com/ManuelJNunez/footStats/blob/master/docs/modulos.md)
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
-- [Clases implementadas](https://github.com/ManuelJNunez/footStats/tree/master/src/models)
-- [Tests de las clases implementadas](https://github.com/ManuelJNunez/footStats/tree/master/tests)
-- [GitHub Actions para CI](https://github.com/ManuelJNunez/footStats/tree/master/.github/workflows)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
