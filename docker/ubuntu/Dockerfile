@@ -16,12 +16,12 @@ FROM base AS dependencies
 RUN npm install --silent --progress=false
 
 FROM base AS test
-#Copiando los node_modules desde un stage anterior
-COPY --from=dependencies /node_modules /node_modules
-
 #Creación del volumen
 VOLUME ["/test"]
 WORKDIR /test
+
+#Copiando los node_modules desde un stage anterior
+COPY --from=dependencies /node_modules ./node_modules
 
 #Ejecución de los tests
 CMD ["npm", "test"]
