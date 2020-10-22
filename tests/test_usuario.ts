@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { Usuario } from '../src/models/usuario.model'
 
-describe('Tests de construcción y alteación de objeto Usuario', function () {
+describe('Tests de construcción y alteración de objeto Usuario', function () {
   const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234')
 
   it('Debería de crearse un objeto Usuario con los valores que se le han pasado', function () {
