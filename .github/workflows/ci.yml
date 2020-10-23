@@ -9,4 +9,4 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: docker run -t -v `pwd`:/test mjnunez/footstats
+    - run: docker run -t -v `pwd`:/test docker.pkg.github.com/manueljnunez/footstats/footstats:latest
