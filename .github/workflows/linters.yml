@@ -17,5 +17,5 @@ jobs:
       - name: "Ejecutar hadolint"
         uses: brpaz/hadolint-action@master
         with:
-          - dockerfile: Dockerfile
+          dockerfile: Dockerfile
 
