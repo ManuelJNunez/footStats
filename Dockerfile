@@ -1,6 +1,6 @@
-FROM alpine AS base
+FROM alpine:latest AS base
 #Instalación de nodejs lts y npm (y comprobación de que funcionan)
-RUN apk add --no-cache --update nodejs npm \
+RUN apk add --no-cache --update nodejs-dev=12.18.4-r0 npm=12.18.4-r0 \
     && node -v \
     && npm -v
 
