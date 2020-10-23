@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
     - name: Login
       uses: docker/build-push-action@v1
       with:
@@ -17,5 +16,6 @@ jobs:
         registry: ghcr.io
         repository: manueljnunez/footstats
         tags: latest
+    - uses: actions/checkout@v2
     - name: Obteniendo y ejecutando contendor
       run: docker run -t -v `pwd`:/test docker.pkg.github.com/manueljnunez/footstats/footstats:latest
