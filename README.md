@@ -37,6 +37,9 @@ Se están usando GitHub Actions ahora mismo para tres tareas:
 - [check-ortography](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/check-ortography.yml). Para comprobar que no se han producido ninguna falta de ortografía en este fichero que estás leyendo ahora mismo.
 - [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente.
 
+## Docker
+Todos los contenedores probados y la justificación de la elección de uno en concreto puede consultarse [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md). Las imágenes se encuentran subidas en el [repositorio de DockerHub](https://hub.docker.com/r/mjnunez/footstats).
+
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
 - [Creación y preparación del repositorio de GitHub y configuración de git](https://github.com/ManuelJNunez/footStats/blob/master/docs/git-setup.md)
