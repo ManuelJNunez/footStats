@@ -1,7 +1,7 @@
 # Pruebas de Dockerfiles
 
 ## Imágenes probadas
-Se han probado varias imágenes, todas ellas generadas mediante un Dockerfile siguiendo las [mejores prácticas de Docker](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) para su creación.
+Se han probado varias imágenes, todas ellas generadas mediante un Dockerfile siguiendo las [mejores prácticas de Docker](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) y testeando el Dockerfile con la [GitHub Action](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/linters.yml) correspondiente.
 
 ### alpine:latest
 Alpine es una imagen de Linux muy ligera y básica (solo pesa 5.57MB) y debido a eso, es de las más usadas. El contenedor que he construido sobre esta imagen ha sido generado usando una construcción multietapa (esto ayuda a que el contenedor construido sea más ligero).
@@ -157,3 +157,5 @@ time docker run -t -v `pwd`:/test mjnunez/footstats:tag
 |  alpine:latest  |    17,782s   |    17,985s   |    18,664s   |    18,348s   |      18,195s     |
 
 Como podemos ver, de media es mejor el contenedor cuya imagen base es alpine:latest, que también es el contenedor más ligero de los 4. Por tanto elijo ese para ejecutar los tests del código del repositorio.
+
+> **Nota:** el Dockerfile final difiere un poco, pero solo "estéticamente" para poder pasar el test de hadolint. El funcionamiento y lo que ocupa el contenedor sigue siendo igual.
