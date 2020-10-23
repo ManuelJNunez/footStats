@@ -1,7 +1,7 @@
-name: ESlint
+name: linter
 on: push
 jobs:
-  build:
+  ESlint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -9,3 +9,9 @@ jobs:
       run: npm install
     - name: Ejecutar ESLint
       run: npm run lint
+
+  hadolint:
+    runs-on: ubuntu-latest
+
+    steps:
+      uses: brpaz/hadolint-action@master
