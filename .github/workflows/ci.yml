@@ -9,13 +9,10 @@ jobs:
 
     steps:
     - name: Login
-      uses: docker/build-push-action@v1
+      uses: docker/login-action@v1
       with:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.SECRET_KEY }}
-        registry: ghcr.io
-        repository: manueljnunez/footstats
-        tags: latest
     - uses: actions/checkout@v2
     - name: Obteniendo y ejecutando contendor
       run: docker run -t -v `pwd`:/test docker.pkg.github.com/manueljnunez/footstats/footstats:latest
