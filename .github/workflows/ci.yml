@@ -13,6 +13,7 @@ jobs:
       with:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.SECRET_KEY }}
+        registry: docker.pkg.github.com
     - uses: actions/checkout@v2
     - name: Obteniendo y ejecutando contendor
       run: docker run -t -v `pwd`:/test docker.pkg.github.com/manueljnunez/footstats/footstats:latest
