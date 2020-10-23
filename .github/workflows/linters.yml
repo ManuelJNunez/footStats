@@ -14,8 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ejecutar hadolint
-      uses: brpaz/hadolint-action@master
+      - uses: brpaz/hadolint-action@master
       with:
         - dockerfile: Dockerfile
 
