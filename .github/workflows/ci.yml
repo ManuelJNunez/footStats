@@ -16,5 +16,6 @@ jobs:
         password: ${{ secrets.SECRET_KEY }}
         registry: ghcr.io
         repository: manueljnunez/footstats
+        tags: latest
     - name: Obteniendo y ejecutando contendor
       run: docker run -t -v `pwd`:/test docker.pkg.github.com/manueljnunez/footstats/footstats:latest
