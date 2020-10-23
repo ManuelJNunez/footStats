@@ -13,4 +13,4 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: docker run -t -v `pwd`:/test mjnunez/footstats
+    - run: docker run -t -v `pwd`:/test mjnunez/footstats
