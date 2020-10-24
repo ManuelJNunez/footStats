@@ -42,13 +42,13 @@ jobs:
           password: ${{ secrets.SECRET_KEY }}
           registry: ghcr.io
       - name: Build y push
-        id: docker_build
+        id: docker_build2
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: ghcr.io/manueljnunez/footstats:latest
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: echo ${{ steps.docker_build2.outputs.digest }}
       
 
   test:
