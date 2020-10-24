@@ -158,4 +158,4 @@ time docker run -t -v `pwd`:/test mjnunez/footstats:tag
 
 Como podemos ver, de media es mejor el contenedor cuya imagen base es alpine:latest, que también es el contenedor más ligero de los 4. Por tanto elijo ese para ejecutar los tests del código del repositorio.
 
-> **Nota:** el Dockerfile final difiere un poco, pero solo "estéticamente" para poder pasar el test de hadolint. El funcionamiento y lo que ocupa el contenedor sigue siendo igual.
+> **Nota:** el Dockerfile final difiere un poco, pero solo he hecho especificación de versiones para poder pasar el test de hadolint. El funcionamiento y lo que ocupa el contenedor sigue siendo igual.
