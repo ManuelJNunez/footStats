@@ -5,7 +5,7 @@ on: [push]
 jobs:
   check-changes:
     runs-on: ubuntu-latest
-    outsputs:
+    outputs:
       changed: ${{ steps.check.outputs.test }}
 
     steps:
