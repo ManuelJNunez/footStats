@@ -38,7 +38,7 @@ Se están usando GitHub Actions ahora mismo para tres tareas:
 - [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente.
 
 ## Docker
-Todos los contenedores probados y la justificación de la elección de uno en concreto puede consultarse [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md). Las imágenes se encuentran subidas en el [repositorio de DockerHub](https://hub.docker.com/r/mjnunez/footstats).
+Todos los contenedores probados y la justificación de la elección de uno en concreto puede consultarse [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md). Las imágenes se encuentran subidas en [DockerHub](https://hub.docker.com/r/mjnunez/footstats) y en [GitHub Container Registry](https://github.com/ManuelJNunez/footStats/packages/470899).
 
 [Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/Dockerfile)
 
