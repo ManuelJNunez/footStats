@@ -198,3 +198,8 @@ time docker run -t -v `pwd`:/test mjnunez/footstats:tag
 |  alpine:latest  |    17,782s   |    17,985s   |    18,664s   |    18,348s   |      18,195s     |
 
 Como podemos ver, de media es mejor el contenedor cuya imagen base es alpine:latest, que también es el contenedor más ligero de los 4. Por tanto elijo ese para ejecutar los tests del código del repositorio.
+
+## Configuración de las autobuilds
+### DockerHub
+
+### GitHub Container Registry
