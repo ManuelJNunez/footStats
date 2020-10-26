@@ -41,7 +41,7 @@ En la segunda etapa (dependencies) se copian los archivos `package.json` y `pack
 
 En la etapa final (test), se copian los módulos de node generados en la etapa anterior. Después se cambia el directorio de trabajo a `/test` y se edita una variable de entorno para que npm use los `node_modules` de otro path (tal y como se indica [aquí](https://www.docker.com/blog/keep-nodejs-rockin-in-docker/)).
 
-La imagen final ocupa 172MB.
+La imagen final ocupa 173MB.
 
 ### ubuntu:latest
 Ubuntu es una imagen más pesada que alpine (ocupa 72,9MB), aunque también se usa bastante. En este caso también he usado construcción multi etapa.
