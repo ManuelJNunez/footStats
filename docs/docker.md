@@ -199,7 +199,29 @@ time docker run -t -v `pwd`:/test mjnunez/footstats:tag
 
 Como podemos ver, de media es mejor el contenedor cuya imagen base es alpine:latest, que también es el contenedor más ligero de los 4. Por tanto elijo ese para ejecutar los tests del código del repositorio.
 
+## Linter
+
+Se ha añadido un workflow que ejecuta un linter para el Dockerfile y así poder asegurarme de que es correcto. Esta puede verse [aquí](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/linters.yml).
+
 ## Configuración de las autobuilds
 ### DockerHub
 
+He configurado el build en el repositorio de DockerHub para que cada vez que se haga un push que modifique el Dockerfile, se realice una build y un push del contenedor hacia DockerHub. En este imagen se puede ver como se ha sincronizado el README.
+
+![](img/docker/repo.png)
+
+Para ello me he ido a la pestaña de `Build`, he enlazado mi cuenta de GitHub con la de DockerHub y he activado el `Build`, de tal forma que se haga un build y un push (con el tag `latest`) cada vez que se modifique el fichero Dockerfile de la rama master.
+
+![](img/docker/builds.png)
+
+![](img/docker/dockerconfig.png)
+
 ### GitHub Container Registry
+
+También he enlazado un contenedor de GHCR al repositorio.
+
+![](img/docker/ghcr.png)
+
+Y he configurado un Workflow para que cada vez que se haga un cambio en el Dockerfile o en las dependencias del `package.json`, se haga una build y un push hacia el repositorio de GHCR para actualizar la imagen.
+
+![](img/docker/ghcrbuild.png)
