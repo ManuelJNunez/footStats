@@ -1,4 +1,4 @@
-# Pruebas de Dockerfiles
+# Documentación sobre Docker
 
 ## Imágenes probadas
 Se han probado varias imágenes, todas ellas generadas mediante un Dockerfile siguiendo las [mejores prácticas de Docker](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) y testeando el Dockerfile con la [GitHub Action](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/linters.yml) correspondiente.
