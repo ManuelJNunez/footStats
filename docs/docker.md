@@ -15,6 +15,7 @@ RUN addgroup -S node && adduser -S node -G node \
     && npm -v \
     && mkdir /node_modules && chown node:node /node_modules
 
+# Cambio a un usuario no privilegiado
 USER node
 
 FROM base AS dependencies
@@ -56,21 +57,30 @@ Ubuntu es una imagen más pesada que alpine (ocupa 72,9MB), aunque también se u
 ~~~dockerfile
 FROM ubuntu AS base
 
-#Instalación de curl y node, vaciado de cache y comprobación de que funciona
-RUN apt-get update \
+#Creación de grupo y usuario node. Instalación de node y npm
+RUN groupadd --gid 1000 node \
+    && useradd --uid 1000 --gid node --shell /bin/bash --create-home node \
+    && apt-get update \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/* \
     && node -v \
-    && npm -v
+    && npm -v \
+    && mkdir /node_modules && chown -R node:node /node_modules
+
+# Cambio a usuario no privilegiado
+USER node
 
 FROM base AS dependencies
+# Cambio al directorio donde guardaré las dependencias de la aplicación
+WORKDIR /
+
 #Copia de los archivos de dependencias
 COPY package.json package-lock.json ./
 
 # Instalación de las dependencias de la aplicación
-RUN npm install --silent --progress=false
+RUN npm install --silent --progress=false --no-optional
 
 FROM base AS test
 #Copiando los node_modules desde un stage anterior
@@ -89,7 +99,7 @@ CMD ["npm", "test"]
 
 En la primera etapa se instala curl para poder descargar la última LTS de node, posteriormente se limpia la cache del gestor de paquetes de ubuntu para que la imagen final ocupe lo menos posible. En las demás etapas se hace lo mismo que en alpine.
 
-La imagen final ocupa 316MB.
+La imagen final ocupa 317MB.
 
 ### node:lts
 Esta imagen es la más pesada de las cuatro que he probado (ocupa 918MB), contiene la última versión LTS de node.
@@ -97,15 +107,27 @@ Esta imagen es la más pesada de las cuatro que he probado (ocupa 918MB), contie
 ~~~dockerfile
 FROM node:lts AS base
 
+#Creación del directorio donde se guardarán las librerías de node
+RUN mkdir /node_modules && chown -R node:node /node_modules
+
+# Cambio a usuario no privilegiado
+USER node
+
+FROM base as dependencies
+
+# Cambio al directorio donde guardaré las dependencias de la aplicación
+WORKDIR /
+
 #Copia de los archivos de dependencias
 COPY package.json package-lock.json ./
 
 # Instalación de las dependencias de la aplicación
-RUN npm install --silent --progress=false
+RUN npm install --silent --progress=false --no-optional
 
-FROM node:lts AS test
+FROM base AS test
+
 #Copiando los node_modules desde un stage anterior
-COPY --from=base /node_modules /node_modules
+COPY --from=dependencies /node_modules /node_modules
 
 #Creación del volumen
 VOLUME ["/test"]
@@ -126,15 +148,27 @@ Esta imagen contiene la última versión LTS de node en alpine y es la más reco
 ~~~dockerfile
 FROM node:lts-alpine AS base
 
+#Creación del directorio donde se guardarán las librerías de node
+RUN mkdir /node_modules && chown -R node:node /node_modules
+
+# Cambio a usuario no privilegiado
+USER node
+
+FROM base as dependencies
+
+# Cambio al directorio donde guardaré las dependencias de la aplicación
+WORKDIR /
+
 #Copia de los archivos de dependencias
 COPY package.json package-lock.json ./
 
 # Instalación de las dependencias de la aplicación
-RUN npm install --silent --progress=false
+RUN npm install --silent --progress=false --no-optional
 
-FROM node:lts-alpine AS test
+FROM base AS test
+
 #Copiando los node_modules desde un stage anterior
-COPY --from=base /node_modules /node_modules
+COPY --from=dependencies /node_modules /node_modules
 
 #Creación del volumen
 VOLUME ["/test"]
@@ -147,7 +181,7 @@ ENV PATH=/node_modules/.bin:$PATH
 CMD ["npm", "test"]
 ~~~
 
-La imagen final ocupa 206MB.
+La imagen final ocupa 207MB.
 
 ## Pruebas de distintas imágenes
 Se han hecho cuatro pruebas para cada contenedor del tiempo que tardan en descargar y construir el contenedor y ejecutar los tests (lógicamente después de cada descargar eliminaba las imágenes locales).
@@ -164,5 +198,3 @@ time docker run -t -v `pwd`:/test mjnunez/footstats:tag
 |  alpine:latest  |    17,782s   |    17,985s   |    18,664s   |    18,348s   |      18,195s     |
 
 Como podemos ver, de media es mejor el contenedor cuya imagen base es alpine:latest, que también es el contenedor más ligero de los 4. Por tanto elijo ese para ejecutar los tests del código del repositorio.
-
-> **Nota:** el Dockerfile final difiere un poco, pero solo he hecho especificación de versiones para poder pasar el test de hadolint. El funcionamiento y lo que ocupa el contenedor sigue siendo igual.
