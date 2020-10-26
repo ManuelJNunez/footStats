@@ -25,7 +25,7 @@ WORKDIR /
 COPY package.json package-lock.json ./
 
 # Instalación de las dependencias de la aplicación
-RUN npm install --silent --progress=false
+RUN npm install --silent --progress=false --no-optional
 
 FROM base AS test
 #Copiando los node_modules desde un stage anterior
@@ -44,7 +44,7 @@ CMD ["npm", "test"]
 
 En la primera etapa (base), se instala node y npm, la opción `--no-cache` evita que apk cree archivos adicionales de cache en el contenedor, ya que nos conviene que este solo contenga lo básico para funcionar para que el contenedor final ocupe lo menos posible.
 
-En la segunda etapa (dependencies) se copian los archivos `package.json` y `package-lock.json` para poder instalar las dependencias de la aplicación.
+En la segunda etapa (dependencies) se copian los archivos `package.json` y `package-lock.json` para poder instalar las dependencias de la aplicación. La opción `--no-optional` sirve para que no instale dependencias que solo sean opcionales con el fin de ahorrar en el tamaño de la imagen final.
 
 En la etapa final (test), se copian los módulos de node generados en la etapa anterior. Después se cambia el directorio de trabajo a `/test` y se edita una variable de entorno para que npm use los `node_modules` de otro path (tal y como se indica [aquí](https://www.docker.com/blog/keep-nodejs-rockin-in-docker/)).
 
