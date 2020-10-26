@@ -35,7 +35,7 @@ Se están usando workflows ahora mismo para tres tareas:
 - [linter](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/linters.yml). Para checkear que la sintaxis y el estilo de todo el código implementado en TypeScript y los Dockerfiles son correctos.
 - [check-ortography](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/check-ortography.yml). Para comprobar que no se han producido ninguna falta de ortografía en este fichero que estás leyendo ahora mismo.
 - [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente. 
-- [ghcr](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ghcr.yml) detecta si hay cambios en el Dockerfile o en el package.sjon para construirlo y pushearlo a GHCR.
+- [ghcr](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ghcr.yml). detecta si hay cambios en el Dockerfile o en el package.json para construirlo y pushearlo a GHCR.
 
 ## Docker
 Todos los Dockerfiles probados y la justificación de la elección del contenedor y la configuración del autobuild se encuentran [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md). Las imágenes se encuentran subidas en [DockerHub](https://hub.docker.com/r/mjnunez/footstats) y en [GitHub Container Registry](https://github.com/users/ManuelJNunez/packages/container/package/footstats). Para ejecutar los contenedores:
