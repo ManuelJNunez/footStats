@@ -6,8 +6,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: check-changes
-    if: ${{ success() }}
 
     steps:
     - name: Login

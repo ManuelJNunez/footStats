@@ -6,6 +6,7 @@ RUN addgroup -S node && adduser -S node -G node \
     && npm -v \
     && mkdir /node_modules && chown node:node /node_modules
 
+# Cambio a un usuario no privilegiado
 USER node
 
 FROM base AS dependencies
