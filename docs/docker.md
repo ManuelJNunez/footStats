@@ -7,13 +7,20 @@ Se han probado varias imágenes, todas ellas generadas mediante un Dockerfile si
 Alpine es una imagen de Linux muy ligera y básica (solo pesa 5.57MB) y debido a eso, es de las más usadas. El contenedor que he construido sobre esta imagen ha sido generado usando una construcción multietapa (esto ayuda a que el contenedor construido sea más ligero).
 
 ~~~dockerfile
-FROM alpine AS base
-#Instalación de nodejs lts y npm (y comprobación de que funcionan)
-RUN apk add --no-cache --update nodejs npm \
+FROM alpine:3.12.1 AS base
+#Creación de grupo y usuario node. Instalación de node y npm
+RUN addgroup -S node && adduser -S node -G node \
+    && apk add --no-cache --update nodejs-dev=12.18.4-r0 npm=12.18.4-r0 \
     && node -v \
-    && npm -v
+    && npm -v \
+    && mkdir /node_modules && chown node:node /node_modules
+
+USER node
 
 FROM base AS dependencies
+# Cambio al directorio donde guardaré las dependencias de la aplicación
+WORKDIR /
+
 #Copia de los archivos de dependencias
 COPY package.json package-lock.json ./
 
