@@ -9,7 +9,8 @@ jobs:
       changed: ${{ steps.check.outputs.test }}
 
     steps:
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v2
+        fetch-depth: 2
       - id: check
         run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | egrep "(Dockerfile|package.json)" && echo "::set-output name=test::true" || echo "::set-output name=test::false"
 
