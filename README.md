@@ -31,11 +31,11 @@ Y para comprobar que la sintaxis/estilo del código es correcta (ejecutar el lin
 - [Usuario](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts). esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/test_usuario.ts).
 - [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts). para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/test_partido.ts).
 
-## GitHub Actions
-Se están usando GitHub Actions ahora mismo para tres tareas:
+## Workflows
+Se están usando workflows ahora mismo para tres tareas:
 - [linter](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/linters.yml). Para checkear que la sintaxis y el estilo de todo el código implementado en TypeScript y los Dockerfiles son correctos.
 - [check-ortography](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/check-ortography.yml). Para comprobar que no se han producido ninguna falta de ortografía en este fichero que estás leyendo ahora mismo.
-- [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente.
+- [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente. También detecta si hay cambios en el Dockerfile para construirlo y pushearlo a GHCR.
 
 ## Docker
 Todos los contenedores probados y la justificación de la elección de uno en concreto puede consultarse [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md). Las imágenes se encuentran subidas en [DockerHub](https://hub.docker.com/r/mjnunez/footstats) y en [GitHub Container Registry](https://github.com/users/ManuelJNunez/packages/container/package/footstats). Para ejecutar los contenedores:
