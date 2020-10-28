@@ -206,7 +206,7 @@ Se ha añadido un workflow que ejecuta un linter para el Dockerfile y así poder
 ## Configuración de las autobuilds
 ### DockerHub
 
-He configurado el build en el repositorio de DockerHub para que cada vez que se haga un push que modifique el Dockerfile, se realice una build y un push del contenedor hacia DockerHub. En este imagen se puede ver como se ha sincronizado el README.
+He configurado el build en el repositorio de DockerHub para que cada vez que se haga un push en el repositorio de GitHub, se realice una build y un push del contenedor que genera el Dockerfile hacia DockerHub. En este imagen se puede ver como se ha sincronizado el README.
 
 ![](img/docker/repo.png)
 
