@@ -1,22 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm'
 import { Usuario } from './usuario.model'
-
-export enum Resultado {
-    Acertado,
-    Fallido
-}
-
-export enum Tipo {
-    Ataque,
-    Defensa
-}
-
-export interface IJugada {
-    momento: Date,
-    jugada: Tipo,
-    resultado: Resultado,
-    comentario: string
-}
+import { Jugada } from './jugada.model'
 
 @Entity()
 export class Partido extends BaseEntity {
@@ -29,8 +13,8 @@ export class Partido extends BaseEntity {
     @Column()
     horaFin: Date;
 
-    @Column('simple-json')
-    jugadas: IJugada[];
+    @ManyToOne(() => Jugada, jugada => jugada.partido)
+    jugadas: Jugada[];
 
     @ManyToOne(() => Usuario, usuario => usuario.partidos)
     usuario: Usuario;
@@ -49,7 +33,7 @@ export class Partido extends BaseEntity {
       this.usuario = usuario
     }
 
-    public addJugada (jugada: IJugada): void {
+    public addJugada (jugada: Jugada): void {
       if (!(jugada.momento.getTime() >= this.horaIni.getTime() && jugada.momento.getTime() <= this.horaFin.getTime())) {
         throw new Error('La jugada debe de suceder antes del fin del partido y después del inicio.')
       }
@@ -57,7 +41,7 @@ export class Partido extends BaseEntity {
       this.jugadas.push(jugada)
     }
 
-    public removeJugada (jugada: IJugada): boolean {
+    public removeJugada (jugada: Jugada): boolean {
       const index = this.jugadas.indexOf(jugada)
 
       if (index > -1) {
