@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import { Usuario } from '../src/models/usuario.model'
-import { Partido, Tipo, Resultado } from '../src/models/partido.model'
+import { Partido } from '../src/models/partido.model'
+import { TipoJugada, Resultado, Jugada } from '../src/models/jugada.model'
 
 const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234')
 const horaIni = new Date(2020, 9, 14, 18)
@@ -29,12 +30,7 @@ describe('Tests de construcción y alteración del objeto Partido', function () 
 })
 
 describe('Tests para añadir/eliminar jugadas de un partido', function () {
-  const jugada = {
-    momento: new Date(2020, 9, 14, 18, 10),
-    jugada: Tipo.Ataque,
-    resultado: Resultado.Acertado,
-    comentario: 'El número 12 ha fallado un tiro desde fuera del área'
-  }
+  const jugada = new Jugada(new Date(2020, 9, 14, 18, 10), TipoJugada.Ataque, Resultado.Acertado, partido, 'El número 12 ha fallado un tiro desde fuera del área')
 
   it('Debería de añadir una nueva jugada al partido', function () {
     partido.addJugada(jugada)
@@ -44,7 +40,7 @@ describe('Tests para añadir/eliminar jugadas de un partido', function () {
 
   it('Debería de tener los parámetros inicializados de manera correcta', function () {
     expect(partido.jugadas[0].momento).to.be.equal(jugada.momento)
-    expect(partido.jugadas[0].jugada).to.be.equal(jugada.jugada)
+    expect(partido.jugadas[0].tipo).to.be.equal(jugada.tipo)
     expect(partido.jugadas[0].resultado).to.be.equal(jugada.resultado)
     expect(partido.jugadas[0].comentario).to.be.equal(jugada.comentario)
   })
@@ -63,12 +59,7 @@ describe('Tests para añadir/eliminar jugadas de un partido', function () {
   })
 
   it('Debería lanzar excepción por introducir valor no correcto', function () {
-    const jugadaIncorrecta = {
-      momento: new Date(Date.now()),
-      jugada: Tipo.Ataque,
-      resultado: Resultado.Acertado,
-      comentario: 'El número 12 ha fallado un tiro desde fuera del área'
-    }
+    const jugadaIncorrecta = new Jugada(new Date(Date.now()), TipoJugada.Ataque, Resultado.Acertado, partido, 'El número 12 ha fallado un tiro desde fuera del área')
 
     expect(partido.addJugada.bind(partido, jugadaIncorrecta)).to.throw('La jugada debe de suceder antes del fin del partido y después del inicio.')
   })
