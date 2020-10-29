@@ -2,5 +2,5 @@ entidad:
   - src/models/partido.model.ts
   - src/models/usuario.model.ts
 lenguaje: TypeScript
-test: tests/test_partido.ts
+test: tests/partido.test.ts
 taskfile: package.json
