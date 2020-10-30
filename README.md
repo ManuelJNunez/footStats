@@ -8,6 +8,7 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 - **Tests**: `mocha` y `chai`. Mocha lo uso porque permite BDD (Behavior-Driven Development) lo cual me permite agrupar los tests en bloques (en función de su historia) y además deja más claro para que sirve cada grupo de tests. Por otro lado, chai lo escogí porque tiene varias interfaces (expect, assert y should) y me permite escoger aquella con la que me sienta más cómodo.
 - **Task runner**: `npm` porque las órdenes que llevo implementadas hasta ahora no requieren más complejidad, todo lo puedo ejecutar desde npm sin problema (la aplicación, los tests, el linter).
 - **ORM**: `TypeORM`, debido a que que se integra muy bien en TypeScript, pues tiene soporte nativo para decoradores.
+- **Logging**: usaré `Pino`, ya que es la librería más rápida para logging debido a que trabaja en un thread a parte de la aplicación.
 
 ## Iniciar aplicación
 Para iniciar esta aplicación, primero hay que instalar las dependencias del proyecto con la siguiente orden
