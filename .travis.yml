@@ -5,4 +5,4 @@ install:
     - docker pull mjnunez/footstats
 
 script:
-    - docker run -t -v $TRAVIS_BUILD_DIR:/test mjnunez/footsts
+    - docker run -t -v $TRAVIS_BUILD_DIR:/test mjnunez/footstats
