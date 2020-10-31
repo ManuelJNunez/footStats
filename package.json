@@ -10,7 +10,8 @@
     "start": "tsc && node dist/src/index.js",
     "test": "mocha -r ts-node/register 'tests/**/*.ts'",
     "coverage": "nyc npm run test",
-    "lint": "eslint --ext .ts src/ tests/"
+    "lint": "eslint --ext .ts src/ tests/",
+    "doc": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
     "nodemon": "^2.0.4",
     "nyc": "^15.1.0",
     "ts-node": "^9.0.0",
+    "typedoc": "^0.19.2",
     "typescript": "^4.0.3"
   }
 }
