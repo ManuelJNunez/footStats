@@ -9,6 +9,7 @@
   "scripts": {
     "start": "tsc && node dist/src/index.js",
     "test": "mocha -r ts-node/register 'tests/**/*.ts'",
+    "coverage": "nyc npm run test",
     "lint": "eslint --ext .ts src/ tests/"
   },
   "repository": {
@@ -40,6 +41,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^8.2.0",
     "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   }
