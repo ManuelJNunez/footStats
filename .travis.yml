@@ -1,8 +1,11 @@
-language:
-    - minimal
+language: node_js
+
+node_js:
+    - 15
+    - 14
 
 install:
-    - docker pull mjnunez/footstats
+    - npm ci
 
 script:
-    - docker run -t -v $TRAVIS_BUILD_DIR:/test mjnunez/footstats
+    - npm test
