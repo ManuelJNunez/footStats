@@ -4,7 +4,7 @@ node_js:
     - 14
     - 13
     - 12
-    - 8
+    - 9
 
 install:
     - npm install
