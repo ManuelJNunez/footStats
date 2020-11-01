@@ -17,7 +17,7 @@ WORKDIR /
 COPY package.json package-lock.json ./
 
 # Instalación de las dependencias de la aplicación
-RUN npm install --silent --progress=false --no-optional
+RUN npm ci
 
 FROM base AS test
 #Copiando los node_modules desde un stage anterior
