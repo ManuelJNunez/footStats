@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    paths:
-      - '!Dockerfile'
-      - '!package.json'
+    paths-ignore:
+      - 'Dockerfile'
+      - 'package.json'
   workflow_run:
     workflows: ["GHCR Action"]
     branches: ["master"]
