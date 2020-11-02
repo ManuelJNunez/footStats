@@ -1,6 +1,11 @@
 name: Node.js CI
 
-on: push
+on:
+  workflow_run:
+    workflows: ["GHCR Action"]
+    branches: ["master"]
+    types:
+      - completed
 
 jobs:      
 
