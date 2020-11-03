@@ -23,9 +23,6 @@
     "url": "https://github.com/ManuelJNunez/footStats/issues"
   },
   "homepage": "https://github.com/ManuelJNunez/footStats#readme",
-  "dependencies": {
-    "reflect-metadata": "^0.1.13"
-  },
   "devDependencies": {
     "@types/chai": "^4.2.13",
     "@types/mocha": "^8.0.3",
