@@ -12,10 +12,18 @@ describe('Tests de construcción y alteración de objeto Usuario', function () {
     expect(usuario.partidos).to.have.lengthOf(0)
   })
 
-  it('Debería de alterar correctamente los datos del usuario', function () {
-    usuario.password = '12345'
+  it('Debería de alterar correctamente los datos del usuario a través de los getters y setters', function () {
+    const newPass = '12345'
+    const newName = 'Manolo'
+    const newEmail = 'mjnunez@correo.ugr.es'
 
-    expect(usuario.password).to.be.equal('12345')
+    usuario.password = newPass
+    usuario.nombre = newName
+    usuario.email = newEmail
+
+    expect(usuario.password).to.be.equal(newPass)
+    expect(usuario.nombre).to.be.equal(newName)
+    expect(usuario.email).to.be.equal(newEmail)
   })
 })
 
