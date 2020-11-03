@@ -10,18 +10,21 @@ const partido = new Partido(horaIni, horaFin, usuario)
 
 describe('Tests de construcción y alteración del objeto Partido', function () {
   it('Debería construir de forma correcta el objeto Partido', function () {
+    expect(partido.id).to.be.equal(0);
     expect(partido.horaIni).to.be.equal(horaIni)
     expect(partido.horaFin).to.be.equal(horaFin)
     expect(partido.jugadas).to.have.lengthOf(0)
     expect(partido.usuario).to.be.equal(usuario)
   })
 
-  it('Debería actualizar el valor de la variable correctamente', function () {
-    const nuevaFecha = new Date(2020, 9, 14, 17, 50)
+  it('Debería actualizar el valor de las variables correctamente', function () {
+    const nuevaFechaIni = new Date(2020, 9, 14, 17, 50)
+    const nuevaFechaFin = new Date(2020, 9, 14, 19, 0)
 
-    partido.horaIni = nuevaFecha
+    partido.horaIni = nuevaFechaIni
+    partido.horaFin = nuevaFechaFin
 
-    expect(partido.horaIni).to.be.equal(nuevaFecha)
+    expect(partido.horaIni).to.be.equal(nuevaFechaIni)
   })
 
   it('Debería de lanzar una excepción', function () {
