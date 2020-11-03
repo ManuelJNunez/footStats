@@ -17,6 +17,7 @@ describe('Test de construcción y alteración del objeto de Jugada', function ()
   const jugada = new Jugada(momento, tipo, result, partido, comentario)
 
   it('Debería de construir de forma correcta un objeto Jugada', function () {
+    expect(jugada.id).to.be.equal(0)
     expect(jugada.momento).to.be.equal(momento)
     expect(jugada.tipo).to.be.equal(tipo)
     expect(jugada.resultado).to.be.equal(result)
@@ -24,11 +25,20 @@ describe('Test de construcción y alteración del objeto de Jugada', function ()
     expect(jugada.comentario).to.be.equal(comentario)
   })
 
-  it('Debería de alterar el objeto', function () {
+  it('Debería de alterar el objeto usando los getters y setters', function () {
     const newResult = Resultado.Fallido
+    const newTipo = TipoJugada.Defensa
+    const newMomento = new Date(horaIni.getDate() + 5)
+    const newComentario = 'Este comentario es nuevo'
 
     jugada.resultado = newResult
+    jugada.momento = newMomento
+    jugada.tipo = newTipo
+    jugada.comentario = newComentario
 
     expect(jugada.resultado).to.be.equal(newResult)
+    expect(jugada.momento).to.be.equal(newMomento)
+    expect(jugada.tipo).to.be.equal(newTipo)
+    expect(jugada.comentario).to.be.equal(newComentario)
   })
 })
