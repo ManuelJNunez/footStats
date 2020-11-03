@@ -10,7 +10,7 @@ const partido = new Partido(horaIni, horaFin, usuario)
 
 describe('Tests de construcción y alteración del objeto Partido', function () {
   it('Debería construir de forma correcta el objeto Partido', function () {
-    expect(partido.id).to.be.equal(0);
+    expect(partido.id).to.be.equal(0)
     expect(partido.horaIni).to.be.equal(horaIni)
     expect(partido.horaFin).to.be.equal(horaFin)
     expect(partido.jugadas).to.have.lengthOf(0)
