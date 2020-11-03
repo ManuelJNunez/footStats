@@ -4,41 +4,34 @@
  * @packageDocumentation
  */
 
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm'
 import { Partido } from './partido.model'
 
 /**
  * Clase que representa al usuario
  */
-@Entity()
-export class Usuario extends BaseEntity {
+export class Usuario {
     /** Identificador único del usuario */
-    @PrimaryGeneratedColumn()
-    id: number;
+    private _id: number;
 
     /**
      * Nombre del usuario
      */
-    @Column()
-    nombre: string;
+    private _nombre: string;
 
     /**
      * Dirección de correo electrónico del usuario
      */
-    @Column({ unique: true })
-    email: string;
+    private _email: string;
 
     /**
      * Contraseña del usuario para el acceso (debe ir encriptada)
      */
-    @Column({ select: false })
-    password: string;
+    private _password: string;
 
     /**
      * {@link Partido | Partidos} registrados por el usuario.
      */
-    @OneToMany(() => Partido, partido => partido.usuario)
-    partidos: Partido[];
+    private _partidos: Partido[];
 
     /**
      * Crea un usuario
@@ -47,13 +40,27 @@ export class Usuario extends BaseEntity {
      * @param password Contraseña de acceso del nuevo usuario
      */
     constructor (nombre: string, email: string, password: string) {
-      super()
+      this._id = 0
+      this._nombre = nombre
+      this._email = email
+      this._password = password
+      this._partidos = []
+    }
 
-      this.id = 0
-      this.nombre = nombre
-      this.email = email
-      this.password = password
-      this.partidos = []
+    get id (): number {
+      return this._id
+    }
+
+    get nombre (): string {
+      return this._nombre
+    }
+
+    get email (): string {
+      return this._email
+    }
+
+    get password (): string {
+      return this._password
     }
 
     /**
@@ -62,19 +69,19 @@ export class Usuario extends BaseEntity {
      * @param horaFin Hora de fin del partido
      */
     public addPartido (horaIni: Date, horaFin: Date): void {
-      this.partidos.push(new Partido(horaIni, horaFin, this))
+      this._partidos.push(new Partido(horaIni, horaFin, this))
     }
 
     /**
      * Elimina un partido del usuario
      * @param partido Partido que se debe de eliminar
-     * @returns SI la operación ha tenido éxito o no
+     * @returns Si la operación ha tenido éxito o no
      */
     public removePartido (partido: Partido): boolean {
-      const index = this.partidos.indexOf(partido)
+      const index = this._partidos.indexOf(partido)
 
       if (index > -1) {
-        this.partidos.splice(index)
+        this._partidos.splice(index)
         return true
       } else {
         return false
