@@ -59,10 +59,24 @@ export class Partido {
     }
 
     /**
+     * @param nuevaHora Nueva Hora de inicio del Partido
+     */
+    set horaIni (nuevaHora: Date) {
+      this._horaIni = nuevaHora
+    }
+
+    /**
      * @returns Hora de fin del partido
      */
     get horaFin (): Date {
       return this._horaFin
+    }
+
+    /**
+     * @param nuevaHora Nueva Hora de fin del Partido
+     */
+    set horaFin (nuevaHora: Date) {
+      this._horaFin = nuevaHora
     }
 
     /**
