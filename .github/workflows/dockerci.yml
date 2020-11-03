@@ -1,0 +1,59 @@
+name: Node.js CI & Autobuild
+
+on: [push]
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check.outputs.test }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - id: check
+        run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | egrep "(Dockerfile|package.json)" && echo "::set-output name=test::true" || echo "::set-output name=test::false"
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.changed == 'true'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login en GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.SECRET_KEY }}
+          registry: ghcr.io
+      - name: Build y push hacia GHCR
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ghcr.io/manueljnunez/footstats:latest
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+      
+
+  test:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: ${{ success() }}
+
+    steps:
+    - name: Login
+      uses: docker/login-action@v1
+      with:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.SECRET_KEY }}
+        registry: ghcr.io
+    - uses: actions/checkout@v2
+    - name: Obteniendo y ejecutando contenedor
+      run: docker run -t -v `pwd`:/test ghcr.io/manueljnunez/footstats:latest
