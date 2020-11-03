@@ -4,7 +4,6 @@
  * @packageDocumentation
  */
 
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm'
 import { Partido } from './partido.model'
 
 /**
@@ -32,43 +31,36 @@ export enum TipoJugada {
 /**
  * Clase que representa las jugadas
  */
-@Entity()
-export class Jugada extends BaseEntity {
+export class Jugada {
     /**
      * Identificador único de la jugada
      */
-    @PrimaryGeneratedColumn()
-    id: number;
+    private _id: number;
 
     /**
      * Hora a la que sucede la jugada
      */
-    @Column()
-    momento: Date;
+    private _momento: Date;
 
     /**
      * Tipo de jugada ver {@link TipoJugada}
      */
-    @Column()
-    tipo: TipoJugada;
+    private _tipo: TipoJugada;
 
     /**
      * Resultado de la jugada ver {@link Resultado}
      */
-    @Column()
-    resultado: Resultado;
+    private _resultado: Resultado;
 
     /**
      * Algún comentario adicional sobre la jugada sucedida
      */
-    @Column()
-    comentario: string;
+    private _comentario: string;
 
     /**
      * {@link Partido} en el que sucedió la jugada
      */
-    @OneToMany(() => Partido, partido => partido.jugadas)
-    partido: Partido;
+    private _partido: Partido;
 
     /**
      * Crea una jugada
@@ -79,13 +71,53 @@ export class Jugada extends BaseEntity {
      * @param comentario Comentario adicional sobre la jugada nueva
      */
     constructor (momento: Date, tipo: TipoJugada, resultado: Resultado, partido: Partido, comentario: string) {
-      super()
+      this._id = 0
+      this._momento = momento
+      this._tipo = tipo
+      this._resultado = resultado
+      this._partido = partido
+      this._comentario = comentario
+    }
 
-      this.id = 0
-      this.momento = momento
-      this.tipo = tipo
-      this.resultado = resultado
-      this.partido = partido
-      this.comentario = comentario
+    /**
+     * @returns Identificador único de la Jugada
+     */
+    get id (): number {
+      return this._id
+    }
+
+    /**
+     * @returns Hora a la que se produce la Jugada
+     */
+    get momento (): Date {
+      return this._momento
+    }
+
+    /**
+     * @returns Tipo de jugada (ataque o defensa)
+     */
+    get tipo (): TipoJugada {
+      return this._tipo
+    }
+
+    /**
+     * @returns Resultado de la jugada (acertada o fallida)
+     */
+    get resultado (): Resultado {
+      return this._resultado
+    }
+
+    /**
+     * @returns Comentario sobre la Jugada
+     */
+    get comentario (): string {
+      return this._comentario
+    }
+
+    /**
+     * @returns Objeto del tipo {@link Partido} que representa el Partido en el que ha ocurrido la jugada
+     */
+    get partido (): Partido {
+      return this._partido
     }
 }
