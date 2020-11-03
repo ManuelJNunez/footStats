@@ -47,20 +47,53 @@ export class Usuario {
       this._partidos = []
     }
 
+    /**
+     * @return Identificador único del Usuario
+     */
     get id (): number {
       return this._id
     }
 
+    /**
+     * @return Nombre del Usuario
+     */
     get nombre (): string {
       return this._nombre
     }
 
+    /**
+     * @param nuevoNombre Nuevo nombre del Usuario
+     */
+    set nombre (nuevoNombre: string) {
+      this._nombre = nuevoNombre
+    }
+
+    /**
+     * @returns Correo electrónico del usuario
+     */
     get email (): string {
       return this._email
     }
 
+    /**
+     * @param nuevoEmail Nuevo correo electrónico del usuario
+     */
+    set email (nuevoEmail: string) {
+      this._email = nuevoEmail
+    }
+
+    /**
+     * @return Contraseña del usuario
+     */
     get password (): string {
       return this._password
+    }
+
+    /**
+     * @param nuevaPass Nueva contraseña del usuario
+     */
+    set password (nuevaPass: string) {
+      this._password = nuevaPass
     }
 
     /**
