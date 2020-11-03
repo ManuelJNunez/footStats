@@ -148,13 +148,4 @@ export class Jugada {
     get partido (): Partido {
       return this._partido
     }
-
-    /**
-     * @param partido Nuevo objeto del tipo {@link Partido} al que se le asigna la Jugada
-     */
-    set partido (partido: Partido) {
-      this._partido.removeJugada(this)
-      this._partido = partido
-      this._partido.addJugada(this)
-    }
 }
