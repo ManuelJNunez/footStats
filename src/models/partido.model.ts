@@ -4,34 +4,27 @@
  * @packageDocumentation
  */
 
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm'
 import { Usuario } from './usuario.model'
 import { Jugada } from './jugada.model'
 
 /**
  * Clase que representa los partidos
  */
-@Entity()
-export class Partido extends BaseEntity {
+export class Partido {
     /** Identificador único del partido */
-    @PrimaryGeneratedColumn()
-    id: number;
+    private _id: number;
 
     /** Hora de inicio del partido */
-    @Column()
-    horaIni: Date;
+    private _horaIni: Date;
 
     /** Hora de finalización del partido */
-    @Column()
-    horaFin: Date;
+    private _horaFin: Date;
 
     /** Histórico de jugadas que se han producido en el partido */
-    @ManyToOne(() => Jugada, jugada => jugada.partido)
-    jugadas: Jugada[];
+    private _jugadas: Jugada[];
 
     /** {@link Usuario} que registró el partido */
-    @ManyToOne(() => Usuario, usuario => usuario.partidos)
-    usuario: Usuario;
+    private _usuario: Usuario;
 
     /**
      * Crea un partido
@@ -40,17 +33,50 @@ export class Partido extends BaseEntity {
      * @param usuario Usuario que ha registrado el partido nuevo
      */
     constructor (horaIni: Date, horaFin: Date, usuario: Usuario) {
-      super()
-
       if (horaIni > horaFin) {
         throw new Error('Hora de inicio mayor que hora de fin')
       }
 
-      this.id = 0
-      this.horaIni = horaIni
-      this.horaFin = horaFin
-      this.jugadas = []
-      this.usuario = usuario
+      this._id = 0
+      this._horaIni = horaIni
+      this._horaFin = horaFin
+      this._jugadas = []
+      this._usuario = usuario
+    }
+
+    /**
+     * @returns Identificador único del Partido
+     */
+    get id (): number {
+      return this._id
+    }
+
+    /**
+     * @returns Hora de inicio del partido
+     */
+    get horaIni (): Date {
+      return this._horaIni
+    }
+
+    /**
+     * @returns Hora de fin del partido
+     */
+    get horaFin (): Date {
+      return this._horaFin
+    }
+
+    /**
+     * @returns Contiene objetos del tipo {@link Jugada} que representan las jugadas sucedidas en el partido
+     */
+    get jugadas (): Jugada[] {
+      return this._jugadas
+    }
+
+    /**
+     * @returns Contiene objetos del tipo {@link Jugada} que representan las jugadas sucedidas en el partido
+     */
+    get usuario (): Usuario {
+      return this._usuario
     }
 
     /**
