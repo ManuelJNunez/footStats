@@ -94,10 +94,24 @@ export class Jugada {
     }
 
     /**
+     * @param momento Nuevo momento en el que sucede la jugada
+     */
+    set momento (momento: Date) {
+      this._momento = momento
+    }
+
+    /**
      * @returns Tipo de jugada (ataque o defensa)
      */
     get tipo (): TipoJugada {
       return this._tipo
+    }
+
+    /**
+     * @param tipo Nuevo tipo asignado a la Jugada
+     */
+    set tipo (tipo: TipoJugada) {
+      this._tipo = tipo
     }
 
     /**
@@ -108,6 +122,13 @@ export class Jugada {
     }
 
     /**
+     * @param resultado Nuevo resultado asignado a la Jugada
+     */
+    set resultado (resultado: Resultado) {
+      this._resultado = resultado
+    }
+
+    /**
      * @returns Comentario sobre la Jugada
      */
     get comentario (): string {
@@ -115,9 +136,25 @@ export class Jugada {
     }
 
     /**
+     * @param comentario Nuevo comentario asignado para la Jugada
+     */
+    set comentario (comentario: string) {
+      this._comentario = comentario
+    }
+
+    /**
      * @returns Objeto del tipo {@link Partido} que representa el Partido en el que ha ocurrido la jugada
      */
     get partido (): Partido {
       return this._partido
+    }
+
+    /**
+     * @param partido Nuevo objeto del tipo {@link Partido} al que se le asigna la Jugada
+     */
+    set partido (partido: Partido) {
+      this._partido.removeJugada(this)
+      this._partido = partido
+      this._partido.addJugada(this)
     }
 }
