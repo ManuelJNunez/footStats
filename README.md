@@ -1,5 +1,5 @@
 # FootStats
-![Comprueba README](https://github.com/ManuelJNunez/footStats/workflows/Comprueba%20README/badge.svg?branch=master) ![linter](https://github.com/ManuelJNunez/footStats/workflows/linter/badge.svg) ![Node.js CI](https://github.com/ManuelJNunez/footStats/workflows/Node.js%20CI/badge.svg?branch=master) [![Build Status](https://travis-ci.com/ManuelJNunez/footStats.svg?branch=master)](https://travis-ci.com/ManuelJNunez/footStats)
+![Comprueba README](https://github.com/ManuelJNunez/footStats/workflows/Comprueba%20README/badge.svg?branch=master) ![linter](https://github.com/ManuelJNunez/footStats/workflows/linter/badge.svg) ![Node.js CI & Autobuild](https://github.com/ManuelJNunez/footStats/workflows/Node.js%20CI%20&%20Autobuild/badge.svg) [![Build Status](https://travis-ci.com/ManuelJNunez/footStats.svg?branch=master)](https://travis-ci.com/ManuelJNunez/footStats)
 ## Descripción
 Este proyecto trata sobre desarrollar una API que recoge estadísticas de un partido de fútbol (como por ejemplo el número de ataques o defensas acertados o fallidos) para que los entrenadores puedan usarlo para planificar mejor los entrenamientos, pudiendo focalizarlos en lo que de verdad necesita el equipo. También se pretende desarrollar una aplicación web como front-end.
 
