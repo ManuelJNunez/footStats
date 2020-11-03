@@ -120,4 +120,11 @@ export class Usuario {
         return false
       }
     }
+
+    /**
+     * @returns Todos los objetos de tipo {@link Partido} registrado por el usuario
+     */
+    get partidos (): Partido[] {
+      return this._partidos
+    }
 }
