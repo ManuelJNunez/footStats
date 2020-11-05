@@ -3,7 +3,8 @@ version: 2.1
 workflows:
   node-tests:
     jobs:
-      - build
+      - build:
+          context: CODECOV
 
 jobs:
   build:
@@ -27,5 +28,3 @@ jobs:
       - run:
           name: Reportando resultados del test de cobertura
           command: npm run coverage-report
-
-    
