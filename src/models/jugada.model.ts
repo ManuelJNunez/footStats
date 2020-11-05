@@ -4,6 +4,7 @@
  * @packageDocumentation
  */
 
+import { JugadaI } from '../interfaces/jugada.interface'
 import { Partido } from './partido.model'
 
 /**
@@ -58,11 +59,6 @@ export class Jugada {
     private _comentario: string;
 
     /**
-     * {@link Partido} en el que sucedió la jugada
-     */
-    private _partido: Partido;
-
-    /**
      * Crea una jugada
      * @param momento Hora a la que sucedió la jugada nueva
      * @param tipo Tipo de jugada nueva ver {@link TipoJugada}
@@ -70,24 +66,23 @@ export class Jugada {
      * @param partido {@link Partido} en el que sucedió la jugada nueva
      * @param comentario Comentario adicional sobre la jugada nueva
      */
-    constructor (momento: Date, tipo: TipoJugada, resultado: Resultado, partido: Partido, comentario: string) {
+    constructor (momento: Date, tipo: TipoJugada, resultado: Resultado, comentario: string) {
       this._id = 0
       this._momento = momento
       this._tipo = tipo
       this._resultado = resultado
-      this._partido = partido
       this._comentario = comentario
     }
 
     /**
-     * @returns Identificador único de la Jugada
+     * @return Identificador único de la Jugada
      */
     get id (): number {
       return this._id
     }
 
     /**
-     * @returns Hora a la que se produce la Jugada
+     * @return Hora a la que se produce la Jugada
      */
     get momento (): Date {
       return this._momento
@@ -101,7 +96,7 @@ export class Jugada {
     }
 
     /**
-     * @returns Tipo de jugada (ataque o defensa)
+     * @return Tipo de jugada (ataque o defensa)
      */
     get tipo (): TipoJugada {
       return this._tipo
@@ -115,7 +110,7 @@ export class Jugada {
     }
 
     /**
-     * @returns Resultado de la jugada (acertada o fallida)
+     * @return Resultado de la jugada (acertada o fallida)
      */
     get resultado (): Resultado {
       return this._resultado
@@ -129,7 +124,7 @@ export class Jugada {
     }
 
     /**
-     * @returns Comentario sobre la Jugada
+     * @return Comentario sobre la Jugada
      */
     get comentario (): string {
       return this._comentario
@@ -142,10 +137,14 @@ export class Jugada {
       this._comentario = comentario
     }
 
-    /**
-     * @returns Objeto del tipo {@link Partido} que representa el Partido en el que ha ocurrido la jugada
-     */
-    get partido (): Partido {
-      return this._partido
+    toJSON (): JugadaI {
+      const jugada: JugadaI = {
+        id: this._id,
+        tipo: this._tipo,
+        resultado: this._resultado,
+        comentario: this._comentario
+      }
+
+      return jugada
     }
 }
