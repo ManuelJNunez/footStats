@@ -4,8 +4,9 @@
  * @packageDocumentation
  */
 
-import { Usuario } from './usuario.model'
 import { Jugada } from './jugada.model'
+import { PartidoI } from '../interfaces/partido.interface'
+import { JugadaI } from '../interfaces/jugada.interface'
 
 /**
  * Clase que representa los partidos
@@ -23,16 +24,13 @@ export class Partido {
     /** Histórico de jugadas que se han producido en el partido */
     private _jugadas: Jugada[];
 
-    /** {@link Usuario} que registró el partido */
-    private _usuario: Usuario;
-
     /**
      * Crea un partido
      * @param horaIni Hora de inicio del partido nuevo
      * @param horaFin Hora de finalización del partido nuevo
      * @param usuario Usuario que ha registrado el partido nuevo
      */
-    constructor (horaIni: Date, horaFin: Date, usuario: Usuario) {
+    constructor (horaIni: Date, horaFin: Date) {
       if (horaIni > horaFin) {
         throw new Error('Hora de inicio mayor que hora de fin')
       }
@@ -41,18 +39,17 @@ export class Partido {
       this._horaIni = horaIni
       this._horaFin = horaFin
       this._jugadas = []
-      this._usuario = usuario
     }
 
     /**
-     * @returns Identificador único del Partido
+     * @return Identificador único del Partido
      */
     get id (): number {
       return this._id
     }
 
     /**
-     * @returns Hora de inicio del partido
+     * @return Hora de inicio del partido
      */
     get horaIni (): Date {
       return this._horaIni
@@ -66,7 +63,7 @@ export class Partido {
     }
 
     /**
-     * @returns Hora de fin del partido
+     * @return Hora de fin del partido
      */
     get horaFin (): Date {
       return this._horaFin
@@ -80,17 +77,10 @@ export class Partido {
     }
 
     /**
-     * @returns Contiene objetos del tipo {@link Jugada} que representan las jugadas sucedidas en el partido
+     * @return Contiene objetos del tipo {@link Jugada} que representan las jugadas sucedidas en el partido
      */
     get jugadas (): Jugada[] {
       return this._jugadas
-    }
-
-    /**
-     * @returns Contiene objetos del tipo {@link Jugada} que representan las jugadas sucedidas en el partido
-     */
-    get usuario (): Usuario {
-      return this._usuario
     }
 
     /**
@@ -108,7 +98,7 @@ export class Partido {
     /**
      * Elimina una jugada del partido
      * @param jugada Objeto de la clase {@link Jugada} que queremos eliminar del partido
-     * @returns Si la operación tuvo éxito o no
+     * @return Si la operación tuvo éxito o no
      */
     public removeJugada (jugada: Jugada): boolean {
       const index = this.jugadas.indexOf(jugada)
@@ -119,5 +109,22 @@ export class Partido {
       } else {
         return false
       }
+    }
+
+    toJSON (): PartidoI {
+      const jugadas: JugadaI[] = []
+
+      for (const jugada of jugadas) {
+        jugadas.push(jugada)
+      }
+
+      const partido: PartidoI = {
+        id: this._id,
+        horaIni: this._horaIni,
+        horaFin: this._horaFin,
+        jugadas: jugadas
+      }
+
+      return partido
     }
 }
