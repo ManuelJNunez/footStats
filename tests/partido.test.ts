@@ -6,6 +6,8 @@ const horaIni = new Date(2020, 9, 14, 18)
 const horaFin = new Date(2020, 9, 14, 18, 45)
 const partido = new Partido(horaIni, horaFin)
 
+const jugada = new Jugada(new Date(2020, 9, 14, 18, 10), TipoJugada.Ataque, Resultado.Acertado, 'El número 12 ha fallado un tiro desde fuera del área')
+
 describe('Tests de construcción y alteración del objeto Partido', function () {
   it('Debería construir de forma correcta el objeto Partido', function () {
     expect(partido.id).to.be.equal(0)
@@ -30,8 +32,6 @@ describe('Tests de construcción y alteración del objeto Partido', function () 
 })
 
 describe('Tests para añadir/eliminar jugadas de un partido', function () {
-  const jugada = new Jugada(new Date(2020, 9, 14, 18, 10), TipoJugada.Ataque, Resultado.Acertado, 'El número 12 ha fallado un tiro desde fuera del área')
-
   it('Debería de añadir una nueva jugada al partido', function () {
     partido.addJugada(jugada)
 
@@ -67,6 +67,8 @@ describe('Tests para añadir/eliminar jugadas de un partido', function () {
 
 describe('Tests del toJSON de la clase Partido', function () {
   it('Debería de devolver el objeto JSON con la información del usuario', function () {
+    partido.addJugada(jugada)
+
     const partidojson = partido.toJSON()
 
     expect(partidojson.id).to.be.equal(partido.id)
