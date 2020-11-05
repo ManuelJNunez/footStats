@@ -139,6 +139,7 @@ export class Jugada {
     toJSON (): JugadaI {
       const jugada: JugadaI = {
         id: this._id,
+        momento: this._momento,
         tipo: this._tipo,
         resultado: this._resultado,
         comentario: this._comentario
