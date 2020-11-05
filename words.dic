@@ -1,4 +1,4 @@
-73
+77
 FootStats
 API
 focalizarlos
@@ -72,3 +72,7 @@ Status
 CircleCI
 codecov
 Travis
+task
+coverage
+report
+doc
