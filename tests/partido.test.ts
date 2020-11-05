@@ -1,12 +1,10 @@
 import { expect } from 'chai'
-import { Usuario } from '../src/models/usuario.model'
 import { Partido } from '../src/models/partido.model'
 import { TipoJugada, Resultado, Jugada } from '../src/models/jugada.model'
 
-const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234')
 const horaIni = new Date(2020, 9, 14, 18)
 const horaFin = new Date(2020, 9, 14, 18, 45)
-const partido = new Partido(horaIni, horaFin, usuario)
+const partido = new Partido(horaIni, horaFin)
 
 describe('Tests de construcción y alteración del objeto Partido', function () {
   it('Debería construir de forma correcta el objeto Partido', function () {
@@ -14,7 +12,6 @@ describe('Tests de construcción y alteración del objeto Partido', function () 
     expect(partido.horaIni).to.be.equal(horaIni)
     expect(partido.horaFin).to.be.equal(horaFin)
     expect(partido.jugadas).to.have.lengthOf(0)
-    expect(partido.usuario).to.be.equal(usuario)
   })
 
   it('Debería actualizar el valor de las variables correctamente', function () {
@@ -28,12 +25,12 @@ describe('Tests de construcción y alteración del objeto Partido', function () 
   })
 
   it('Debería de lanzar una excepción', function () {
-    expect(() => new Partido(horaFin, horaIni, usuario)).to.throw('Hora de inicio mayor que hora de fin')
+    expect(() => new Partido(horaFin, horaIni)).to.throw('Hora de inicio mayor que hora de fin')
   })
 })
 
 describe('Tests para añadir/eliminar jugadas de un partido', function () {
-  const jugada = new Jugada(new Date(2020, 9, 14, 18, 10), TipoJugada.Ataque, Resultado.Acertado, partido, 'El número 12 ha fallado un tiro desde fuera del área')
+  const jugada = new Jugada(new Date(2020, 9, 14, 18, 10), TipoJugada.Ataque, Resultado.Acertado, 'El número 12 ha fallado un tiro desde fuera del área')
 
   it('Debería de añadir una nueva jugada al partido', function () {
     partido.addJugada(jugada)
@@ -62,8 +59,19 @@ describe('Tests para añadir/eliminar jugadas de un partido', function () {
   })
 
   it('Debería lanzar excepción por introducir valor no correcto', function () {
-    const jugadaIncorrecta = new Jugada(new Date(Date.now()), TipoJugada.Ataque, Resultado.Acertado, partido, 'El número 12 ha fallado un tiro desde fuera del área')
+    const jugadaIncorrecta = new Jugada(new Date(Date.now()), TipoJugada.Ataque, Resultado.Acertado, 'El número 12 ha fallado un tiro desde fuera del área')
 
     expect(partido.addJugada.bind(partido, jugadaIncorrecta)).to.throw('La jugada debe de suceder antes del fin del partido y después del inicio.')
+  })
+})
+
+describe('Tests del toJSON de la clase Partido', function () {
+  it('Debería de devolver el objeto JSON con la información del usuario', function () {
+    const partidojson = partido.toJSON()
+
+    expect(partidojson.id).to.be.equal(partido.id)
+    expect(partidojson.horaIni).to.be.equal(partido.horaIni)
+    expect(partidojson.horaFin).to.be.equal(partido.horaFin)
+    expect(partidojson.jugadas).to.have.length(0)
   })
 })
