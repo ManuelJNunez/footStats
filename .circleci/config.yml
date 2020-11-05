@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        key: dependency-cache-{{ checksum "package-loc.json" }}
+          key: dependency-cache-{{ checksum "package-loc.json" }}
       - run:
           name: Instalación de dependencias
           command: npm ci
