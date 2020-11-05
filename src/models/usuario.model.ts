@@ -4,6 +4,8 @@
  * @packageDocumentation
  */
 
+import { PartidoI } from '../interfaces/partido.interface'
+import { UsuarioI } from '../interfaces/usuario.interface'
 import { Partido } from './partido.model'
 
 /**
@@ -69,7 +71,7 @@ export class Usuario {
     }
 
     /**
-     * @returns Correo electrónico del usuario
+     * @return Correo electrónico del usuario
      */
     get email (): string {
       return this._email
@@ -102,13 +104,13 @@ export class Usuario {
      * @param horaFin Hora de fin del partido
      */
     public addPartido (horaIni: Date, horaFin: Date): void {
-      this._partidos.push(new Partido(horaIni, horaFin, this))
+      this._partidos.push(new Partido(horaIni, horaFin))
     }
 
     /**
      * Elimina un partido del usuario
      * @param partido Partido que se debe de eliminar
-     * @returns Si la operación ha tenido éxito o no
+     * @return Si la operación ha tenido éxito o no
      */
     public removePartido (partido: Partido): boolean {
       const index = this._partidos.indexOf(partido)
@@ -122,9 +124,26 @@ export class Usuario {
     }
 
     /**
-     * @returns Todos los objetos de tipo {@link Partido} registrado por el usuario
+     * @return Todos los objetos de tipo {@link Partido} registrado por el usuario
      */
     get partidos (): Partido[] {
       return this._partidos
+    }
+
+    toJSON (): UsuarioI {
+      const partidos: PartidoI[] = []
+
+      for (const partido of this._partidos) {
+        partidos.push(partido)
+      }
+
+      const usuario: UsuarioI = {
+        id: this._id,
+        nombre: this._nombre,
+        email: this._email,
+        partidos: partidos
+      }
+
+      return usuario
     }
 }
