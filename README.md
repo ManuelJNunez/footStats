@@ -11,12 +11,12 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 - **Task runner**: `npm` porque las órdenes que llevo implementadas hasta ahora no requieren más complejidad, todo lo puedo ejecutar desde npm sin problema (la aplicación, los tests, el linter).
 - **Logging**: usaré `Pino`, ya que es la librería más rápida para logging debido a que trabaja en un thread a parte de la aplicación.
 
-## Iniciar aplicación
+## Órdenes para el task runner
 Para iniciar esta aplicación, primero hay que instalar las dependencias del proyecto con la siguiente orden
 
     npm install
 
-Después, para iniciar la aplicación hay que enviar la orden
+Para iniciar la aplicación hay que enviar la orden
 
     npm start
 
@@ -24,9 +24,21 @@ Para correr los tests ejecutar la siguiente orden
 
     npm run test
 
-Y para comprobar que la sintaxis/estilo del código es correcta (ejecutar el linter de ES)
+Para comprobar que la sintaxis/estilo del código es correcta (ejecutar el linter de ES)
 
     npm run lint
+
+Para correr los tests de cobertura
+
+    npm run coverage
+
+Para reportar los resultados del test de cobertura hacia `codecov`
+
+    npm run coverage-report
+
+Para generar la documentación
+
+    npm run doc
 
 ## Clases testadas
 - [Usuario](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts). esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/usuario.test.ts).
@@ -47,7 +59,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Historias de Usuario](https://github.com/ManuelJNunez/footStats/blob/master/docs/HU.md)
 - [Explicación de los módulos del proyecto](https://github.com/ManuelJNunez/footStats/blob/master/docs/modulos.md)
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
-- [Documentación sobre el Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
+- [Documentación del Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)

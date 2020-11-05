@@ -45,8 +45,9 @@ En el proyecto se han hecho los siguientes cambios:
 - Se ha documentado todo el código usando el estándar de comentarios `tsdoc` y se puede generar la documentación con `TypeDoc`. Además de las interfaces de arriba, se han documentado las clases.
 - Se ha quitado TypeORM de la definición de las clases, para separar la lógica de negocio del almacenamiento. Por tanto se han privatizado las variables y se han añadido los getters y setters necesarios.
 - Se han añadido los métodos toJSON a todas las clases, que devuelven objetos JSON con la estructura de las interfaces antes mencionadas. Esto se ha hecho así porque se va a implementar próximamente la API REST, que trabaja enviando objetos JSON a través de HTTP. Posteriormente se han testado.
+- Se ha cambiado la orden `npm install` del [Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/Dockerfile) a `npm ci` porque es más rápida instalando las dependencias.
 
-Enlace a las clases y sus tests:
+Enlaces a las clases y sus tests:
 | **Clase** |                                             **Definición**                                            |                                            **Tests**                                           |
 |:---------:|:-----------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|
 |  Usuario  | [usuario.model.ts](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts) | [usuario.test.ts](https://github.com/ManuelJNunez/footStats/blob/master/tests/usuario.test.ts) |
