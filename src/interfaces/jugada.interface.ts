@@ -9,5 +9,4 @@ export interface JugadaI {
     tipo: TipoJugada;
     resultado: Resultado;
     comentario: string;
-    partido: PartidoI;
 }
