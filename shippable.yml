@@ -1,0 +1,6 @@
+languaje: node_js
+
+build:
+    ci:
+        - shippable_retry npm ci
+        - npm test
