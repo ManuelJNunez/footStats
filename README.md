@@ -49,7 +49,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Historias de Usuario](https://github.com/ManuelJNunez/footStats/blob/master/docs/HU.md)
 - [Explicación de los módulos del proyecto](https://github.com/ManuelJNunez/footStats/blob/master/docs/modulos.md)
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
-- [Documetnación sobre el Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
+- [Documentación sobre el Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
