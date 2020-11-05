@@ -1,4 +1,4 @@
-70
+72
 FootStats
 API
 focalizarlos
@@ -69,3 +69,5 @@ logging
 thread
 Build
 Status
+CircleCI
+codecov
