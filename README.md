@@ -40,16 +40,8 @@ Se están usando workflows ahora mismo para tres tareas:
 - [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente. 
 - [ghcr](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ghcr.yml). detecta si hay cambios en el Dockerfile o en el package.json para construirlo y pushearlo a GHCR.
 
-## Docker
-Todos los Dockerfiles probados y la justificación de la elección del contenedor y la configuración del autobuild se encuentran [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md). Las imágenes se encuentran subidas en [DockerHub](https://hub.docker.com/r/mjnunez/footstats) y en [GitHub Container Registry](https://github.com/users/ManuelJNunez/packages/container/package/footstats). Para ejecutar los contenedores:
+## Integración continua
 
-    docker run -t -v `pwd`:/test mjnunez/footstats
-
-o bien
-
-    docker run -t -v `pwd`:/test ghcr.io/manueljnunez/footstats
-
-[Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/Dockerfile)
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
@@ -57,6 +49,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Historias de Usuario](https://github.com/ManuelJNunez/footStats/blob/master/docs/HU.md)
 - [Explicación de los módulos del proyecto](https://github.com/ManuelJNunez/footStats/blob/master/docs/modulos.md)
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
+- [Documetnación sobre el Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)

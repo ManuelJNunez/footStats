@@ -74,6 +74,6 @@ describe('Tests del toJSON de la clase Partido', function () {
     expect(partidojson.id).to.be.equal(partido.id)
     expect(partidojson.horaIni).to.be.equal(partido.horaIni)
     expect(partidojson.horaFin).to.be.equal(partido.horaFin)
-    expect(partidojson.jugadas).to.have.length(0)
+    expect(partidojson.jugadas).to.have.length(partido.jugadas.length)
   })
 })

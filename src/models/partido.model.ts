@@ -114,7 +114,7 @@ export class Partido {
     toJSON (): PartidoI {
       const jugadas: JugadaI[] = []
 
-      for (const jugada of jugadas) {
+      for (const jugada of this._jugadas) {
         jugadas.push(jugada)
       }
 

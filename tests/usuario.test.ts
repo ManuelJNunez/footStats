@@ -67,6 +67,6 @@ describe('Tests del toJSON de la clase Usuario', function () {
     expect(usuariojson.nombre).to.be.equal(usuario.nombre)
     expect(usuariojson.email).to.be.equal(usuario.email)
     expect(usuariojson).to.not.have.property('password')
-    expect(usuariojson.partidos).to.have.length(1)
+    expect(usuariojson.partidos).to.have.length(usuario.partidos.length)
   })
 })
