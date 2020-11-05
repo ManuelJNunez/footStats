@@ -33,15 +33,13 @@ Y para comprobar que la sintaxis/estilo del código es correcta (ejecutar el lin
 - [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts). para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/partido.test.ts).
 - [Jugada](https://github.com/ManuelJNunez/footStats/blob/master/src/models/jugada.model.ts). para manejar la información sobre las jugadas sucedidas durante un partido. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/jugada.test.ts).
 
-## Workflows
-Se están usando workflows ahora mismo para tres tareas:
-- [linter](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/linters.yml). Para checkear que la sintaxis y el estilo de todo el código implementado en TypeScript y los Dockerfiles son correctos.
-- [check-ortography](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/check-ortography.yml). Para comprobar que no se han producido ninguna falta de ortografía en este fichero que estás leyendo ahora mismo.
-- [ci](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ci.yml). ejecuta los tests escritos para comprobar que el código funciona correctamente. 
-- [ghcr](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/ghcr.yml). detecta si hay cambios en el Dockerfile o en el package.json para construirlo y pushearlo a GHCR.
-
 ## Integración continua
+He configurado tres servicios de CI y han sido los siguientes:
+- GitHub Actions (este ya lo tenía antes)
+- Travis
+- CircleCI
 
+La documentación sobre la Integración continua se puede encontrar [aquí](https://github.com/ManuelJNunez/footStats/tree/master/docs/ci.md).
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
