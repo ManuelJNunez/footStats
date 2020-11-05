@@ -1,7 +1,31 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0
+
 workflows:
   node-tests:
     jobs:
-      - node/test
+      - build
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+    
+    steps:
+      - checkout
+      - restore_cache:
+        key: dependency-cache-{{ checksum "package-loc.json" }}
+      - run:
+          name: Instalación de dependencias
+          command: npm ci
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Ejecutando tests
+          command: npm run coverage
+      - run:
+          name: Reportando resultados del test de cobertura
+          command: npm run coverage-report
+
+    
