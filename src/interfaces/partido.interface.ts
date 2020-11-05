@@ -6,5 +6,4 @@ export interface PartidoI {
     horaIni: Date;
     horaFin: Date;
     jugadas: JugadaI[];
-    usuario: UsuarioI;
 }
