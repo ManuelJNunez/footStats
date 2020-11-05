@@ -5,7 +5,6 @@
  */
 
 import { JugadaI } from '../interfaces/jugada.interface'
-import { Partido } from './partido.model'
 
 /**
  * Este enum contiene los posibles valores para los resultados de las jugadas
