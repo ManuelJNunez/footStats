@@ -20,7 +20,7 @@ Además también probé con `Travis` si la aplicación funcionaba en distintos S
 ![](img/ci/travisSO.png)
 
 ## CircleCI
-`CircleCI` lo he usado para poder ejecutar los tests unitarios y de cobertura de forma rápida. Tengo que decir que había probado `Shippable` antes que este (por ser no solo un servicio de CI, sino una herramienta de DevOps que permite el CD a varias plataformas, lo cuál sería útil para el futuro), pero tardaba 2 minutos en ejecutar los tests y pensé que es demasiado. Además, `Shippable` usa versiones no tan actualizadas de `node` como `CircleCI`. Este último es muy rápido, suele tardar únicamente 20 segundos en ejecutar los tests unitarios, los tests de cobertura y de subir los resultados a `codecov`. El fichero de configuración se encuentra [aquí](https://github.com/ManuelJNunez/footStats/blob/master/.circleci/config.yml).
+`CircleCI` lo he usado para poder ejecutar los tests unitarios y de cobertura de forma rápida. Tengo que decir que había probado `Shippable` antes que este por ser no solo un servicio de CI, sino una herramienta de DevOps que permite el CD a varias plataformas, lo cuál sería útil para el futuro. Además puede recoger el report de los tests de cobertura, pero tardaba 2 minutos en ejecutar los tests y pensé que es demasiado. Además, `Shippable` usa versiones no tan actualizadas de `node` como `CircleCI`. Este último es muy rápido, suele tardar únicamente 20 segundos en ejecutar los tests unitarios, los tests de cobertura y de subir los resultados a `codecov`. El fichero de configuración se encuentra [aquí](https://github.com/ManuelJNunez/footStats/blob/master/.circleci/config.yml).
 
 Se puede ver en el fichero de configuración de CircleCI que se está usando caché para los `node_modules`.
 
