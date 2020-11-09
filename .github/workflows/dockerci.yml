@@ -58,5 +58,5 @@ jobs:
         password: ${{ secrets.SECRET_KEY }}
         registry: ghcr.io
     - uses: actions/checkout@v2
-    - name: Obteniendo y ejecutando contenedor
+    - name: Obteniendo y ejecutando contenedor 🧪
       run: docker run -t -v `pwd`:/test ghcr.io/manueljnunez/footstats:latest
