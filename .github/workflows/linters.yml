@@ -1,5 +1,18 @@
 name: linter
-on: push
+
+on: 
+  push:
+    paths:
+      - 'Dockerfile'
+      - 'src/'
+      - 'tests/'
+  
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - 'src/'
+      - 'tests/'
+
 jobs:
   ESlint:
     runs-on: ubuntu-latest
