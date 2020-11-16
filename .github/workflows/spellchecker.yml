@@ -18,7 +18,7 @@ jobs:
     steps:
     - name: Install dependencies
       run: |
-        apt-get install -y aspell-es
+        apt-get update && apt-get upgrade -y && apt-get install -y libtext-hunspell-perl
         pip install pyspelling
     - uses: actions/checkout@v2
     - name: Set up Python
