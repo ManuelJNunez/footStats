@@ -24,6 +24,6 @@ jobs:
         apt-get update && apt-get install -y aspell-es
         pip install pyspelling
     - uses: actions/checkout@v2
-    - name: Check README spell
+    - name: Check README
       run: |
         pyspelling -c .spellcheck.yml
