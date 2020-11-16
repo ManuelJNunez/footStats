@@ -18,6 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Instalar aspell-es
-      run: sudo apt-get install aspell-es
+      run: sudo apt-get install aspell-es -y
     - uses: rojopolis/spellcheck-github-actions@0.5.0
       name: Checkear ortografía README
