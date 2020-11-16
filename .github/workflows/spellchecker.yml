@@ -15,16 +15,15 @@ jobs:
   OrtografiaReadme:
     runs-on: ubuntu-latest
 
+    container:
+      image: python:3.8
+
     steps:
     - name: Install dependencies
       run: |
-        apt-get update && apt-get upgrade -y && apt-get install -y libtext-hunspell-perl
+        apt-get update && apt-get install -y aspell-es
         pip install pyspelling
     - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
     - name: Check README spell
       run: |
         pyspelling -c .spellcheck.yml
