@@ -9,4 +9,4 @@ curl --request GET \
 git config --local user.email "manueljesusnunezruiz@gmail.com"
 git config --local user.name "LaLiga-Bot"
 git add functions/data.json
-git commit -m "Generado fichero con datos"
+git commit -m "Actualizados los datos de LaLiga"
