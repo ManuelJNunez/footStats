@@ -1,6 +1,8 @@
-const table = require('./data')
+const data = require('./data')
 
 exports.handler = async function (event, context) {
+  const table = data.api.standings[0]
+
   const response = {
     table: []
   }
