@@ -17,6 +17,12 @@ jobs:
           fetch-depth: 0
       - name: Data update
         run: ./.github/workflows/get-data.sh
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "LaLiga-Bot"
+          git add functions/data.json
+          git commit -m "Actualizados los datos de LaLiga [ci skip]"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
