@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 exports.handler = async function (event, context) {
-  const rawdata = fs.readFileSync('functions/data.json')
+  const rawdata = fs.readFileSync('.netlify/functions/data.json')
   const table = JSON.parse(rawdata).api.standings[0]
 
   const response = {
