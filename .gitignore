@@ -142,3 +142,6 @@ dictionary.dic
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn,visualstudiocode
+
+# Local Netlify folder
+.netlify
