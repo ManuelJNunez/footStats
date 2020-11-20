@@ -5,8 +5,3 @@ curl --request GET \
 	--header "x-rapidapi-host: api-football-v1.p.rapidapi.com" \
 	--header "x-rapidapi-key: $RAPIDAPI_KEY" \
     --output functions/data.json
-
-git config --local user.email "action@github.com"
-git config --local user.name "LaLiga-Bot"
-git add functions/data.json
-git commit -m "Actualizados los datos de LaLiga [ci skip]"
