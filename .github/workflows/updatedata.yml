@@ -1,0 +1,21 @@
+name: "Actualiza datos LaLiga"
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+job:
+  updatedata:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Data update
+        run: ./.github/workflows/get-data.sh
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
