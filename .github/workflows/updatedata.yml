@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 * * * *'
 
+env:
+  RAPIDAPI_KEY: ${{ secrets.REPIDAPI_KEY }}
+
 jobs:
   updatedata:
     runs-on: ubuntu-latest
