@@ -11,3 +11,5 @@ curl --request GET \
     --output tmp/data.json
 
 echo `cat tmp/data.json` >> functions/data.js
+
+rm -rf tmp/
