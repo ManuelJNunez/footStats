@@ -9,7 +9,7 @@ describe('Tests del handler de league.js', async function () {
     expect(response.statusCode).to.be.equal(200)
   })
 
-  it('Debería de volver un objeto con una estructura determinada', function () {
+  it('Debería de devolver un objeto con una estructura determinada', function () {
     const body = JSON.parse(response.body)
 
     expect(body).to.have.property('table')
