@@ -20,7 +20,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "LaLiga-Bot"
           git add functions/data.js
-          git commit -m "Actualizados los datos de LaLiga [ci skip]"
+          git commit -m "Actualizados los datos de LaLiga"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
