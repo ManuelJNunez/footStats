@@ -5,7 +5,7 @@ on:
     - cron: '30 * * * *'
 
 env:
-  RAPIDAPI_KEY: ${{ secrets.REPIDAPI_KEY }}
+  RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
 jobs:
   updatedata:
