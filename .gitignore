@@ -145,3 +145,5 @@ dictionary.dic
 
 # Local Netlify folder
 .netlify
+
+tmp/
