@@ -1,4 +1,4 @@
-const data = require('./data')
+const data = require('./data.json')
 
 exports.handler = async function (event, context) {
   const table = data.api.standings[0]
