@@ -1,16 +1,7 @@
+const data = require('./credits.json')
+
 exports.handler = async function (event, context) {
-  const response = {
-    contributors: [
-      {
-        name: 'Manuel Jesús Núñez Ruiz',
-        reason: 'Por haber desarrollado esta aplicación'
-      },
-      {
-        name: 'CD Sporting Benamejí',
-        reson: 'Los que me pidieron que desarrollara una aplicación para poder guardar estadísticas de partidos para poder utilizarlas en sus entrenamientos'
-      }
-    ]
-  }
+  const response = data
 
   return {
     statusCode: 200,
