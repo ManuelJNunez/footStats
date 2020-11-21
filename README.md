@@ -6,7 +6,7 @@
     <a href="https://travis-ci.com/ManuelJNunez/footStats"><img alt="Build Status" src="https://travis-ci.com/ManuelJNunez/footStats.svg?branch=master"></a>
     <a href="https://circleci.com/gh/ManuelJNunez/footStats"><img alt="CircleCI" src="https://circleci.com/gh/ManuelJNunez/footStats.svg?style=svg"></a>
     <a href="https://codecov.io/gh/ManuelJNunez/footStats"><img alt="codecov" src="https://codecov.io/gh/ManuelJNunez/footStats/branch/master/graph/badge.svg?token=PDG35I3X2I"></a>
-    <a href="https://app.netlify.com/sites/footstats/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/06df7745-42b4-48a5-8960-7428cca8542e/deploy-status)](https://app.netlify.com/sites/footstats/deploys"></a>
+    <a href="https://app.netlify.com/sites/footstats/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/06df7745-42b4-48a5-8960-7428cca8542e/deploy-status"></a>
 </div>
 
 
