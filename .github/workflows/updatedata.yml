@@ -2,7 +2,7 @@ name: "Actualiza datos LaLiga"
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 0 * * *'
 
 env:
   RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
