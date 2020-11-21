@@ -4,6 +4,11 @@
 
 
 [[redirects]]
+  from = "/status"
+  to = "/.netlify/functions/status"
+  status = 200
+
+[[redirects]]
   from = "/credits"
   to = "/.netlify/functions/credits"
   status = 200
