@@ -2,6 +2,12 @@
   publish = "."
   functions = "functions"
 
+
+[[redirects]]
+  from = "/credits"
+  to = "/.netlify/functions/credits"
+  status = 200
+
 [[redirects]]
   from = "/league"
   to = "/.netlify/functions/league"
