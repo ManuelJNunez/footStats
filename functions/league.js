@@ -1,7 +1,7 @@
 const data = require('./data')
 
 exports.handler = async function (event, context) {
-  const table = data.data.api.standings[0]
+  const table = data.api.standings[0]
 
   const response = {
     table: []
