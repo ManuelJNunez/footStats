@@ -54,13 +54,12 @@ Para generar la documentación
 - [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts). para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/partido.test.ts).
 - [Jugada](https://github.com/ManuelJNunez/footStats/blob/master/src/models/jugada.model.ts). para manejar la información sobre las jugadas sucedidas durante un partido. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/jugada.test.ts).
 
-## Integración continua
-He configurado tres servicios de CI y han sido los siguientes:
-- GitHub Actions (este ya lo tenía antes)
-- Travis
-- CircleCI
+## Funciones serverless
+Se han implementado varias funciones serverless en este proyecto, avanzando y terminando una nueva Historia de Usuario. Las plataformas que he usado han sido las siguientes:
+- Netlify
+- Firebase
 
-La documentación sobre la Integración continua se puede encontrar [aquí](https://github.com/ManuelJNunez/footStats/tree/master/docs/ci.md).
+La documentación sobre serverless se encuentra [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/serverless.md).
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
@@ -69,6 +68,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Explicación de los módulos del proyecto](https://github.com/ManuelJNunez/footStats/blob/master/docs/modulos.md)
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
 - [Documentación del Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
+- [Integración Continua](https://github.com/ManuelJNunez/footStats/blob/master/docs/ci.md)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
