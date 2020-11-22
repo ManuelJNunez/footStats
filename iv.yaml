@@ -4,3 +4,4 @@ entidad:
 lenguaje: TypeScript
 test: tests/partido.test.ts
 taskfile: package.json
+URL: https://footstats.netlify.app/status
