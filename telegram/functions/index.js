@@ -18,6 +18,18 @@ bot.command('liga', async (ctx) => {
   ctx.replyWithHTML(botresponse)
 })
 
+bot.command('credits', async (ctx) => {
+  let botresponse = 'Créditos del proyecto:\n'
+
+  const response = await axios.get(`${functions.config().footstats.url}/credits`)
+
+  for (const person of response.data.contributors) {
+    botresponse += `${person.name}: ${person.reason}`
+  }
+
+  ctx.reply(botresponse)
+})
+
 exports.bot = functions
   .region('europe-west1')
   .https.onRequest(async (req, res) =>
