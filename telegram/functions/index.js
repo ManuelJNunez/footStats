@@ -3,7 +3,7 @@ const Telegraf = require('telegraf')
 
 const bot = new Telegraf(functions.config().telegram.key)
 
-bot.start(ctx => ctx.reply('Hola, probando'))
+bot.start(ctx => ctx.reply('Hola, bienvenido a footStats. Para obtener ayuda use el comando /help.'))
 
 exports.bot = functions
   .region('europe-west1')
