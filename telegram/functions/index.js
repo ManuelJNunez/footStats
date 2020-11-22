@@ -7,7 +7,7 @@ const bot = new Telegraf(functions.config().telegram.key)
 bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use el comando /help.'))
 
 bot.command('liga', (ctx) => {
-  let response = 'La tabla de clasificación de La Liga es la siguiente:\n'
+  let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
   axios({
     method: 'get',
@@ -18,10 +18,10 @@ bot.command('liga', (ctx) => {
       const data = response.data
 
       for (const team of data.table) {
-        response += `${team.rank}. ${team.teamName} (**${team.points} ptos.**)\n`
+        botresponse += `${team.rank}. ${team.teamName} (**${team.points} ptos.**)\n`
       }
 
-      ctx.reply(response)
+      ctx.reply(botresponse)
     })
 })
 
