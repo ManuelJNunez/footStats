@@ -6,6 +6,8 @@ const bot = new Telegraf(functions.config().telegram.key)
 
 bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use el comando /help.'))
 
+bot.help(ctx => ctx.reply('Comandos disponibles:\n/liga - muestra la tabla de clasificación de La Liga de fútbol española.\n/credits - muestra las personas que han contribuido en este proyecto.'))
+
 bot.command('liga', async (ctx) => {
   let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
