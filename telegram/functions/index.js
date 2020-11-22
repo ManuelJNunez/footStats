@@ -6,27 +6,20 @@ const bot = new Telegraf(functions.config().telegram.key)
 
 bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use el comando /help.'))
 
-bot.command('liga', (ctx) => {
+bot.command('liga', async (ctx) => {
   let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
-  axios({
-    method: 'get',
-    url: `${functions.config().footstats.url}/league`,
-    responseType: 'json'
-  })
-    .then(function (response) {
-      const data = response.data
+  const response = await axios.get('https://footstats.netlify.app/league')
 
-      for (const team of data.table) {
-        botresponse += `${team.rank}. ${team.teamName} (**${team.points} ptos.**)\n`
-      }
+  for (const team of response.data.table) {
+    botresponse += `${team.rank}. ${team.teamName} (<b>${team.points} ptos.</b>)\n`
+  }
 
-      ctx.reply(botresponse)
-    })
+  ctx.replyWithHTML(botresponse)
 })
 
 exports.bot = functions
   .region('europe-west1')
-  .https.onRequest((req, res) =>
+  .https.onRequest(async (req, res) =>
     bot.handleUpdate(req.body, res).then((rv) => !rv && res.sendStatus(200))
   )
