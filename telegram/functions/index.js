@@ -26,7 +26,7 @@ bot.command('credits', async (ctx) => {
   const response = await axios.get(`${functions.config().footstats.url}/credits`)
 
   for (const person of response.data.contributors) {
-    botresponse += `${person.name}: ${person.reason}`
+    botresponse += `-${person.name}: ${person.reason}\n`
   }
 
   ctx.reply(botresponse)
