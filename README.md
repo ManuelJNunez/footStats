@@ -3,6 +3,7 @@
     <a href="https://github.com/ManuelJNunez/TFG/workflows/Comprueba%20README/badge.svg"><img alt="Comprueba README" src="https://github.com/ManuelJNunez/TFG/workflows/Comprueba%20README/badge.svg"></a>
     <a href="https://github.com/ManuelJNunez/footStats/workflows/linter/badge.svg"><img alt="linter" src="https://github.com/ManuelJNunez/footStats/workflows/linter/badge.svg"></a>
     <a href="https://github.com/ManuelJNunez/footStats/workflows/Node.js%20CI%20&%20Autobuild/badge.svg"><img alt="Node.js CI & Autobuild" src="https://github.com/ManuelJNunez/footStats/workflows/Node.js%20CI%20&%20Autobuild/badge.svg"></a>
+    <a href="https://github.com/ManuelJNunez/footStats/workflows/Firebase%20CD/badge.svg"><img alt="Firebase CD" src="https://github.com/ManuelJNunez/footStats/workflows/Firebase%20CD/badge.svg"></a>
     <a href="https://travis-ci.com/ManuelJNunez/footStats"><img alt="Build Status" src="https://travis-ci.com/ManuelJNunez/footStats.svg?branch=master"></a>
     <a href="https://circleci.com/gh/ManuelJNunez/footStats"><img alt="CircleCI" src="https://circleci.com/gh/ManuelJNunez/footStats.svg?style=svg"></a>
     <a href="https://codecov.io/gh/ManuelJNunez/footStats"><img alt="codecov" src="https://codecov.io/gh/ManuelJNunez/footStats/branch/master/graph/badge.svg?token=PDG35I3X2I"></a>
