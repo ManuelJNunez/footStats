@@ -1,6 +1,9 @@
 name: Firebase CD
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'telegram/'
 
 jobs:
   deploy:
