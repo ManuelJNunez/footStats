@@ -9,7 +9,7 @@ bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use e
 bot.command('liga', async (ctx) => {
   let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
-  const response = await axios.get('https://footstats.netlify.app/league')
+  const response = await axios.get(`${functions.config().footstats.url}/league`)
 
   for (const team of response.data.table) {
     botresponse += `${team.rank}. ${team.teamName} (<b>${team.points} ptos.</b>)\n`
