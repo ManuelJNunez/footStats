@@ -4,9 +4,9 @@ on:
   push:
     paths:
       - 'Dockerfile'
-      - 'src/'
-      - 'tests/'
-      - 'functions/'
+      - 'src/**'
+      - 'tests/**'
+      - 'functions/**'
   
   pull_request:
     paths:
