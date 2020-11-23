@@ -11,9 +11,9 @@ on:
   pull_request:
     paths:
       - 'Dockerfile'
-      - 'src/'
-      - 'tests/'
-      - 'functions/'
+      - 'src/**'
+      - 'tests/**'
+      - 'functions/**'
 
 jobs:
   ESlint:
