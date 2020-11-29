@@ -1,6 +1,7 @@
 const functions = require('firebase-functions')
 const Telegraf = require('telegraf')
-const axios = require('axios')
+const data = require('./data.json')
+const credits = require('./credits.json')
 
 const bot = new Telegraf(functions.config().telegram.key)
 
@@ -11,9 +12,7 @@ bot.help(ctx => ctx.reply('Comandos disponibles:\n/liga - muestra la tabla de cl
 bot.command('liga', async (ctx) => {
   let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
-  const response = await axios.get(`${functions.config().footstats.url}/league`)
-
-  for (const team of response.data.table) {
+  for (const team of data.table) {
     botresponse += `${team.rank}. ${team.teamName} (<b>${team.points} ptos.</b>)\n`
   }
 
@@ -23,9 +22,7 @@ bot.command('liga', async (ctx) => {
 bot.command('credits', async (ctx) => {
   let botresponse = 'Créditos del proyecto:\n'
 
-  const response = await axios.get(`${functions.config().footstats.url}/credits`)
-
-  for (const person of response.data.contributors) {
+  for (const person of credits.contributors) {
     botresponse += `-${person.name}: ${person.reason}\n`
   }
 
