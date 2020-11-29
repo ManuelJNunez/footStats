@@ -10,9 +10,11 @@ bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use e
 bot.help(ctx => ctx.reply('Comandos disponibles:\n/liga - muestra la tabla de clasificación de La Liga de fútbol española.\n/credits - muestra las personas que han contribuido en este proyecto.'))
 
 bot.command('liga', async (ctx) => {
+  const table = data.api.standings[0]
+
   let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
-  for (const team of data.table) {
+  for (const team of table) {
     botresponse += `${team.rank}. ${team.teamName} (<b>${team.points} ptos.</b>)\n`
   }
 
