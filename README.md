@@ -66,5 +66,6 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Integración Continua](https://github.com/ManuelJNunez/footStats/blob/master/docs/ci.md)
 
 ## Autor
+
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
 
