@@ -19,11 +19,11 @@ jobs:
       image: python:3.8
 
     steps:
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         apt-get update && apt-get install -y aspell-es
-        pip install pyspelling
-    - uses: actions/checkout@v2
+        pip install 'pyspelling==2.6.1'
     - name: Check README
       run: |
         pyspelling -c .spellcheck.yml
