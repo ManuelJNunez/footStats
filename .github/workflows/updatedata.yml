@@ -21,7 +21,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "LaLiga-Bot"
-          git add functions/data.json
+          git add functions/data.json telegram/functions/data.json
           git commit -m "Actualizados los datos de LaLiga"
       - name: Push changes
         uses: ad-m/github-push-action@master
