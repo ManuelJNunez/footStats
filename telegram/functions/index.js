@@ -9,7 +9,7 @@ bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use e
 
 bot.help(ctx => ctx.reply('Comandos disponibles:\n/liga - muestra la tabla de clasificación de La Liga de fútbol española.\n/credits - muestra las personas que han contribuido en este proyecto.'))
 
-bot.command('liga', async (ctx) => {
+bot.command('liga', (ctx) => {
   const table = data.api.standings[0]
 
   let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
@@ -21,7 +21,7 @@ bot.command('liga', async (ctx) => {
   ctx.replyWithHTML(botresponse)
 })
 
-bot.command('credits', async (ctx) => {
+bot.command('credits', (ctx) => {
   let botresponse = 'Créditos del proyecto:\n'
 
   for (const person of credits.contributors) {
@@ -33,6 +33,6 @@ bot.command('credits', async (ctx) => {
 
 exports.bot = functions
   .region('europe-west1')
-  .https.onRequest(async (req, res) =>
+  .https.onRequest((req, res) =>
     bot.handleUpdate(req.body, res).then((rv) => !rv && res.sendStatus(200))
   )
