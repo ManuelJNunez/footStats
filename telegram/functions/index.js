@@ -1,38 +1,62 @@
 const functions = require('firebase-functions')
-const Telegraf = require('telegraf')
+const contrib = require('./credits.json')
 const data = require('./data.json')
-const credits = require('./credits.json')
 
-const bot = new Telegraf(functions.config().telegram.key)
+const start = (message, res) => {
+  const chatId = message.chat.id
+  const response = 'Bienvenido a footStats BOT. Para obtener ayuda use el comando /help.'
+  res.status(200).json({ text: response, method: 'sendMessage', chat_id: chatId })
+}
 
-bot.start(ctx => ctx.reply('Bienvenido a footStats BOT. Para obtener ayuda use el comando /help.'))
+const help = (message, res) => {
+  const chatId = message.chat.id
+  const response = 'Comandos disponibles:\n/liga - muestra la tabla de clasificación de La Liga de fútbol española.\n/credits - muestra las personas que han contribuido en este proyecto.'
+  res.status(200).json({ text: response, method: 'sendMessage', chat_id: chatId })
+}
 
-bot.help(ctx => ctx.reply('Comandos disponibles:\n/liga - muestra la tabla de clasificación de La Liga de fútbol española.\n/credits - muestra las personas que han contribuido en este proyecto.'))
-
-bot.command('liga', (ctx) => {
+const liga = (message, res) => {
+  const chatId = message.chat.id
   const table = data.api.standings[0]
 
-  let botresponse = 'La tabla de clasificación de La Liga es la siguiente:\n'
+  let response = 'La tabla de clasificación de La Liga es la siguiente:\n'
 
   for (const team of table) {
-    botresponse += `${team.rank}. ${team.teamName} (<b>${team.points} ptos.</b>)\n`
+    response += `${team.rank}. ${team.teamName} (<b>${team.points} ptos.</b>)\n`
   }
 
-  ctx.replyWithHTML(botresponse)
-})
+  res.status(200).json({ text: response, method: 'sendMessage', chat_id: chatId, parse_mode: 'html' })
+}
 
-bot.command('credits', (ctx) => {
-  let botresponse = 'Créditos del proyecto:\n'
+const credits = (message, res) => {
+  const chatId = message.chat.id
 
-  for (const person of credits.contributors) {
-    botresponse += `-${person.name}: ${person.reason}\n`
+  let response = 'Créditos del proyecto:\n'
+
+  for (const person of contrib.contributors) {
+    response += `-${person.name}: ${person.reason}\n`
   }
 
-  ctx.reply(botresponse)
-})
+  res.status(200).json({ text: response, method: 'sendMessage', chat_id: chatId })
+}
 
 exports.bot = functions
   .region('europe-west1')
-  .https.onRequest((req, res) =>
-    bot.handleUpdate(req.body, res).then((rv) => !rv && res.sendStatus(200))
-  )
+  .https.onRequest((req, res) => {
+    if ('message' in req.body) {
+      const texto = req.body.message.text
+
+      if (texto === '/start') {
+        start(req.body.message, res)
+      } else if (texto === '/help') {
+        help(req.body.message, res)
+      } else if (texto === '/liga') {
+        liga(req.body.message, res)
+      } else if (texto === '/credits') {
+        credits(req.body.message, res)
+      } else {
+        res.status(200).json({ text: 'hola', method: 'sendMessage', chat_id: -1 })
+      }
+    } else {
+      res.status(200).json({ status: 'Healthy' })
+    }
+  })
