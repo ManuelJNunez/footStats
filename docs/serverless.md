@@ -19,12 +19,14 @@ He usado el [fichero de configuración de netlify](https://github.com/ManuelJNun
 
 Esta plataforma la he usado debido a que ha sido la primera que me ha funcionado bien para desplegar un bot de Telegram. Anteriormente había probado en `Vercel` y en `Netlify`, pero no funcionaban.
 
-Para crear la función he creado en el directorio [telegram](https://github.com/ManuelJNunez/footStats/tree/master/telegram) la estructura de ficheros necesaria para Firebase. Dentro del directorio [functions](https://github.com/ManuelJNunez/footStats/tree/master/telegram/functions) se encuentra un nuevo [package.json](https://github.com/ManuelJNunez/footStats/blob/master/telegram/functions/package.json) con las dependencias de la función. El bot que he implementado coge la información de la API de `netlify` que he implementado anteriormente para poder mostrarla en `Telegram` en forma de mensaje entendible por cualquier humano que hable español (uso el bot de interfaz para la API). Dicho bot está implementado [en este fichero](https://github.com/ManuelJNunez/footStats/blob/master/telegram/functions/index.js) usando la biblioteca `Telegraf`, porque me parece la más intuitiva de todas y porque ya tiene implementado todas las funciones que necesito para manejar los mensajes del bot (ahorrándome así el tiempo de implementación de funciones para manejar el JSON de las peticiones).
-
-Para poder crear variables de entorno privadas, se debe de usar la CLI. Un ejemplo de creación de variable privada:
-
-    firebase functions:config:set telegram.key="TELEGRAM_TOKEN"
+Para crear la función he creado en el directorio [telegram](https://github.com/ManuelJNunez/footStats/tree/master/telegram) la estructura de ficheros necesaria para Firebase. Dentro del directorio [functions](https://github.com/ManuelJNunez/footStats/tree/master/telegram/functions) se encuentra un nuevo [package.json](https://github.com/ManuelJNunez/footStats/blob/master/telegram/functions/package.json) con las dependencias de la función. El bot que he implementado coge la información de la API de `netlify` que he implementado anteriormente para poder mostrarla en `Telegram` en forma de mensaje entendible por cualquier humano que hable español (uso el bot de interfaz para la API). Dicho bot está implementado [en este fichero](https://github.com/ManuelJNunez/footStats/blob/master/telegram/functions/index.js).
 
 Se puede conversar con el bot buscando en Telegram `@footstatsiv_bot`.
 
 Como Firebase no permite conectarse a GitHub, he creado un [workflow](https://github.com/ManuelJNunez/footStats/blob/master/.github/workflows/firebase.yml) para hacer un despliegue continuo del bot.
+
+### Actualización bot Firebase
+
+Se han eliminado las dependencias de telegraf y axios. Ahora se sirven los datos directamente leídos del fichero JSON.
+
+El bot se ha rehecho usando respuestas HTTP con JSON.
