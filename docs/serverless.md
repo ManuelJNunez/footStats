@@ -27,6 +27,6 @@ Como Firebase no permite conectarse a GitHub, he creado un [workflow](https://gi
 
 ### Actualización bot Firebase
 
-Se han eliminado las dependencias de telegraf y axios. Ahora se sirven los datos directamente leídos del fichero JSON, que se actualiza con el workflow que actualiza también los datos de netlify.
+Se han eliminado las dependencias de telegraf y axios. Ahora se sirven los datos directamente leídos del fichero JSON, que se actualiza con el workflow que ponía al día también los datos de netlify.
 
 El bot se ha rehecho usando respuestas HTTP con JSON, en vez de `telegraf`.
