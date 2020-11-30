@@ -17,7 +17,7 @@ He usado el [fichero de configuración de netlify](https://github.com/ManuelJNun
 
 ## Firebase
 
-Esta plataforma la he usado debido a que ha sido la primera que me ha funcionado bien para desplegar un bot de Telegram. Anteriormente había probado en `Vercel` y en `Netlify`, pero no funcionaban.
+Esta plataforma la he usado porque es muy interesante, además de contar con functions, cuenta con un hosting, una base de datos muy potente, etc. En el futuro sería interesante darle más usos.
 
 Para crear la función he creado en el directorio [telegram](https://github.com/ManuelJNunez/footStats/tree/master/telegram) la estructura de ficheros necesaria para Firebase. Dentro del directorio [functions](https://github.com/ManuelJNunez/footStats/tree/master/telegram/functions) se encuentra un nuevo [package.json](https://github.com/ManuelJNunez/footStats/blob/master/telegram/functions/package.json) con las dependencias de la función. El bot que he implementado coge la información de la API de `netlify` que he implementado anteriormente para poder mostrarla en `Telegram` en forma de mensaje entendible por cualquier humano que hable español (uso el bot de interfaz para la API). Dicho bot está implementado [en este fichero](https://github.com/ManuelJNunez/footStats/blob/master/telegram/functions/index.js).
 
@@ -27,6 +27,6 @@ Como Firebase no permite conectarse a GitHub, he creado un [workflow](https://gi
 
 ### Actualización bot Firebase
 
-Se han eliminado las dependencias de telegraf y axios. Ahora se sirven los datos directamente leídos del fichero JSON.
+Se han eliminado las dependencias de telegraf y axios. Ahora se sirven los datos directamente leídos del fichero JSON, que se actualiza con el workflow que actualiza también los datos de netlify.
 
-El bot se ha rehecho usando respuestas HTTP con JSON.
+El bot se ha rehecho usando respuestas HTTP con JSON, en vez de `telegraf`.
