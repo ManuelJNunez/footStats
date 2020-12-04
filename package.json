@@ -12,7 +12,8 @@
     "test": "mocha -r ts-node/register 'tests/**/*.ts'",
     "test:cov": "nyc npm run test",
     "coverage-report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint --ext .js,.ts src/ tests/ functions/ telegram/",
+    "lint": "eslint --ext .js,.ts src/ test/ functions/ telegram/",
+    "format": "prettier --write \"src/**/*.ts\" \"test/*.ts\"",
     "doc": "typedoc"
   },
   "repository": {
@@ -36,9 +37,12 @@
     "chai": "^4.2.0",
     "codecov": "^3.8.1",
     "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "mocha": "^8.2.0",
     "nodemon": "^2.0.4",
     "nyc": "^15.1.0",
+    "prettier": "^2.2.1",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
     "typedoc": "^0.19.2",
