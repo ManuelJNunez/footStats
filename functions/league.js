@@ -1,25 +1,25 @@
-const data = require('./data.json')
+const data = require('./data.json');
 
 exports.handler = async function (event, context) {
-  const table = data.api.standings[0]
+  const table = data.api.standings[0];
 
   const response = {
-    table: []
-  }
+    table: [],
+  };
 
   for (const team of table) {
     response.table.push({
       rank: team.rank,
       teamName: team.teamName,
-      points: team.points
-    })
+      points: team.points,
+    });
   }
 
   return {
     statusCode: 200,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(response)
-  }
-}
+    body: JSON.stringify(response),
+  };
+};
