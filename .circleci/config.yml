@@ -24,7 +24,7 @@ jobs:
             - ./node_modules
       - run:
           name: Ejecutando tests
-          command: npm run coverage
+          command: npm run test:cov
       - run:
           name: Reportando resultados del test de cobertura
           command: npm run coverage-report
