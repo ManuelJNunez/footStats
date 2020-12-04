@@ -9,7 +9,7 @@
   "scripts": {
     "start": "nest start",
     "build": "nest build",
-    "test": "mocha -r ts-node/register 'tests/**/*.ts'",
+    "test": "mocha -r ts-node/register 'test/**/*.ts'",
     "test:cov": "nyc npm run test",
     "coverage-report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint --ext .js,.ts src/ test/ functions/ telegram/",
