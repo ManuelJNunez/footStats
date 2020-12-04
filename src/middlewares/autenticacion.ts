@@ -1,4 +1,3 @@
-
-export const verificaToken = () : unknown => {
-  return undefined
-}
+export const verificaToken = (): unknown => {
+  return undefined;
+};
