@@ -1,5 +1,4 @@
 import { Jugada, TipoJugada, Resultado } from '../src/models/jugada.model';
-import { Usuario } from '../src/models/usuario.model';
 import { expect } from 'chai';
 
 const momento = new Date();

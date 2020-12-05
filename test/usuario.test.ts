@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Usuario } from '../src/models/usuario.model';
+import { Usuario } from '../src/usuario/usuario.entity';
 
 const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234');
 
