@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { Partido } from '../src/models/partido.model';
-import { TipoJugada, Resultado, Jugada } from '../src/models/jugada.model';
+import { Partido } from '../src/partido/partido.entity';
+import { TipoJugada, Resultado, Jugada } from '../src/jugada/jugada.entity';
 
 const horaIni = new Date(2020, 9, 14, 18);
 const horaFin = new Date(2020, 9, 14, 18, 45);
