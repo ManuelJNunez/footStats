@@ -6,7 +6,7 @@
 
 import { PartidoI } from '../interfaces/partido.interface';
 import { UsuarioI } from '../interfaces/usuario.interface';
-import { Partido } from '../models/partido.model';
+import { Partido } from '../partido/partido.entity';
 
 /**
  * Clase que representa al usuario
