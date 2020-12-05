@@ -1,4 +1,4 @@
-// usuario.model.ts
+// usuario.entity.ts
 /**
  * Este módulo contiene la definición de la clase que representa al usuario
  * @packageDocumentation
@@ -6,7 +6,7 @@
 
 import { PartidoI } from '../interfaces/partido.interface';
 import { UsuarioI } from '../interfaces/usuario.interface';
-import { Partido } from './partido.model';
+import { Partido } from '../models/partido.model';
 
 /**
  * Clase que representa al usuario
