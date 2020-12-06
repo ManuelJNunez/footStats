@@ -5,7 +5,7 @@
  */
 
 import { PartidoI } from '../interfaces/partido.interface';
-import { UsuarioI } from '../interfaces/usuario.interface';
+import { UsuarioI } from './interfaces/usuario.interface';
 import { Partido } from '../partido/partido.entity';
 
 /**
@@ -18,7 +18,7 @@ export class Usuario {
   /**
    * Nombre del usuario
    */
-  private _nombre: string;
+  private _nickname: string;
 
   /**
    * Dirección de correo electrónico del usuario
@@ -43,7 +43,7 @@ export class Usuario {
    */
   constructor(nombre: string, email: string, password: string) {
     this._id = 0;
-    this._nombre = nombre;
+    this._nickname = nombre;
     this._email = email;
     this._password = password;
     this._partidos = [];
@@ -59,15 +59,15 @@ export class Usuario {
   /**
    * @return Nombre del Usuario
    */
-  get nombre(): string {
-    return this._nombre;
+  get nickname(): string {
+    return this._nickname;
   }
 
   /**
    * @param nuevoNombre Nuevo nombre del Usuario
    */
-  set nombre(nuevoNombre: string) {
-    this._nombre = nuevoNombre;
+  set nickname(nuevoNombre: string) {
+    this._nickname = nuevoNombre;
   }
 
   /**
@@ -139,7 +139,7 @@ export class Usuario {
 
     const usuario: UsuarioI = {
       id: this._id,
-      nombre: this._nombre,
+      nombre: this._nickname,
       email: this._email,
       partidos: partidos,
     };
