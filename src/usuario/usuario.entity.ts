@@ -148,7 +148,7 @@ export class Usuario {
 
     const usuario: UsuarioI = {
       id: this._id,
-      nombre: this._nickname,
+      nickname: this._nickname,
       email: this._email,
       partidos: partidos,
     };

@@ -13,7 +13,7 @@ const horaFin = new Date(2020, 10, 14, 18, 45);
 describe('Tests de construcción y alteración de objeto Usuario', function () {
   it('Debería de crearse un objeto Usuario con los valores que se le han pasado', function () {
     expect(usuario.id).to.be.equal(0);
-    expect(usuario.nombre).to.be.equal('Manuel');
+    expect(usuario.nickname).to.be.equal('Manuel');
     expect(usuario.email).to.be.equal('manueljesusnunezruiz@gmail.com');
     expect(usuario.password).to.be.equal('1234');
     expect(usuario.partidos).to.have.lengthOf(0);
@@ -21,11 +21,11 @@ describe('Tests de construcción y alteración de objeto Usuario', function () {
 
   it('Debería de alterar correctamente los datos del usuario a través de los getters y setters', function () {
     usuario.password = newPass;
-    usuario.nombre = newName;
+    usuario.nickname = newName;
     usuario.email = newEmail;
 
     expect(usuario.password).to.be.equal(newPass);
-    expect(usuario.nombre).to.be.equal(newName);
+    expect(usuario.nickname).to.be.equal(newName);
     expect(usuario.email).to.be.equal(newEmail);
   });
 });
@@ -64,7 +64,7 @@ describe('Tests del toJSON de la clase Usuario', function () {
     const usuariojson = usuario.toJSON();
 
     expect(usuariojson.id).to.be.equal(usuario.id);
-    expect(usuariojson.nombre).to.be.equal(usuario.nombre);
+    expect(usuariojson.nickname).to.be.equal(usuario.nickname);
     expect(usuariojson.email).to.be.equal(usuario.email);
     expect(usuariojson).to.not.have.property('password');
     expect(usuariojson.partidos).to.have.length(usuario.partidos.length);
