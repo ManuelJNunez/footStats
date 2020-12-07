@@ -7,6 +7,7 @@
 import { PartidoI } from '../interfaces/partido.interface';
 import { UsuarioI } from './interfaces/usuario.interface';
 import { Partido } from '../partido/partido.entity';
+import { CreateUserDto } from './dto/create-user.dto';
 
 /**
  * Clase que representa al usuario
@@ -41,12 +42,16 @@ export class Usuario {
    * @param email Dirección de correo eléctronico del nuevo usuario
    * @param password Contraseña de acceso del nuevo usuario
    */
-  constructor(nombre: string, email: string, password: string) {
-    this._id = 0;
+  constructor(nombre: string, email: string, password: string, id = 0) {
+    this._id = id;
     this._nickname = nombre;
     this._email = email;
     this._password = password;
     this._partidos = [];
+  }
+
+  static create(dto: CreateUserDto, id: number) {
+    return new Usuario(dto.nickname, dto.email, dto.password, id);
   }
 
   /**
@@ -96,6 +101,10 @@ export class Usuario {
    */
   set password(nuevaPass: string) {
     this._password = nuevaPass;
+  }
+
+  public validarPassword(password: string): boolean {
+    return this._password === password;
   }
 
   /**
