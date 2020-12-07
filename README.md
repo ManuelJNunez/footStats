@@ -33,7 +33,7 @@ Para comprobar que la sintaxis/estilo del código es correcta (ejecutar el linte
 
 Para correr los tests de cobertura
 
-    npm run coverage
+    npm run test:cov
 
 Para reportar los resultados del test de cobertura hacia `codecov`
 
