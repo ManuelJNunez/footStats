@@ -1,3 +1,4 @@
+import { CreateUserDTO } from 'src/usuario/dto/create-user.dto';
 import { Usuario } from '../src/usuario/usuario.entity';
 
 const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234');
@@ -16,6 +17,23 @@ describe('Tests de construcción y alteración de objeto Usuario', function () {
     expect(usuario.email).toEqual('manueljesusnunezruiz@gmail.com');
     expect(usuario.password).toEqual('1234');
     expect(usuario.partidos).toHaveLength(0);
+  });
+
+  it('Debería crear un nuevo objeto con el Dto', () => {
+    const userDto = {
+      nickname: 'mjnunez',
+      email: 'manueljesusnunezruiz@gmail.com',
+      password: '1234',
+    } as CreateUserDTO;
+    const id = 0;
+
+    const user = Usuario.create(userDto, id);
+
+    expect(user.id).toEqual(id);
+    expect(user.nickname).toEqual(userDto.nickname);
+    expect(user.email).toEqual(userDto.email);
+    expect(user.password).toEqual(userDto.password);
+    expect(user.partidos).toHaveLength(1);
   });
 
   it('Debería de alterar correctamente los datos del usuario a través de los getters y setters', function () {
