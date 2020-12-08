@@ -49,6 +49,12 @@ export class Usuario {
     this._partidos = [];
   }
 
+  /**
+   * Crea un nuevo usuario
+   * @param dto Data Transfer Object para la clase Usuario
+   * @param id Identificador que se le asignará al Usuario
+   * @return Un objeto de la clase usuario creado a partir del DTO
+   */
   static create(dto: CreateUserDTO, id: number) {
     return new Usuario(dto.nickname, dto.email, dto.password, id);
   }
