@@ -1,4 +1,4 @@
-import { JugadaI } from './jugada.interface';
+import { JugadaI } from '../../jugada/interfaces/jugada.interface';
 
 /**
  * Interfaz que representa los partidos

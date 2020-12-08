@@ -4,7 +4,7 @@
  * @packageDocumentation
  */
 
-import { JugadaI } from '../interfaces/jugada.interface';
+import { JugadaI } from './interfaces/jugada.interface';
 
 /**
  * Este enum contiene los posibles valores para los resultados de las jugadas

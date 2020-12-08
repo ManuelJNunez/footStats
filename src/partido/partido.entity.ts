@@ -5,8 +5,8 @@
  */
 
 import { Jugada } from '../jugada/jugada.entity';
-import { PartidoI } from '../interfaces/partido.interface';
-import { JugadaI } from '../interfaces/jugada.interface';
+import { PartidoI } from './interfaces/partido.interface';
+import { JugadaI } from '../jugada/interfaces/jugada.interface';
 
 /**
  * Clase que representa los partidos

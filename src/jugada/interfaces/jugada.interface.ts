@@ -1,4 +1,4 @@
-import { Resultado, TipoJugada } from '../jugada/jugada.entity';
+import { Resultado, TipoJugada } from '../jugada.entity';
 
 /**
  * Interfaz que representa a las Jugadas
