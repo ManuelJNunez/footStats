@@ -4,10 +4,9 @@
  * @packageDocumentation
  */
 
-import { PartidoI } from '../interfaces/partido.interface';
 import { UsuarioI } from './interfaces/usuario.interface';
 import { Partido } from '../partido/partido.entity';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
 
 /**
  * Clase que representa al usuario
@@ -50,7 +49,7 @@ export class Usuario {
     this._partidos = [];
   }
 
-  static create(dto: CreateUserDto, id: number) {
+  static create(dto: CreateUserDTO, id: number) {
     return new Usuario(dto.nickname, dto.email, dto.password, id);
   }
 
@@ -140,12 +139,6 @@ export class Usuario {
   }
 
   toJSON(): UsuarioI {
-    const partidos: PartidoI[] = [];
-
-    for (const partido of this._partidos) {
-      partidos.push(partido);
-    }
-
     const usuario: UsuarioI = {
       id: this._id,
       nickname: this._nickname,
