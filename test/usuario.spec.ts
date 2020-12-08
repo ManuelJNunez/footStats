@@ -1,7 +1,9 @@
+import { userInfo } from 'os';
 import { CreateUserDTO } from 'src/usuario/dto/create-user.dto';
 import { Usuario } from '../src/usuario/usuario.entity';
 
-const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234');
+const pass = '1234';
+const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', pass);
 
 const newPass = '12345';
 const newName = 'Manolo';
@@ -33,7 +35,7 @@ describe('Tests de construcción y alteración de objeto Usuario', function () {
     expect(user.nickname).toEqual(userDto.nickname);
     expect(user.email).toEqual(userDto.email);
     expect(user.password).toEqual(userDto.password);
-    expect(user.partidos).toHaveLength(1);
+    expect(user.partidos).toHaveLength(0);
   });
 
   it('Debería de alterar correctamente los datos del usuario a través de los getters y setters', function () {
@@ -84,5 +86,19 @@ describe('Tests del toJSON de la clase Usuario', function () {
     expect(usuariojson.nickname).toEqual(usuario.nickname);
     expect(usuariojson.email).toEqual(usuario.email);
     expect(usuariojson).not.toHaveProperty('password');
+  });
+});
+
+describe('Test del método validarPassword', function () {
+  it('Debería de devolver true', function () {
+    const result = usuario.validarPassword(newPass);
+
+    expect(result).toBe(true);
+  });
+
+  it('Debería de devolver false', function () {
+    const result = usuario.validarPassword(pass);
+
+    expect(result).toBe(false);
   });
 });
