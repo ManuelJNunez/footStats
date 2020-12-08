@@ -1,13 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
 import { Usuario } from './usuario.entity';
+import { LoginDTO } from './dto/login.dto';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsuarioService {
   private readonly users: Usuario[] = [];
   private id = 0;
 
-  create(user: CreateUserDto) {
+  create(user: CreateUserDTO) {
     // Comprobar si el e-mail ya está registrado
     const result = this.users.find((usr) => {
       return usr.email === user.email;
@@ -68,7 +70,7 @@ export class UsuarioService {
     return user;
   }
 
-  update(id: number, user: CreateUserDto) {
+  update(id: number, user: CreateUserDTO) {
     // Comprobar si el usuario existe
     const result = this.findById(id);
 
@@ -111,5 +113,18 @@ export class UsuarioService {
     const index = this.users.indexOf(result);
 
     return this.users.splice(index, 1);
+  }
+
+  generarToken(loginDto: LoginDTO) {
+    const user = this.findByEmail(loginDto.email);
+
+    if (!user.validarPassword(loginDto.password)) {
+      throw new HttpException(
+        { message: 'Usuario o password incorrectos.' },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    return jwt.sign(user.toJSON(), process.env.JWT_SECRET, { expiresIn: '2h' });
   }
 }
