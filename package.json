@@ -11,7 +11,7 @@
     "build": "nest build",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "coverage-report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "coverage-report": "codecov",
     "lint": "eslint --ext .js,.ts src/ test/ functions/ telegram/",
     "format": "prettier --write \"src/**/*.ts\" \"test/*.ts\"",
     "doc": "typedoc"
