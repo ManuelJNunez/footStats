@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { Usuario } from '../src/usuario/usuario.entity';
 
 const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', '1234');
@@ -12,11 +11,11 @@ const horaFin = new Date(2020, 10, 14, 18, 45);
 
 describe('Tests de construcción y alteración de objeto Usuario', function () {
   it('Debería de crearse un objeto Usuario con los valores que se le han pasado', function () {
-    expect(usuario.id).to.be.equal(0);
-    expect(usuario.nickname).to.be.equal('Manuel');
-    expect(usuario.email).to.be.equal('manueljesusnunezruiz@gmail.com');
-    expect(usuario.password).to.be.equal('1234');
-    expect(usuario.partidos).to.have.lengthOf(0);
+    expect(usuario.id).toEqual(0);
+    expect(usuario.nickname).toEqual('Manuel');
+    expect(usuario.email).toEqual('manueljesusnunezruiz@gmail.com');
+    expect(usuario.password).toEqual('1234');
+    expect(usuario.partidos).toHaveLength(0);
   });
 
   it('Debería de alterar correctamente los datos del usuario a través de los getters y setters', function () {
@@ -24,9 +23,9 @@ describe('Tests de construcción y alteración de objeto Usuario', function () {
     usuario.nickname = newName;
     usuario.email = newEmail;
 
-    expect(usuario.password).to.be.equal(newPass);
-    expect(usuario.nickname).to.be.equal(newName);
-    expect(usuario.email).to.be.equal(newEmail);
+    expect(usuario.password).toEqual(newPass);
+    expect(usuario.nickname).toEqual(newName);
+    expect(usuario.email).toEqual(newEmail);
   });
 });
 
@@ -34,26 +33,26 @@ describe('Tests para añadir/eliminar partidos a un Usuario', function () {
   it('Debería añadir un nuevo objeto al array de partidos del usuario', function () {
     usuario.addPartido(horaIni, horaFin);
 
-    expect(usuario.partidos).to.have.lengthOf(1);
+    expect(usuario.partidos).toHaveLength(1);
   });
 
   it('Debería de tener los parámetros inicializados de manera correcta', function () {
-    expect(usuario.partidos[0].horaIni).to.be.equal(horaIni);
-    expect(usuario.partidos[0].horaFin).to.be.equal(horaFin);
-    expect(usuario.partidos[0].jugadas).to.have.lengthOf(0);
+    expect(usuario.partidos[0].horaIni).toEqual(horaIni);
+    expect(usuario.partidos[0].horaFin).toEqual(horaFin);
+    expect(usuario.partidos[0].jugadas).toHaveLength(0);
   });
 
   it('Debería de eliminarse un partido de forma correcta', function () {
     const eliminado = usuario.removePartido(usuario.partidos[0]);
 
-    expect(eliminado).to.be.equal(true);
-    expect(usuario.partidos).to.have.lengthOf(0);
+    expect(eliminado).toEqual(true);
+    expect(usuario.partidos).toHaveLength(0);
   });
 
   it('No debería de eliminar nada', function () {
     const eliminado = usuario.removePartido(usuario.partidos[0]);
 
-    expect(eliminado).to.be.equal(false);
+    expect(eliminado).toEqual(false);
   });
 });
 
@@ -63,9 +62,9 @@ describe('Tests del toJSON de la clase Usuario', function () {
 
     const usuariojson = usuario.toJSON();
 
-    expect(usuariojson.id).to.be.equal(usuario.id);
-    expect(usuariojson.nickname).to.be.equal(usuario.nickname);
-    expect(usuariojson.email).to.be.equal(usuario.email);
-    expect(usuariojson).to.not.have.property('password');
+    expect(usuariojson.id).toEqual(usuario.id);
+    expect(usuariojson.nickname).toEqual(usuario.nickname);
+    expect(usuariojson.email).toEqual(usuario.email);
+    expect(usuariojson).not.toHaveProperty('password');
   });
 });

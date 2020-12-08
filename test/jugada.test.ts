@@ -1,5 +1,4 @@
 import { Jugada, TipoJugada, Resultado } from '../src/jugada/jugada.entity';
-import { expect } from 'chai';
 
 const momento = new Date();
 const tipo = TipoJugada.Ataque;
@@ -10,11 +9,11 @@ const jugada = new Jugada(momento, tipo, result, comentario);
 
 describe('Test de construcción y alteración del objeto de Jugada', function () {
   it('Debería de construir de forma correcta un objeto Jugada', function () {
-    expect(jugada.id).to.be.equal(0);
-    expect(jugada.momento).to.be.equal(momento);
-    expect(jugada.tipo).to.be.equal(tipo);
-    expect(jugada.resultado).to.be.equal(result);
-    expect(jugada.comentario).to.be.equal(comentario);
+    expect(jugada.id).toEqual(0);
+    expect(jugada.momento).toEqual(momento);
+    expect(jugada.tipo).toEqual(tipo);
+    expect(jugada.resultado).toEqual(result);
+    expect(jugada.comentario).toEqual(comentario);
   });
 
   it('Debería de alterar el objeto usando los getters y setters', function () {
@@ -28,10 +27,10 @@ describe('Test de construcción y alteración del objeto de Jugada', function ()
     jugada.tipo = newTipo;
     jugada.comentario = newComentario;
 
-    expect(jugada.resultado).to.be.equal(newResult);
-    expect(jugada.momento).to.be.equal(newMomento);
-    expect(jugada.tipo).to.be.equal(newTipo);
-    expect(jugada.comentario).to.be.equal(newComentario);
+    expect(jugada.resultado).toEqual(newResult);
+    expect(jugada.momento).toEqual(newMomento);
+    expect(jugada.tipo).toEqual(newTipo);
+    expect(jugada.comentario).toEqual(newComentario);
   });
 });
 
@@ -39,10 +38,10 @@ describe('Tests del toJSON de la clase Jugada', function () {
   it('Debería de devolver el objeto JSON con la información del usuario', function () {
     const jugadajson = jugada.toJSON();
 
-    expect(jugadajson.id).to.be.equal(jugada.id);
-    expect(jugadajson.momento).to.be.equal(jugada.momento);
-    expect(jugadajson.tipo).to.be.equal(jugada.tipo);
-    expect(jugadajson.resultado).to.be.equal(jugada.resultado);
-    expect(jugadajson.comentario).to.be.equal(jugada.comentario);
+    expect(jugadajson.id).toEqual(jugada.id);
+    expect(jugadajson.momento).toEqual(jugada.momento);
+    expect(jugadajson.tipo).toEqual(jugada.tipo);
+    expect(jugadajson.resultado).toEqual(jugada.resultado);
+    expect(jugadajson.comentario).toEqual(jugada.comentario);
   });
 });
