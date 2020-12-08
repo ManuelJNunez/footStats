@@ -1,5 +1,3 @@
-import { PartidoI } from '../../interfaces/partido.interface';
-
 /**
  * Interfaz que representa al Usuario
  */
@@ -12,6 +10,4 @@ export interface UsuarioI {
   email: string;
   /** Contraseña del usuario */
   password?: string;
-  /** Objetos del tipo {@link Partido} registrados por el usuario */
-  partidos: PartidoI[];
 }

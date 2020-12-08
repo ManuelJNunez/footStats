@@ -150,7 +150,6 @@ export class Usuario {
       id: this._id,
       nickname: this._nickname,
       email: this._email,
-      partidos: partidos,
     };
 
     return usuario;
