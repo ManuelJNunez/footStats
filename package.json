@@ -9,8 +9,8 @@
   "scripts": {
     "start": "nest start",
     "build": "nest build",
-    "test": "mocha -r ts-node/register 'test/**/*.ts'",
-    "test:cov": "nyc npm run test",
+    "test": "jest",
+    "test:cov": "jest --coverage",
     "coverage-report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint --ext .js,.ts src/ test/ functions/ telegram/",
     "format": "prettier --write \"src/**/*.ts\" \"test/*.ts\"",
@@ -28,23 +28,23 @@
   "homepage": "https://github.com/ManuelJNunez/footStats#readme",
   "devDependencies": {
     "@nestjs/testing": "^7.5.5",
-    "@types/chai": "^4.2.13",
     "@types/express": "^4.17.9",
-    "@types/mocha": "^8.0.3",
     "@types/node": "^14.11.2",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
-    "chai": "^4.2.0",
     "codecov": "^3.8.1",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "mocha": "^8.2.0",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.4",
-    "nyc": "^15.1.0",
     "prettier": "^2.2.1",
+    "supertest": "^6.0.1",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.11",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
     "typedoc": "^0.19.2",
@@ -58,9 +58,28 @@
     "@nestjs/platform-express": "^7.5.1",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
+    "controller": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
+    "module": "^1.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
