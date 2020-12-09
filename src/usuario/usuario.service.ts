@@ -46,10 +46,10 @@ export class UsuarioService {
 
   findById(id: number) {
     const user = this.users.find((usr) => {
-      return usr.id === id;
+      return usr.id == id;
     });
 
-    if (user === null) {
+    if (!user) {
       const error = { message: 'Usuario no registrado' };
       throw new HttpException({ error }, HttpStatus.NOT_FOUND);
     }
@@ -103,7 +103,9 @@ export class UsuarioService {
     // Modificar usuario
     const index = this.users.indexOf(result);
 
-    this.users[index] = Usuario.create(user, id);
+    this.users[index].nickname = user.nickname;
+    this.users[index].email = user.email;
+    this.users[index].password = user.password;
 
     return this.users[index].toJSON();
   }
