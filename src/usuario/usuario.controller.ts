@@ -49,7 +49,7 @@ export class UsuarioController {
   deleteUser(@Param('id') id: number) {
     return {
       message: 'Usuario eliminado con éxito',
-      user: this.usuarioService.delete(id)[0],
+      user: this.usuarioService.delete(id),
     };
   }
 
