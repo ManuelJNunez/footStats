@@ -170,9 +170,9 @@ describe('UsuarioService', () => {
 
     const deletedUser = service.delete(user.id);
 
-    expect(deletedUser[0].id).toEqual(user.id);
-    expect(deletedUser[0].email).toEqual(user.email);
-    expect(deletedUser[0].nickname).toEqual(user.nickname);
+    expect(deletedUser.id).toEqual(user.id);
+    expect(deletedUser.email).toEqual(user.email);
+    expect(deletedUser.nickname).toEqual(user.nickname);
   });
 
   it('should trhow an error because the user does not exist', () => {
@@ -200,7 +200,7 @@ describe('UsuarioService', () => {
     });
   });
 
-  it('should trhow an error because the email does not exist', () => {
+  it('should throw an error because the email does not exist', () => {
     function OopsAnError() {
       service.generarToken(loginDto);
     }
@@ -208,7 +208,7 @@ describe('UsuarioService', () => {
     expect(OopsAnError).toThrow(HttpException);
   });
 
-  it('should trhow an error because the password is invalid', () => {
+  it('should throw an error because the password is invalid', () => {
     service.create(UserDto);
 
     function OopsAnError() {
