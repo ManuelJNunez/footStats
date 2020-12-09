@@ -114,7 +114,7 @@ export class UsuarioService {
     const result = this.findById(id);
     const index = this.users.indexOf(result);
 
-    return this.users.splice(index, 1);
+    return this.users.splice(index, 1)[0];
   }
 
   generarToken(loginDto: LoginDTO) {
