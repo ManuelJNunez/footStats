@@ -2,6 +2,9 @@ import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UsuarioService } from './usuario.service';
+import { LoginDTO } from './dto/login.dto';
+import { Usuario } from './usuario.entity';
+const jwt = require('jsonwebtoken');
 
 describe('UsuarioService', () => {
   let service: UsuarioService;
@@ -29,6 +32,16 @@ describe('UsuarioService', () => {
     password: '1234',
     email: 'manueljesusnunezruiz@gmail.com',
   } as CreateUserDTO;
+
+  const loginDto = {
+    email: 'manueljesusnunezruiz@gmail.com',
+    password: '1234',
+  } as LoginDTO;
+
+  const invalidLoginDto = {
+    email: 'manueljesusnunezruiz@gmail.com',
+    password: 'invalidpass',
+  } as LoginDTO;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -160,5 +173,48 @@ describe('UsuarioService', () => {
     expect(deletedUser[0].id).toEqual(user.id);
     expect(deletedUser[0].email).toEqual(user.email);
     expect(deletedUser[0].nickname).toEqual(user.nickname);
+  });
+
+  it('should trhow an error because the user does not exist', () => {
+    function giveMeAnError() {
+      service.delete(0);
+    }
+
+    expect(giveMeAnError).toThrow(HttpException);
+  });
+
+  it('should call jwt.sign with some specific parameters', () => {
+    service.create(UserDto);
+    const spyJwt = jest.spyOn(jwt, 'sign');
+    const spyFindByEmail = jest.spyOn(service, 'findByEmail');
+    process.env.JWT_SECRET = '1234';
+
+    service.generarToken(loginDto);
+
+    const user = spyFindByEmail.mock.results[0].value as Usuario;
+
+    expect(spyFindByEmail).toHaveBeenCalledWith(loginDto.email);
+    expect(spyJwt).toHaveBeenCalledTimes(1);
+    expect(spyJwt).toHaveBeenCalledWith(user.toJSON(), process.env.JWT_SECRET, {
+      expiresIn: '2h',
+    });
+  });
+
+  it('should trhow an error because the email does not exist', () => {
+    function OopsAnError() {
+      service.generarToken(loginDto);
+    }
+
+    expect(OopsAnError).toThrow(HttpException);
+  });
+
+  it('should trhow an error because the password is invalid', () => {
+    service.create(UserDto);
+
+    function OopsAnError() {
+      service.generarToken(invalidLoginDto);
+    }
+
+    expect(OopsAnError).toThrow(HttpException);
   });
 });
