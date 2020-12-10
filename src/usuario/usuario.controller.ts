@@ -20,7 +20,7 @@ export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Get()
-  @UseGuards(new AuthGuard())
+  @UseGuards(AuthGuard)
   getUser(@Body('email') email: string) {
     return this.usuarioService.findByEmail(email);
   }
@@ -35,7 +35,7 @@ export class UsuarioController {
   }
 
   @Put(':id')
-  @UseGuards(new AuthGuard())
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   updateUser(@Param('id') id: number, @Body() user: CreateUserDTO) {
     return {
@@ -45,7 +45,7 @@ export class UsuarioController {
   }
 
   @Delete(':id')
-  @UseGuards(new AuthGuard())
+  @UseGuards(AuthGuard)
   deleteUser(@Param('id') id: number) {
     return {
       message: 'Usuario eliminado con éxito',
