@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Put,
@@ -54,6 +55,7 @@ export class UsuarioController {
   }
 
   @Post('/login')
+  @HttpCode(200)
   @UsePipes(new ValidationPipe())
   login(@Body() loginDto: LoginDTO) {
     return {
