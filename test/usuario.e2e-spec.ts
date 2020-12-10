@@ -98,7 +98,7 @@ describe('Usuarios', () => {
       .send(login)
       .expect(201, {
         message: 'Logeado con éxito',
-        user: usuarioService.generarToken(login),
+        token: usuarioService.generarToken(login),
       });
   });
 
