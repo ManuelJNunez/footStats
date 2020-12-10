@@ -96,7 +96,7 @@ describe('Usuarios', () => {
     return request(app.getHttpServer())
       .post(`/user/login`)
       .send(login)
-      .expect(201, {
+      .expect(200, {
         message: 'Logeado con éxito',
         token: usuarioService.generarToken(login),
       });
