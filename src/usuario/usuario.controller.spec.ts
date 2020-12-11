@@ -28,6 +28,10 @@ describe('UsuarioController', () => {
     password: '1234',
   } as LoginDTO;
 
+  const spyJwt = jest.spyOn(jwt, 'decode');
+  const token = 'aValidToken';
+  spyJwt.mockReturnValue(userObj);
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsuarioController],
@@ -36,6 +40,8 @@ describe('UsuarioController', () => {
 
     service = module.get<UsuarioService>(UsuarioService);
     controller = module.get<UsuarioController>(UsuarioController);
+
+    spyJwt.mockClear();
   });
 
   it('should be defined', () => {
@@ -70,11 +76,6 @@ describe('UsuarioController', () => {
   });
 
   it('should retrieve the result of update', () => {
-    const id = 0;
-    const token = 'aValidToken';
-    const spyJwt = jest.spyOn(jwt, 'decode');
-    spyJwt.mockClear();
-    spyJwt.mockReturnValueOnce(userObj);
     const spy = jest.spyOn(service, 'update');
     spy.mockReturnValueOnce(userObj);
 
@@ -83,22 +84,23 @@ describe('UsuarioController', () => {
     expect(res.message).toEqual('Usuario modificado con éxito');
     expect(res.user).toEqual(userObj);
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(id, userDto);
+    expect(spy).toHaveBeenCalledWith(userObj.id, userDto);
     expect(spyJwt).toBeCalledTimes(1);
     expect(spyJwt).toBeCalledWith(token, { json: true });
   });
 
   it('should retrieve the result of update', () => {
-    const id = 0;
     const spy = jest.spyOn(service, 'delete');
     spy.mockReturnValueOnce(userObj);
 
-    const res = controller.deleteUser(id);
+    const res = controller.deleteUser(`Bearer ${token}`);
 
     expect(res.message).toEqual('Usuario eliminado con éxito');
     expect(res.user).toEqual(userObj);
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(id);
+    expect(spy).toHaveBeenCalledWith(userObj.id);
+    expect(spyJwt).toBeCalledTimes(1);
+    expect(spyJwt).toBeCalledWith(token, { json: true });
   });
 
   it('should retrieve an object with the token', () => {
