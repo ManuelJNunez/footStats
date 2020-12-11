@@ -10,11 +10,13 @@ import {
   UseGuards,
   UsePipes,
   ValidationPipe,
+  Headers,
 } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginDTO } from './dto/login.dto';
 import { UsuarioService } from './usuario.service';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('user')
 export class UsuarioController {
@@ -22,8 +24,10 @@ export class UsuarioController {
 
   @Get()
   @UseGuards(AuthGuard)
-  getUser(@Body('email') email: string) {
-    return this.usuarioService.findByEmail(email);
+  getUser(@Headers('Authorization') auth: string) {
+    const user = jwt.decode(auth.split(' ')[1], { json: true });
+
+    return this.usuarioService.findByEmail(user.email);
   }
 
   @Post()
