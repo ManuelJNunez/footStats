@@ -71,15 +71,21 @@ describe('UsuarioController', () => {
 
   it('should retrieve the result of update', () => {
     const id = 0;
+    const token = 'aValidToken';
+    const spyJwt = jest.spyOn(jwt, 'decode');
+    spyJwt.mockClear();
+    spyJwt.mockReturnValueOnce(userObj);
     const spy = jest.spyOn(service, 'update');
     spy.mockReturnValueOnce(userObj);
 
-    const res = controller.updateUser(id, userDto);
+    const res = controller.updateUser(`Bearer ${token}`, userDto);
 
     expect(res.message).toEqual('Usuario modificado con éxito');
     expect(res.user).toEqual(userObj);
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(id, userDto);
+    expect(spyJwt).toBeCalledTimes(1);
+    expect(spyJwt).toBeCalledWith(token, { json: true });
   });
 
   it('should retrieve the result of update', () => {
