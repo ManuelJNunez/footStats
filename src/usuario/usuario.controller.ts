@@ -25,9 +25,9 @@ export class UsuarioController {
   @Get()
   @UseGuards(AuthGuard)
   getUser(@Headers('Authorization') auth: string) {
-    const user = jwt.decode(auth.split(' ')[1], { json: true });
+    const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    return this.usuarioService.findByEmail(user.email);
+    return this.usuarioService.findByEmail(decoded.email);
   }
 
   @Post()
@@ -39,13 +39,18 @@ export class UsuarioController {
     };
   }
 
-  @Put(':id')
+  @Put()
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
-  updateUser(@Param('id') id: number, @Body() user: CreateUserDTO) {
+  updateUser(
+    @Headers('Authorization') auth: string,
+    @Body() user: CreateUserDTO,
+  ) {
+    const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+
     return {
       message: 'Usuario modificado con éxito',
-      user: this.usuarioService.update(id, user),
+      user: this.usuarioService.update(decoded.id, user),
     };
   }
 
