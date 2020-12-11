@@ -4,6 +4,7 @@ import { UsuarioService } from '../src/usuario/usuario.service';
 import { ExecutionContext, INestApplication } from '@nestjs/common';
 import { AuthGuard } from '../src/common/guards/auth.guard';
 const request = require('supertest');
+const jwt = require('jsonwebtoken');
 
 describe('Usuarios', () => {
   let app: INestApplication;
@@ -57,8 +58,14 @@ describe('Usuarios', () => {
   });
 
   it('GET /user', () => {
+    const token = 'aValidToken';
+    const spyJwt = jest.spyOn(jwt, 'decode');
+
+    spyJwt.mockReturnValueOnce(user);
+
     return request(app.getHttpServer())
       .get('/user')
+      .set('Authorization', `Bearer ${token}`)
       .send(user.email)
       .expect(200, usuarioService.findByEmail(user.email));
   });
