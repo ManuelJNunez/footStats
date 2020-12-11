@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 
 describe('Usuarios', () => {
   let app: INestApplication;
+
   const usuarioService = {
     create: (user) => {
       return 'test';
@@ -26,7 +27,10 @@ describe('Usuarios', () => {
     },
   };
 
+  const token = 'aValidToken';
+
   const user = {
+    id: 0,
     email: 'manueljesusnunezruiz@gmail.com',
     password: '1234',
     nickname: 'mjnunez',
@@ -58,9 +62,7 @@ describe('Usuarios', () => {
   });
 
   it('GET /user', () => {
-    const token = 'aValidToken';
     const spyJwt = jest.spyOn(jwt, 'decode');
-
     spyJwt.mockReturnValueOnce(user);
 
     return request(app.getHttpServer())
@@ -70,15 +72,17 @@ describe('Usuarios', () => {
       .expect(200, usuarioService.findByEmail(user.email));
   });
 
-  it('PUT /user/:id', () => {
-    const id = 0;
+  it('PUT /user', () => {
+    const spyJwt = jest.spyOn(jwt, 'decode');
+    spyJwt.mockReturnValueOnce(user);
 
     return request(app.getHttpServer())
-      .put(`/user/${id}`)
+      .put('/user')
+      .set('Authorization', `Bearer ${token}`)
       .send(user)
       .expect(200, {
         message: 'Usuario modificado con éxito',
-        user: usuarioService.update(id, user),
+        user: usuarioService.update(user.id, user),
       });
   });
 
