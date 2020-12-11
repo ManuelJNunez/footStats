@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  Param,
   Post,
   Put,
   UseGuards,
@@ -54,12 +53,14 @@ export class UsuarioController {
     };
   }
 
-  @Delete(':id')
+  @Delete()
   @UseGuards(AuthGuard)
-  deleteUser(@Param('id') id: number) {
+  deleteUser(@Headers('Authorization') auth: string) {
+    const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+
     return {
       message: 'Usuario eliminado con éxito',
-      user: this.usuarioService.delete(id),
+      user: this.usuarioService.delete(decoded.id),
     };
   }
 
