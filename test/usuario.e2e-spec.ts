@@ -36,6 +36,9 @@ describe('Usuarios', () => {
     nickname: 'mjnunez',
   };
 
+  const spyJwt = jest.spyOn(jwt, 'decode');
+  spyJwt.mockReturnValue(user);
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [UsuarioModule],
@@ -62,9 +65,6 @@ describe('Usuarios', () => {
   });
 
   it('GET /user', () => {
-    const spyJwt = jest.spyOn(jwt, 'decode');
-    spyJwt.mockReturnValueOnce(user);
-
     return request(app.getHttpServer())
       .get('/user')
       .set('Authorization', `Bearer ${token}`)
@@ -73,9 +73,6 @@ describe('Usuarios', () => {
   });
 
   it('PUT /user', () => {
-    const spyJwt = jest.spyOn(jwt, 'decode');
-    spyJwt.mockReturnValueOnce(user);
-
     return request(app.getHttpServer())
       .put('/user')
       .set('Authorization', `Bearer ${token}`)
@@ -86,15 +83,14 @@ describe('Usuarios', () => {
       });
   });
 
-  it('DELETE /user/:id', () => {
-    const id = 0;
-
+  it('DELETE /user', () => {
     return request(app.getHttpServer())
-      .delete(`/user/${id}`)
+      .delete('/user')
+      .set('Authorization', `Bearer ${token}`)
       .send(user)
       .expect(200, {
         message: 'Usuario eliminado con éxito',
-        user: usuarioService.delete(id, user),
+        user: usuarioService.delete(user.id, user),
       });
   });
 
