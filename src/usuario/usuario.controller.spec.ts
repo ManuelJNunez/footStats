@@ -4,6 +4,7 @@ import { LoginDTO } from './dto/login.dto';
 import { UsuarioController } from './usuario.controller';
 import { Usuario } from './usuario.entity';
 import { UsuarioService } from './usuario.service';
+const jwt = require('jsonwebtoken');
 
 describe('UsuarioController', () => {
   let controller: UsuarioController;
@@ -42,13 +43,18 @@ describe('UsuarioController', () => {
   });
 
   it('should retrieve the result of findByEmail', () => {
+    const token = 'aValidToken';
+    const spyJwt = jest.spyOn(jwt, 'decode');
+    spyJwt.mockReturnValueOnce(userObj);
     const spy = jest.spyOn(service, 'findByEmail');
     spy.mockReturnValueOnce(userObj);
 
-    const user = controller.getUser(userObj.email);
+    const user = controller.getUser(`Bearer ${token}`);
 
     expect(user).toEqual(userObj);
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(spyJwt).toBeCalledTimes(1);
+    expect(spyJwt).toBeCalledWith(token, { json: true });
   });
 
   it('should retrieve the result of create', () => {
