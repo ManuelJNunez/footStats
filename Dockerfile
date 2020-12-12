@@ -1,7 +1,7 @@
 FROM alpine:3.12.1 AS base
 #Creación de grupo y usuario node. Instalación de node y npm.
 RUN addgroup -S node && adduser -S node -G node \
-    && apk add --no-cache --update nodejs-dev=12.18.4-r0 npm=12.18.4-r0 \
+    && apk add --no-cache --update nodejs-dev=12.18.4-r0 npm=12.18.4-r0 make \
     && node -v \
     && npm -v \
     && mkdir /node_modules && chown node:node /node_modules
