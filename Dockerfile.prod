@@ -5,7 +5,7 @@ RUN addgroup -S node && adduser -S node -G node \
     && node -v \
     && npm -v \
     && mkdir app && chown node:node app \
-    && npm install -g pm2
+    && npm install -g pm2@4.5.0
 
 USER node
 
