@@ -14,8 +14,8 @@
     "test": "jest",
     "test:cov": "jest --ci --coverage",
     "coverage-report": "codecov",
-    "lint": "eslint --ext .js,.ts src/ test/ functions/ telegram/",
-    "format": "prettier --write \"src/**/*.ts\" \"test/*.ts\"",
+    "lint": "eslint --ext .js,.ts src/ tests/ functions/ telegram/",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
     "doc": "typedoc"
   },
   "repository": {
