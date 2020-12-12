@@ -2,12 +2,14 @@
   "name": "footstats",
   "version": "1.0.0",
   "description": "Pequeña aplicación para que los entrenadores guarden las estadísticas de su equipo para dirigir mejor los entrenamientos.",
-  "main": "src/index.ts",
+  "main": "src/main.ts",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "start": "nest start",
+    "start:prod": "pm2 start dist/main.js -i 0",
+    "start:docker": "pm2-runtime dist/main.js",
     "build": "nest build",
     "test": "jest",
     "test:cov": "jest --ci --coverage",
@@ -28,6 +30,7 @@
   "homepage": "https://github.com/ManuelJNunez/footStats#readme",
   "devDependencies": {
     "@golevelup/nestjs-testing": "^0.1.2",
+    "@nestjs/cli": "^7.5.4",
     "@nestjs/testing": "^7.5.5",
     "@types/express": "^4.17.9",
     "@types/node": "^14.11.2",
