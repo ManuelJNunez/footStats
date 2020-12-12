@@ -2,7 +2,9 @@ entidad:
   - src/models/partido.model.ts
   - src/models/usuario.model.ts
 lenguaje: TypeScript
-test: tests/partido.test.ts
+test: test/partido.spec.ts
 taskfile: package.json
 URL: https://footstats.netlify.app/status
-make: npm
+make:
+  - npm install
+  - npm test
