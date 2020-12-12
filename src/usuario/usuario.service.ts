@@ -93,7 +93,7 @@ export class UsuarioService {
     });
 
     if (result2) {
-      const error = { email: 'E-mail ya registrado por otro usuario' };
+      const error = { email: 'Nickname ya registrado por otro usuario' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
         HttpStatus.BAD_REQUEST,
