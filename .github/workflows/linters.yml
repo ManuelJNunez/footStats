@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Dockerfile'
+      - 'Dockerfile.prod'
       - 'src/**'
       - 'tests/**'
       - 'functions/**'
@@ -11,6 +12,7 @@ on:
   pull_request:
     paths:
       - 'Dockerfile'
+      - 'Dockerfile.prod'
       - 'src/**'
       - 'tests/**'
       - 'functions/**'
@@ -31,8 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Ejecutar hadolint"
+      - name: "Ejecutar hadolint para el contenedor de tests"
         uses: brpaz/hadolint-action@master
         with:
           dockerfile: "Dockerfile"
+      - name: "Ejecutar hadolint para el contenedor de producción"
+        uses: brpaz/hadolint-action@master
+        with:
+          dockerfile: "Dockerfile.prod"
 
