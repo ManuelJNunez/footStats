@@ -61,7 +61,7 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 
 ## Microservicios
 
-
+Se ha utilizado `NestJS` para la implementación del microservicio. Se puede encontrar mas información sobre la implementación [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/microservicios.md)
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
