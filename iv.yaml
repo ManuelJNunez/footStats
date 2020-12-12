@@ -5,6 +5,4 @@ lenguaje: TypeScript
 test: test/partido.spec.ts
 taskfile: package.json
 URL: https://footstats.netlify.app/status
-make:
-  - npm install
-  - npm test
+make: make
