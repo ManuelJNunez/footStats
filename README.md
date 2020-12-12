@@ -59,17 +59,9 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 
     npm run doc
 
-## Clases testadas
-- [Usuario](https://github.com/ManuelJNunez/footStats/blob/master/src/models/usuario.model.ts). esta clase se usará para manejar la información de los usuarios (entrenadores) que usen la aplicación. Cada entrenador guardará en la aplicación información sobre sus partidos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/usuario.test.ts).
-- [Partido](https://github.com/ManuelJNunez/footStats/blob/master/src/models/partido.model.ts). para manejar los partidos guardados por los usuarios, así como las estadísticas de las jugadas que sucedan en los mismos. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/partido.test.ts).
-- [Jugada](https://github.com/ManuelJNunez/footStats/blob/master/src/models/jugada.model.ts). para manejar la información sobre las jugadas sucedidas durante un partido. Puedes ver los tests de esta clase [aquí](https://github.com/ManuelJNunez/footStats/blob/master/tests/jugada.test.ts).
+## Microservicios
 
-## Funciones serverless
-Se han implementado varias funciones serverless en este proyecto, avanzando y terminando una nueva Historia de Usuario. Las plataformas que he usado han sido las siguientes:
-- Netlify
-- Firebase
 
-La documentación sobre serverless se encuentra [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/serverless.md).
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
@@ -80,6 +72,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Siguientes pasos](https://github.com/ManuelJNunez/footStats/blob/master/docs/siguientespasos.md)
 - [Documentación del Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
 - [Integración Continua](https://github.com/ManuelJNunez/footStats/blob/master/docs/ci.md)
+- [Serverless](https://github.com/ManuelJNunez/footStats/blob/master/docs/serverless.md)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
