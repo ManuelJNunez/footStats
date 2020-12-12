@@ -8,3 +8,4 @@ URL: https://footstats.netlify.app/status
 make:
   - npm install
   - npm test
+
