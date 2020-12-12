@@ -15,31 +15,47 @@
 Este proyecto trata sobre desarrollar una API que recoge estadísticas de un partido de fútbol (como por ejemplo el número de ataques o defensas acertados o fallidos) para que los entrenadores puedan usarlo para planificar mejor los entrenamientos, pudiendo focalizarlos en lo que de verdad necesita el equipo. También se pretende desarrollar una aplicación web como front-end.
 
 ## Órdenes para el task runner
-Para iniciar esta aplicación, primero hay que instalar las dependencias del proyecto con la siguiente orden
+### Instalación de dependencias
 
     npm install
 
-Para iniciar la aplicación hay que enviar la orden
+### Transpilar a JavaScript
+
+    npm run build
+
+### Arrancar para desarrollo
 
     npm start
 
-Para correr los tests ejecutar la siguiente orden
+### Arrancar para producción
 
-    npm run test
+    npm run start:prod
 
-Para comprobar que la sintaxis/estilo del código es correcta (ejecutar el linter de ES)
+### Iniciar para producción en un contenedor
+
+    npm run start:docker
+
+### Testear
+
+    npm test
+
+### Ejecutar ESlint
 
     npm run lint
 
-Para correr los tests de cobertura
+### Formatear el código (`prettier`)
+
+    npm run format
+
+### Tests de cobertura
 
     npm run test:cov
 
-Para reportar los resultados del test de cobertura hacia `codecov`
+### Reportar resultados a `codecov`
 
     npm run coverage-report
 
-Para generar la documentación
+### Generar documentación
 
     npm run doc
 
