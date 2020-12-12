@@ -31,7 +31,7 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 
     npm run start:prod
 
-### Iniciar para producción en un contenedor
+### Arrancar para producción en un contenedor
 
     npm run start:docker
 
