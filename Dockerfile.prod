@@ -1,0 +1,28 @@
+FROM alpine:3.12.1 AS base
+
+RUN addgroup -S node && adduser -S node -G node \
+    && apk add --no-cache --update nodejs-dev=12.18.4-r0 npm=12.18.4-r0 \
+    && node -v \
+    && npm -v \
+    && mkdir app && chown node:node app \
+    && npm install -g pm2
+
+USER node
+
+WORKDIR /app
+
+FROM base AS build
+
+COPY package.json package-lock.json tsconfig.json tsconfig.build.json src ./
+
+RUN npm install
+RUN npm run build
+
+FROM base AS prod
+
+COPY --from=build app/package.json app/package-lock.json ./
+COPY --from=build app/dist ./dist
+
+RUN npm install --only=prod
+
+ENTRYPOINT ["npm", "run", "start:docker"]
