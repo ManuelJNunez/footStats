@@ -72,7 +72,7 @@
     ],
     "roots": [
       "src",
-      "test"
+      "tests"
     ],
     "testRegex": [
       ".*\\.spec.ts$",
