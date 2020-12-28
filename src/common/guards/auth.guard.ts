@@ -1,26 +1,31 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { Observable } from 'rxjs';
+import { EtcdService } from '../../etcd/etcd.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    try {
-      const request = context.switchToHttp().getRequest();
-      const authorization = request.headers.authorization;
-      const res = authorization.split(' ');
+  constructor(private readonly etcdService: EtcdService) {}
 
-      if (res[0] != 'Bearer') {
-        return false;
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const request = context.switchToHttp().getRequest();
+        const authorization = request.headers.authorization;
+        const res = authorization.split(' ');
+
+        if (res[0] != 'Bearer') {
+          resolve(false);
+        }
+
+        jwt.verify(
+          res[1],
+          (await this.etcdService.get('JWT_SECRET')) || 'aRandomKey',
+        );
+
+        resolve(true);
+      } catch (err) {
+        resolve(false);
       }
-
-      jwt.verify(res[1], process.env.JWT_SECRET);
-
-      return true;
-    } catch (err) {
-      return false;
-    }
+    });
   }
 }
