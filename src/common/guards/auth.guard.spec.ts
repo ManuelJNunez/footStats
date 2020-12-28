@@ -3,16 +3,27 @@ import { ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 const jwt = require('jsonwebtoken');
 
+const password = 'aSecretPassword';
+
+const etcdService = {
+  get: jest.fn(),
+  getClient: jest.fn(),
+} as any;
+
 describe('AuthGuard', () => {
-  it('should be defined', () => {
-    expect(new AuthGuard()).toBeDefined();
+  beforeEach(() => {
+    etcdService.get.mockReturnValueOnce(password);
+    etcdService.get.mockClear();
   });
 
-  it('should accept the context', () => {
+  it('should be defined', () => {
+    expect(new AuthGuard(etcdService)).toBeDefined();
+  });
+
+  it('should accept the context', async () => {
     const context = createMock<ExecutionContext>();
     const spy = jest.spyOn(context.switchToHttp(), 'getRequest');
     const token = 'aVeryValidToken';
-    process.env.JWT_SECRET = 'aSecretPasssowrd';
 
     spy.mockReturnValueOnce({
       headers: {
@@ -21,17 +32,17 @@ describe('AuthGuard', () => {
     });
 
     const spyJwt = jest.spyOn(jwt, 'verify');
-
     spyJwt.mockReturnValueOnce('verified :D');
 
-    const result = new AuthGuard().canActivate(context);
+    const result = await new AuthGuard(etcdService).canActivate(context);
 
     expect(result).toBe(true);
     expect(spyJwt).toBeCalledTimes(1);
-    expect(spyJwt).toBeCalledWith(token, process.env.JWT_SECRET);
+    expect(spyJwt).toBeCalledWith(token, password);
+    expect(etcdService.get).toBeCalledTimes(1);
   });
 
-  it('should reject because there is no Bearer in the token', () => {
+  it('should reject because there is no Bearer in the token', async () => {
     const context = createMock<ExecutionContext>();
     const spy = jest.spyOn(context.switchToHttp(), 'getRequest');
     const token = 'aVeryValidToken';
@@ -43,16 +54,18 @@ describe('AuthGuard', () => {
       },
     });
 
-    const result = new AuthGuard().canActivate(context);
+    const result = await new AuthGuard(etcdService).canActivate(context);
 
     expect(result).toBe(false);
+    expect(etcdService.get).toBeCalledTimes(1);
   });
 
-  it('should reject because there is no token', () => {
+  it('should reject because there is no token', async () => {
     const context = createMock<ExecutionContext>();
 
-    const result = new AuthGuard().canActivate(context);
+    const result = await new AuthGuard(etcdService).canActivate(context);
 
     expect(result).toBe(false);
+    expect(etcdService.get).toBeCalledTimes(0);
   });
 });
