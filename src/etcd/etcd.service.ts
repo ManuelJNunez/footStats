@@ -7,6 +7,10 @@ export class EtcdService {
     hosts: `${process.env['ETCD_HOST']}:${process.env['ETCD_PORT']}`,
   });
 
+  getClient() {
+    return this.client;
+  }
+
   async get(key: string) {
     let res;
 
