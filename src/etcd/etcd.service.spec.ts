@@ -17,6 +17,12 @@ describe('EtcdService', () => {
     expect(service).toBeDefined();
   });
 
+  it('should retrieve the client', () => {
+    const result = service.getClient();
+
+    expect(result).toBeInstanceOf(Etcd3);
+  });
+
   it('should works with etcd', async () => {
     const spy = (Etcd3.prototype.get = jest.fn());
     const key = 'hello';
