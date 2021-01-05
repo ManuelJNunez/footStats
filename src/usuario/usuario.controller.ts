@@ -23,10 +23,10 @@ export class UsuarioController {
 
   @Get()
   @UseGuards(AuthGuard)
-  getUser(@Headers('Authorization') auth: string) {
+  async getUser(@Headers('Authorization') auth: string) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    return this.usuarioService.findByEmail(decoded.email);
+    return await this.usuarioService.findByEmail(decoded.email);
   }
 
   @Post()
@@ -41,7 +41,7 @@ export class UsuarioController {
   @Put()
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
-  updateUser(
+  async updateUser(
     @Headers('Authorization') auth: string,
     @Body() user: CreateUserDTO,
   ) {
@@ -49,28 +49,28 @@ export class UsuarioController {
 
     return {
       message: 'Usuario modificado con éxito',
-      user: this.usuarioService.update(decoded.id, user),
+      user: await this.usuarioService.update(decoded.userId, user),
     };
   }
 
   @Delete()
   @UseGuards(AuthGuard)
-  deleteUser(@Headers('Authorization') auth: string) {
+  async deleteUser(@Headers('Authorization') auth: string) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
     return {
       message: 'Usuario eliminado con éxito',
-      user: this.usuarioService.delete(decoded.id),
+      user: await this.usuarioService.delete(decoded.userId),
     };
   }
 
   @Post('/login')
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  login(@Body() loginDto: LoginDTO) {
+  async login(@Body() loginDto: LoginDTO) {
     return {
       message: 'Logeado con éxito',
-      token: this.usuarioService.generarToken(loginDto),
+      token: await this.usuarioService.generarToken(loginDto),
     };
   }
 }
