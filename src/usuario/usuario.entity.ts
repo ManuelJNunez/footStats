@@ -153,4 +153,13 @@ export class Usuario {
 
     return usuario;
   }
+
+  static fromJSON(usuarioJson: UsuarioI): Usuario {
+    return new Usuario(
+      usuarioJson.nickname,
+      usuarioJson.email,
+      '',
+      usuarioJson.userId,
+    );
+  }
 }
