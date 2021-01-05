@@ -158,7 +158,7 @@ export class Usuario {
     return new Usuario(
       usuarioJson.nickname,
       usuarioJson.email,
-      '',
+      usuarioJson.password || '',
       usuarioJson.userId,
     );
   }
