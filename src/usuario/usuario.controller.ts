@@ -31,10 +31,10 @@ export class UsuarioController {
 
   @Post()
   @UsePipes(new ValidationPipe())
-  createUser(@Body() user: CreateUserDTO) {
+  async createUser(@Body() user: CreateUserDTO) {
     return {
       message: 'Usuario registrado con éxito',
-      user: this.usuarioService.create(user),
+      user: await this.usuarioService.create(user),
     };
   }
 
