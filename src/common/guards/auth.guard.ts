@@ -14,10 +14,17 @@ export class AuthGuard implements CanActivate {
     return new Promise(async (resolve, reject) => {
       const request = context.switchToHttp().getRequest();
       const authorization = request.headers.authorization;
+
+      if (authorization == null) {
+        resolve(false);
+        return;
+      }
+
       const res = authorization.split(' ');
 
-      if (res[0] != 'Bearer') {
+      if (res.length < 2 || res[0] != 'Bearer') {
         resolve(false);
+        return;
       }
 
       jwt.verify(
@@ -26,6 +33,7 @@ export class AuthGuard implements CanActivate {
         async (err, decoded) => {
           if (err) {
             resolve(false);
+            return;
           }
 
           const user = await this.knex
@@ -33,13 +41,14 @@ export class AuthGuard implements CanActivate {
             .from('users')
             .where('userId', decoded.userId);
 
-          if (user.length == 0) {
+          if (user.length === 0) {
             resolve(false);
+            return;
           }
+
+          resolve(true);
         },
       );
-
-      resolve(true);
     });
   }
 }
