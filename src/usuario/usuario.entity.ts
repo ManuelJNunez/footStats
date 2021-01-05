@@ -146,7 +146,7 @@ export class Usuario {
 
   toJSON(): UsuarioI {
     const usuario: UsuarioI = {
-      id: this._id,
+      userId: this._id,
       nickname: this._nickname,
       email: this._email,
     };
