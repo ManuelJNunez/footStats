@@ -66,7 +66,7 @@ export class UsuarioService {
 
   async findByEmail(email: string) {
     const userJson = await this.knex
-      .select('userId, email, password')
+      .select('*')
       .from('users')
       .where('email', email);
 
@@ -80,16 +80,18 @@ export class UsuarioService {
     return user;
   }
 
-  update(id: number, user: CreateUserDTO) {
+  async update(id: number, user: CreateUserDTO) {
     // Comprobar si el usuario existe
-    const result = this.findById(id);
+    let result = await this.findById(id);
 
     // Comprobar si el nuevo e-mail ya está registrado por otro usuario
-    const result1 = this.users.find((usr) => {
-      return usr.email === user.email && usr.id != id;
-    });
+    const result1 = await this.knex
+      .select('*')
+      .from('users')
+      .whereNot('userId', id)
+      .andWhere('email', user.email);
 
-    if (result1) {
+    if (result1.length > 0) {
       const error = { email: 'E-mail ya registrado por otro usuario' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -98,11 +100,13 @@ export class UsuarioService {
     }
 
     // Comprobar si el nuevo nickname ya está registrado por otro usuario
-    const result2 = this.users.find((usr) => {
-      return usr.nickname === user.nickname && usr.id != id;
-    });
+    const result2 = await this.knex
+      .select('*')
+      .from('users')
+      .whereNot('userId', id)
+      .andWhere('nickname', user.nickname);
 
-    if (result2) {
+    if (result2.length > 0) {
       const error = { email: 'Nickname ya registrado por otro usuario' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -111,28 +115,29 @@ export class UsuarioService {
     }
 
     // Modificar usuario
-    const index = this.users.indexOf(result);
+    result = await this.knex
+      .update(user, ['userId', 'nickname', 'email'])
+      .from('users')
+      .where('userId', id);
 
-    this.users[index].nickname = user.nickname;
-    this.users[index].email = user.email;
-    this.users[index].password = user.password;
-
-    return this.users[index].toJSON();
+    return result;
   }
 
-  delete(id: number) {
-    const result = this.findById(id);
-    const index = this.users.indexOf(result);
+  async delete(id: number) {
+    const result = await this.knex
+      .delete(['userId', 'email', 'nickname'])
+      .from('users')
+      .where('userId', id);
 
-    return this.users.splice(index, 1)[0];
+    return result;
   }
 
-  generarToken(loginDto: LoginDTO) {
-    const user = this.findByEmail(loginDto.email);
+  async generarToken(loginDto: LoginDTO) {
+    const user = await this.findByEmail(loginDto.email);
 
     if (!user.validarPassword(loginDto.password)) {
       throw new HttpException(
-        { message: 'Usuario o password incorrectos.' },
+        { message: 'email o password incorrectos.' },
         HttpStatus.UNAUTHORIZED,
       );
     }
