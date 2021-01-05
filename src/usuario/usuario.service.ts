@@ -48,28 +48,34 @@ export class UsuarioService {
     return usuario.toJSON();
   }
 
-  findById(id: number) {
-    const user = this.users.find((usr) => {
-      return usr.id == id;
-    });
+  async findById(id: number) {
+    const userJson = await this.knex
+      .select('*')
+      .from('users')
+      .where('userId', id);
 
-    if (!user) {
+    if (userJson.length == 0) {
       const error = { message: 'Usuario no registrado' };
       throw new HttpException({ error }, HttpStatus.NOT_FOUND);
     }
 
-    return user;
+    const user = Usuario.fromJSON(userJson[0]);
+
+    return user[0];
   }
 
-  findByEmail(email: string) {
-    const user = this.users.find((usr) => {
-      return usr.email === email;
-    });
+  async findByEmail(email: string) {
+    const userJson = await this.knex
+      .select('userId, email, password')
+      .from('users')
+      .where('email', email);
 
-    if (!user) {
+    if (userJson.length == 0) {
       const error = { message: 'Usuario no registrado' };
       throw new HttpException({ error }, HttpStatus.NOT_FOUND);
     }
+
+    const user = Usuario.fromJSON(userJson[0]);
 
     return user;
   }
