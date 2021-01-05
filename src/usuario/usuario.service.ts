@@ -3,19 +3,23 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { Usuario } from './usuario.entity';
 import { LoginDTO } from './dto/login.dto';
 import * as jwt from 'jsonwebtoken';
+import { InjectKnex, Knex } from 'nestjs-knex';
 
 @Injectable()
 export class UsuarioService {
+  constructor(@InjectKnex() private readonly knex: Knex) {}
+
   private readonly users: Usuario[] = [];
   private id = 0;
 
-  create(user: CreateUserDTO) {
+  async create(user: CreateUserDTO) {
     // Comprobar si el e-mail ya está registrado
-    const result = this.users.find((usr) => {
-      return usr.email === user.email;
-    });
+    const result = await this.knex
+      .select('*')
+      .from('users')
+      .where('email', user.email);
 
-    if (result) {
+    if (result.length > 0) {
       const error = { email: 'E-mail ya registrado' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -24,11 +28,12 @@ export class UsuarioService {
     }
 
     // Comprobar si el nickname ya existe
-    const result1 = this.users.find((usr) => {
-      return usr.nickname === user.nickname;
-    });
+    const result1 = await this.knex
+      .select('*')
+      .from('users')
+      .where('nickname', user.nickname);
 
-    if (result1) {
+    if (result1.length > 0) {
       const error = { nickname: 'Nickname ya registrado' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -37,9 +42,8 @@ export class UsuarioService {
     }
 
     // Crear nuevo usuario
-    const usuario = Usuario.create(user, this.id);
-    this.id++;
-    this.users.push(usuario);
+    const userId = await this.knex('users').insert(user).returning('userId');
+    const usuario = Usuario.create(user, userId[0]);
 
     return usuario.toJSON();
   }
