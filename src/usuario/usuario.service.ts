@@ -9,9 +9,6 @@ import { InjectKnex, Knex } from 'nestjs-knex';
 export class UsuarioService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  private readonly users: Usuario[] = [];
-  private id = 0;
-
   async create(user: CreateUserDTO) {
     // Comprobar si el e-mail ya está registrado
     const result = await this.knex
