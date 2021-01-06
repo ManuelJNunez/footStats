@@ -10,6 +10,8 @@ import {
   UsePipes,
   ValidationPipe,
   Headers,
+  Param,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
@@ -21,10 +23,17 @@ import * as jwt from 'jsonwebtoken';
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  @Get()
+  @Get(':id')
   @UseGuards(AuthGuard)
-  async getUser(@Headers('Authorization') auth: string) {
+  async getUser(
+    @Headers('Authorization') auth: string,
+    @Param('id') id: number,
+  ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+
+    if (id != decoded.userId) {
+      throw new UnauthorizedException();
+    }
 
     return await this.usuarioService.findByEmail(decoded.email);
   }
@@ -38,29 +47,41 @@ export class UsuarioController {
     };
   }
 
-  @Put()
+  @Put(':id')
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   async updateUser(
     @Headers('Authorization') auth: string,
     @Body() user: CreateUserDTO,
+    @Param('id') id: number,
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
+    if (id != decoded.userId) {
+      throw new UnauthorizedException();
+    }
+
     return {
       message: 'Usuario modificado con éxito',
-      user: await this.usuarioService.update(decoded.userId, user),
+      user: await this.usuarioService.update(id, user),
     };
   }
 
-  @Delete()
+  @Delete(':id')
   @UseGuards(AuthGuard)
-  async deleteUser(@Headers('Authorization') auth: string) {
+  async deleteUser(
+    @Headers('Authorization') auth: string,
+    @Param('id') id: number,
+  ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+
+    if (id != decoded.userId) {
+      throw new UnauthorizedException();
+    }
 
     return {
       message: 'Usuario eliminado con éxito',
-      user: await this.usuarioService.delete(decoded.userId),
+      user: await this.usuarioService.delete(id),
     };
   }
 
