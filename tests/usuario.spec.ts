@@ -82,14 +82,14 @@ describe('Tests del toJSON de la clase Usuario', function () {
 
     const usuariojson = usuario.toJSON();
 
-    expect(usuariojson.id).toEqual(usuario.id);
+    expect(usuariojson.userId).toEqual(usuario.id);
     expect(usuariojson.nickname).toEqual(usuario.nickname);
     expect(usuariojson.email).toEqual(usuario.email);
     expect(usuariojson).not.toHaveProperty('password');
   });
 });
 
-describe('Test del método validarPassword', function () {
+describe('Test del método validarPassword', function (): void {
   it('Debería de devolver true', function () {
     const result = usuario.validarPassword(newPass);
 
@@ -100,5 +100,36 @@ describe('Test del método validarPassword', function () {
     const result = usuario.validarPassword(pass);
 
     expect(result).toBe(false);
+  });
+
+  it('should create an object from a JSON', () => {
+    const newUser = {
+      nickname: 'mjnunez',
+      email: 'manueljesusnunezruiz@gmail.com',
+      password: '1234',
+      userId: 0,
+    };
+
+    const createdUser = Usuario.fromJSON(newUser);
+
+    expect(createdUser.id).toBe(newUser.userId);
+    expect(createdUser.nickname).toEqual(newUser.nickname);
+    expect(createdUser.email).toEqual(newUser.email);
+    expect(createdUser.password).toEqual(newUser.password);
+  });
+
+  it('should create an object from a JSON without a password', () => {
+    const newUser = {
+      nickname: 'mjnunez',
+      email: 'manueljesusnunezruiz@gmail.com',
+      userId: 0,
+    };
+
+    const createdUser = Usuario.fromJSON(newUser);
+
+    expect(createdUser.id).toBe(newUser.userId);
+    expect(createdUser.nickname).toEqual(newUser.nickname);
+    expect(createdUser.email).toEqual(newUser.email);
+    expect(createdUser.password).toEqual('');
   });
 });
