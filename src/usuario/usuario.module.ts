@@ -6,6 +6,6 @@ import { UsuarioService } from './usuario.service';
 
 @Module({
   controllers: [UsuarioController],
-  providers: [UsuarioService, EtcdService, AuthGuard],
+  providers: [UsuarioService, AuthGuard],
 })
 export class UsuarioModule {}
