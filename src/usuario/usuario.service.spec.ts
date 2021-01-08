@@ -1,36 +1,55 @@
 import { HttpException } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UsuarioService } from './usuario.service';
 import { LoginDTO } from './dto/login.dto';
-import { Usuario } from './usuario.entity';
 const jwt = require('jsonwebtoken');
+import { Pool } from 'pg';
+import { Usuario } from './usuario.entity';
+import { UsuarioI } from './interfaces/usuario.interface';
 
 describe('UsuarioService', () => {
   let service: UsuarioService;
+  let querySpy;
+
+  const data = {
+    userId: 0,
+    nickname: 'mjnunez',
+    email: 'manueljesusnunezruiz@gmail.com',
+    password: '1234',
+  };
+
+  const userJson = {
+    userId: data.userId,
+    nickname: data.nickname,
+    email: data.email,
+  };
+
+  const anotherUserJSON = {
+    userId: data.userId,
+    nickname: data.nickname,
+    password: data.password,
+    email: data.email,
+  } as UsuarioI;
+
+  const User = ({
+    userId: data.userId,
+    nickname: data.nickname,
+    password: data.password,
+    email: data.email,
+    toJSON: jest.fn().mockReturnValueOnce(userJson),
+    validarPassword: () => false,
+  } as unknown) as Usuario;
 
   const UserDto = {
-    nickname: 'mjnunez',
-    password: '1234',
-    email: 'manueljesusnunezruiz@gmail.com',
+    nickname: data.nickname,
+    password: data.password,
+    email: data.email,
   } as CreateUserDTO;
 
   const anotherUserDto = {
     nickname: 'manolo',
-    password: '1234',
-    email: 'manolo@gmail.com',
-  } as CreateUserDTO;
-
-  const userDtoNickError = {
-    nickname: 'mjnunez',
-    password: '1234',
-    email: 'mjnunez@gmail.com',
-  } as CreateUserDTO;
-
-  const userDtoEmailError = {
-    nickname: 'manuel',
-    password: '1234',
-    email: 'manueljesusnunezruiz@gmail.com',
+    password: 'hola',
+    email: 'mjnunez@correo.ugr.es',
   } as CreateUserDTO;
 
   const loginDto = {
@@ -38,183 +57,247 @@ describe('UsuarioService', () => {
     password: '1234',
   } as LoginDTO;
 
-  const invalidLoginDto = {
+  const incorrectLoginDto = {
     email: 'manueljesusnunezruiz@gmail.com',
-    password: 'invalidpass',
+    password: 'hola',
   } as LoginDTO;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsuarioService],
-    }).compile();
+  beforeEach(() => {
+    service = new UsuarioService(new Pool());
+    querySpy = Pool.prototype.query = jest.fn();
+  });
 
-    service = module.get<UsuarioService>(UsuarioService);
+  afterEach(() => {
+    querySpy.mockClear();
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('should create a new User', () => {
-    const user = service.create(UserDto);
+  it('should create a new User', async () => {
+    jest.mock('./usuario.entity');
+    const mockCreate = jest.fn();
+    mockCreate.mockReturnValueOnce(User);
+    Usuario.create = mockCreate;
 
-    expect(user.id).toBe(0);
-    expect(user.email).toEqual(UserDto.email);
-    expect(user.nickname).toEqual(UserDto.nickname);
-    expect(user).not.toHaveProperty('password');
+    querySpy
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({
+        rows: [{ userId: userJson.userId }],
+        rowCount: 1,
+      });
+
+    const newUser = await service.create(UserDto);
+
+    expect(querySpy).toBeCalledTimes(3);
+    expect(querySpy).toHaveBeenNthCalledWith(
+      1,
+      `SELECT * FROM "users" WHERE "email" = '${UserDto.email}'`,
+    );
+    expect(querySpy).toHaveBeenNthCalledWith(
+      2,
+      `SELECT * FROM "users" WHERE "nickname" = '${UserDto.nickname}'`,
+    );
+    expect(querySpy).toHaveBeenNthCalledWith(
+      3,
+      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${UserDto.password}') RETURNING "userId"`,
+    );
+    expect(mockCreate).toHaveBeenCalled();
+    expect(mockCreate).toHaveBeenCalledWith(UserDto, userJson.userId);
+    expect(User.toJSON).toHaveBeenCalled();
+    expect(newUser.userId).toEqual(userJson.userId);
+    expect(newUser.email).toEqual(UserDto.email);
+    expect(newUser.nickname).toEqual(UserDto.nickname);
+    expect(newUser).not.toHaveProperty('password');
   });
 
-  it('should throw HttpException', () => {
-    service.create(UserDto);
-
-    function ValidationError() {
-      service.create(userDtoNickError);
+  it('should throw HttpException because the email is registered', async () => {
+    async function emailException() {
+      await service.create(UserDto);
     }
 
-    expect(ValidationError).toThrow(HttpException);
+    querySpy.mockResolvedValueOnce({ rowCount: 1 });
+
+    expect(emailException).rejects.toThrow(HttpException);
   });
 
-  it('should throw another HttpException', () => {
-    service.create(UserDto);
-
-    function ValidationError() {
-      service.create(userDtoEmailError);
+  it('should throw another HttpException because the nickname is registered', async () => {
+    async function ValidationError() {
+      await service.create(UserDto);
     }
 
-    expect(ValidationError).toThrow(HttpException);
+    querySpy
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({ rowCount: 1 });
+
+    expect(ValidationError).rejects.toThrow(HttpException);
   });
 
-  it('should have different IDs', () => {
-    const user = service.create(UserDto);
-    const anotherUser = service.create(anotherUserDto);
+  it('should retrieve a user with id 0', async () => {
+    querySpy.mockResolvedValueOnce({ rows: [anotherUserJSON], rowCount: 1 });
 
-    expect(anotherUser.id).not.toEqual(user.id);
+    const mockFromJSON = jest.fn();
+    mockFromJSON.mockReturnValueOnce(User);
+    Usuario.fromJSON = mockFromJSON;
+
+    const userFound = await service.findById(anotherUserJSON.userId);
+
+    expect(userFound).toEqual(User);
+    expect(querySpy).toHaveBeenCalled();
+    expect(querySpy).toHaveBeenCalledWith(
+      `SELECT * FROM users WHERE "id" = '${anotherUserJSON.userId}'`,
+    );
+    expect(mockFromJSON).toHaveBeenCalledWith(anotherUserJSON);
   });
 
-  it('should retrieve a user', () => {
-    const user = service.create(UserDto);
-    const userFound = service.findById(user.id);
+  it('should throw an error', async () => {
+    querySpy.mockResolvedValueOnce({ rows: [], rowCount: 0 });
 
-    expect(userFound.id).toEqual(user.id);
-  });
-
-  it('should throw an error', () => {
-    service.create(UserDto);
-
-    function notFoundError() {
-      service.findById(1);
+    async function notFoundError() {
+      await service.findById(2);
     }
 
-    expect(notFoundError).toThrow(HttpException);
+    expect(notFoundError).rejects.toThrow(HttpException);
   });
 
-  it('should retrieve a user by his email', () => {
-    const user = service.create(UserDto);
-    const userFound = service.findByEmail(UserDto.email);
+  it('should retrieve a user by his email', async () => {
+    querySpy.mockResolvedValueOnce({ rows: [anotherUserJSON], rowCount: 1 });
 
-    expect(userFound.email).toBe(user.email);
+    const mockFromJSON = jest.fn();
+    mockFromJSON.mockReturnValueOnce(User);
+    Usuario.fromJSON = mockFromJSON;
+
+    const userFound = await service.findByEmail(anotherUserJSON.email);
+
+    expect(userFound).toEqual(User);
+    expect(querySpy).toHaveBeenCalled();
+    expect(querySpy).toHaveBeenCalledWith(
+      `SELECT * FROM users WHERE "email" = '${anotherUserJSON.email}'`,
+    );
+    expect(mockFromJSON).toHaveBeenCalledWith(anotherUserJSON);
   });
 
   it('should throw an error (not found)', () => {
-    service.create(UserDto);
+    querySpy.mockResolvedValueOnce({ rows: [], rowCount: 0 });
 
-    function notFoundError() {
-      service.findByEmail('random@gmail.com');
+    async function notFoundError() {
+      await service.findByEmail('idonotexist@gmail.com');
     }
 
-    expect(notFoundError).toThrow(HttpException);
+    expect(notFoundError).rejects.toThrow(HttpException);
   });
 
-  it('should update the user', () => {
-    const user = service.create(UserDto);
+  it('should update the user', async () => {
+    const id = 0;
 
-    const updatedUser = service.update(user.id, anotherUserDto);
+    const returnedUser = {
+      userId: id,
+      nickname: anotherUserDto.nickname,
+      email: anotherUserDto.email,
+    };
 
-    expect(updatedUser.id).toEqual(user.id);
-    expect(updatedUser.email).toEqual(anotherUserDto.email);
-    expect(updatedUser.nickname).toEqual(anotherUserDto.nickname);
+    querySpy
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({
+        rows: [returnedUser],
+        rowCount: 1,
+      });
+
+    const updatedUser = await service.update(userJson.userId, anotherUserDto);
+
+    expect(updatedUser).toEqual(returnedUser);
+    expect(querySpy).toHaveBeenCalledTimes(3);
+    expect(querySpy).toHaveBeenNthCalledWith(
+      1,
+      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "email" = '${anotherUserDto.email}'`,
+    );
+    expect(querySpy).toHaveBeenNthCalledWith(
+      2,
+      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "nickname" = '${anotherUserDto.nickname}'`,
+    );
+    expect(querySpy).toHaveBeenNthCalledWith(
+      3,
+      `UPDATE users 
+      SET "nickname" = '${anotherUserDto.nickname}', "email" = '${anotherUserDto.email}', "password" = '${anotherUserDto.password}'
+      WHERE "userId" = ${id}
+      RETURNING "userId", "nickname", "email"`,
+    );
   });
 
-  it('should throw an error because the user with ID 0 does not exist', () => {
-    function itFails() {
-      service.update(0, anotherUserDto);
+  it('should throw an exception because the email is used', async () => {
+    async function emailUsed() {
+      await service.update(userJson.userId, anotherUserDto);
     }
 
-    expect(itFails).toThrow(HttpException);
+    querySpy.mockResolvedValueOnce({ rowCount: 1 });
+
+    expect(emailUsed).rejects.toThrow(HttpException);
   });
 
-  it('should throw an error because the email is already used', () => {
-    const user = service.create(UserDto);
-    const anotherUser = service.create(anotherUserDto);
-
-    function itFails() {
-      service.update(anotherUser.id, userDtoEmailError);
+  it('should throw an exception because the nickname is used', async () => {
+    async function nicknameUsed() {
+      await service.update(userJson.userId, anotherUserDto);
     }
 
-    expect(itFails).toThrow(HttpException);
+    querySpy
+      .mockResolvedValueOnce({ rowCount: 0 })
+      .mockResolvedValueOnce({ rowCount: 1 });
+
+    expect(nicknameUsed).rejects.toThrow(HttpException);
   });
 
-  it('should throw an error because the nickname is already used', () => {
-    const user = service.create(UserDto);
-    const anotherUser = service.create(anotherUserDto);
+  it('should delete the user', async () => {
+    const returnedUser = {
+      userId: 0,
+      nickname: anotherUserDto.nickname,
+      email: anotherUserDto.email,
+    };
 
-    function itFails() {
-      service.update(anotherUser.id, userDtoNickError);
-    }
+    querySpy.mockResolvedValueOnce({ rows: [returnedUser], rowCount: 1 });
 
-    expect(itFails).toThrow(HttpException);
+    const deletedUser = await service.delete(returnedUser.userId);
+
+    expect(deletedUser).toEqual(returnedUser);
+    expect(querySpy).toHaveBeenCalledTimes(1);
+    expect(querySpy).toHaveBeenCalledWith(
+      `DELETE FROM users WHERE "userId" = ${returnedUser.userId} RETURNING "userId", "email", "nickname"`,
+    );
   });
 
-  it('should delete the user', () => {
-    const user = service.create(UserDto);
+  it('should call jwt.sign with some specific parameters', async () => {
+    const token = 'aValidToken';
+    process.env.JWT_SECRET = 'thisIsSecret';
 
-    const deletedUser = service.delete(user.id);
-
-    expect(deletedUser.id).toEqual(user.id);
-    expect(deletedUser.email).toEqual(user.email);
-    expect(deletedUser.nickname).toEqual(user.nickname);
-  });
-
-  it('should trhow an error because the user does not exist', () => {
-    function giveMeAnError() {
-      service.delete(0);
-    }
-
-    expect(giveMeAnError).toThrow(HttpException);
-  });
-
-  it('should call jwt.sign with some specific parameters', () => {
-    service.create(UserDto);
-    const spyJwt = jest.spyOn(jwt, 'sign');
     const spyFindByEmail = jest.spyOn(service, 'findByEmail');
-    process.env.JWT_SECRET = '1234';
+    const spyValidarPassword = jest.spyOn(User, 'validarPassword');
+    const spyJwt = jest.spyOn(jwt, 'sign');
 
-    service.generarToken(loginDto);
+    spyFindByEmail.mockResolvedValueOnce(User);
+    spyValidarPassword.mockReturnValueOnce(true);
+    spyJwt.mockReturnValueOnce(token);
 
-    const user = spyFindByEmail.mock.results[0].value as Usuario;
+    const retrievedToken = await service.generarToken(loginDto);
 
+    expect(retrievedToken).toEqual(token);
+    expect(spyFindByEmail).toHaveBeenCalledTimes(1);
     expect(spyFindByEmail).toHaveBeenCalledWith(loginDto.email);
     expect(spyJwt).toHaveBeenCalledTimes(1);
-    expect(spyJwt).toHaveBeenCalledWith(user.toJSON(), process.env.JWT_SECRET, {
+    expect(spyJwt).toHaveBeenCalledWith(User.toJSON(), process.env.JWT_SECRET, {
       expiresIn: '2h',
     });
   });
 
-  it('should throw an error because the email does not exist', () => {
-    function OopsAnError() {
-      service.generarToken(loginDto);
+  it('should fail because the password is incorrect', async () => {
+    async function loginFailed() {
+      await service.generarToken(incorrectLoginDto);
     }
 
-    expect(OopsAnError).toThrow(HttpException);
-  });
+    const spyFindByEmail = jest.spyOn(service, 'findByEmail');
+    spyFindByEmail.mockResolvedValueOnce(User);
 
-  it('should throw an error because the password is invalid', () => {
-    service.create(UserDto);
-
-    function OopsAnError() {
-      service.generarToken(invalidLoginDto);
-    }
-
-    expect(OopsAnError).toThrow(HttpException);
+    expect(loginFailed).rejects.toThrow(HttpException);
   });
 });
