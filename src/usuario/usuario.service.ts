@@ -1,22 +1,22 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Inject } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { Usuario } from './usuario.entity';
 import { LoginDTO } from './dto/login.dto';
 import * as jwt from 'jsonwebtoken';
-import { InjectKnex, Knex } from 'nestjs-knex';
+import { Pool } from 'pg';
+import { PG_CONNECTION } from '../constants';
 
 @Injectable()
 export class UsuarioService {
-  constructor(@InjectKnex() private readonly knex: Knex) {}
+  constructor(@Inject(PG_CONNECTION) private readonly pool: Pool) {}
 
   async create(user: CreateUserDTO) {
     // Comprobar si el e-mail ya está registrado
-    const result = await this.knex
-      .select('*')
-      .from('users')
-      .where('email', user.email);
+    const result = await this.pool.query(
+      `SELECT * FROM "users" WHERE "email" = '${user.email}'`,
+    );
 
-    if (result.length > 0) {
+    if (result.rowCount > 0) {
       const error = { email: 'E-mail ya registrado' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -25,12 +25,11 @@ export class UsuarioService {
     }
 
     // Comprobar si el nickname ya existe
-    const result1 = await this.knex
-      .select('*')
-      .from('users')
-      .where('nickname', user.nickname);
+    const result1 = await this.pool.query(
+      `SELECT * FROM "users" WHERE "nickname" = '${user.nickname}'`,
+    );
 
-    if (result1.length > 0) {
+    if (result1.rowCount > 0) {
       const error = { nickname: 'Nickname ya registrado' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -39,56 +38,53 @@ export class UsuarioService {
     }
 
     // Crear nuevo usuario
-    const userId = await this.knex('users').insert(user).returning('userId');
-    const usuario = Usuario.create(user, userId[0]);
+    const userId = await this.pool.query(
+      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${user.password}') RETURNING "userId"`,
+    );
+    const usuario = Usuario.create(user, userId.rows[0].userId);
 
     return usuario.toJSON();
   }
 
   async findById(id: number) {
-    const userJson = await this.knex
-      .select('*')
-      .from('users')
-      .where('userId', id);
+    const queryResult = await this.pool.query(
+      `SELECT * FROM users WHERE "id" = '${id}'`,
+    );
 
-    if (userJson.length == 0) {
+    if (queryResult.rowCount === 0) {
       const error = { message: 'Usuario no registrado' };
       throw new HttpException({ error }, HttpStatus.NOT_FOUND);
     }
 
-    const user = Usuario.fromJSON(userJson[0]);
+    const user = Usuario.fromJSON(queryResult.rows[0]);
 
-    return user[0];
+    return user;
   }
 
   async findByEmail(email: string) {
-    const userJson = await this.knex
-      .select('*')
-      .from('users')
-      .where('email', email);
+    const queryResult = await this.pool.query(
+      `SELECT * FROM users WHERE "email" = '${email}'`,
+    );
 
-    if (userJson.length == 0) {
+    if (queryResult.rowCount === 0) {
       const error = { message: 'Usuario no registrado' };
       throw new HttpException({ error }, HttpStatus.NOT_FOUND);
     }
 
-    const user = Usuario.fromJSON(userJson[0]);
+    const user = Usuario.fromJSON(queryResult.rows[0]);
 
     return user;
   }
 
   async update(id: number, user: CreateUserDTO) {
-    // Comprobar si el usuario existe
-    let result = await this.findById(id);
+    // Comprobar si el usuario existe se hace en el AuthGuard
 
     // Comprobar si el nuevo e-mail ya está registrado por otro usuario
-    const result1 = await this.knex
-      .select('*')
-      .from('users')
-      .whereNot('userId', id)
-      .andWhere('email', user.email);
+    const result1 = await this.pool.query(
+      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "email" = '${user.email}'`,
+    );
 
-    if (result1.length > 0) {
+    if (result1.rowCount > 0) {
       const error = { email: 'E-mail ya registrado por otro usuario' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -97,13 +93,11 @@ export class UsuarioService {
     }
 
     // Comprobar si el nuevo nickname ya está registrado por otro usuario
-    const result2 = await this.knex
-      .select('*')
-      .from('users')
-      .whereNot('userId', id)
-      .andWhere('nickname', user.nickname);
+    const result2 = await this.pool.query(
+      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "nickname" = '${user.nickname}'`,
+    );
 
-    if (result2.length > 0) {
+    if (result2.rowCount > 0) {
       const error = { email: 'Nickname ya registrado por otro usuario' };
       throw new HttpException(
         { message: 'Error en la validación de los datos', error },
@@ -112,21 +106,23 @@ export class UsuarioService {
     }
 
     // Modificar usuario
-    result = await this.knex
-      .update(user, ['userId', 'nickname', 'email'])
-      .from('users')
-      .where('userId', id);
 
-    return result;
+    const usuario = await this.pool.query(
+      `UPDATE users 
+      SET "nickname" = '${user.nickname}', "email" = '${user.email}', "password" = '${user.password}'
+      WHERE "userId" = ${id}
+      RETURNING "userId", "nickname", "email"`,
+    );
+
+    return usuario.rows[0];
   }
 
   async delete(id: number) {
-    const result = await this.knex
-      .delete(['userId', 'email', 'nickname'])
-      .from('users')
-      .where('userId', id);
+    const result = await this.pool.query(
+      `DELETE FROM users WHERE "userId" = ${id} RETURNING "userId", "email", "nickname"`,
+    );
 
-    return result;
+    return result.rows[0];
   }
 
   async generarToken(loginDto: LoginDTO) {
