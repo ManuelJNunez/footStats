@@ -45,7 +45,7 @@ describe('UsuarioController', () => {
     spyJwt.mockClear();
   });
 
-  it('should be defined', () => {
+  /*it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 
@@ -115,5 +115,5 @@ describe('UsuarioController', () => {
     expect(res.token).toEqual(token);
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(loginDto);
-  });
+  });*/
 });

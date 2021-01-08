@@ -33,7 +33,7 @@ describe('EtcdService', () => {
 
     expect(spy).toBeCalledTimes(1);
     expect(spy).toBeCalledWith(key);
-    expect(result).toBe(result);
+    expect(result).toBe('hi');
   });
 
   it('should works with process environment', async () => {

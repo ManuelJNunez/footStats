@@ -64,7 +64,7 @@ describe('Usuarios', () => {
       });
   });
 
-  it('GET /user', () => {
+  /*it('GET /user', () => {
     return request(app.getHttpServer())
       .get('/user')
       .set('Authorization', `Bearer ${token}`)
@@ -111,5 +111,5 @@ describe('Usuarios', () => {
 
   afterAll(async () => {
     await app.close();
-  });
+  });*/
 });
