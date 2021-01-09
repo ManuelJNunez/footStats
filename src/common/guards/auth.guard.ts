@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 import { PG_CONNECTION } from '../../constants';
 import { EtcdService } from '../../etcd/etcd.service';
 import { Pool } from 'pg';
+import { UsuarioI } from '../../usuario/interfaces/usuario.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,6 +21,7 @@ export class AuthGuard implements CanActivate {
     return new Promise(async (resolve, reject) => {
       const request = context.switchToHttp().getRequest();
       const authorization = request.headers.authorization;
+      let decoded: UsuarioI;
 
       if (authorization == null) {
         resolve(false);
@@ -33,27 +35,26 @@ export class AuthGuard implements CanActivate {
         return;
       }
 
-      jwt.verify(
-        res[1],
-        (await this.etcdService.get('JWT_SECRET')) || 'aRandomKey',
-        async (err, decoded) => {
-          if (err) {
-            resolve(false);
-            return;
-          }
+      try {
+        decoded = jwt.verify(
+          res[1],
+          (await this.etcdService.get('JWT_SECRET')) || 'aRandomKey',
+        ) as UsuarioI;
+      } catch (error) {
+        resolve(false);
+        return;
+      }
 
-          const user = await this.pool.query(
-            `SELECT * FROM users WHERE "userId" = '${decoded.userId}'`,
-          );
-
-          if (user.rowCount === 0) {
-            resolve(false);
-            return;
-          }
-
-          resolve(true);
-        },
+      const user = await this.pool.query(
+        `SELECT * FROM users WHERE "userId" = '${decoded.userId}'`,
       );
+
+      if (user.rowCount === 0) {
+        resolve(false);
+        return;
+      }
+
+      resolve(true);
     });
   }
 }
