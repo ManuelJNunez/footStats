@@ -7,6 +7,7 @@
 import { UsuarioI } from './interfaces/usuario.interface';
 import { Partido } from '../partido/partido.entity';
 import { CreateUserDTO } from './dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 /**
  * Clase que representa al usuario
@@ -108,8 +109,8 @@ export class Usuario {
     this._password = nuevaPass;
   }
 
-  public validarPassword(password: string): boolean {
-    return this._password === password;
+  public async validarPassword(password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this._password);
   }
 
   /**
