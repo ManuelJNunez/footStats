@@ -1,6 +1,6 @@
-import { userInfo } from 'os';
 import { CreateUserDTO } from 'src/usuario/dto/create-user.dto';
 import { Usuario } from '../src/usuario/usuario.entity';
+const bcrypt = require('bcrypt');
 
 const pass = '1234';
 const usuario = new Usuario('Manuel', 'manueljesusnunezruiz@gmail.com', pass);
@@ -90,18 +90,38 @@ describe('Tests del toJSON de la clase Usuario', function () {
 });
 
 describe('Test del método validarPassword', function (): void {
+  let mockCompare;
+
+  beforeEach(() => {
+    mockCompare = jest.spyOn(bcrypt, 'compareSync');
+  });
+
+  afterEach(() => {
+    mockCompare.mockClear();
+  });
+
   it('Debería de devolver true', function () {
+    mockCompare.mockReturnValueOnce(true);
+
     const result = usuario.validarPassword(newPass);
 
     expect(result).toBe(true);
+    expect(mockCompare).toHaveBeenCalledTimes(1);
+    expect(mockCompare).toHaveBeenCalledWith(newPass, usuario.password);
   });
 
   it('Debería de devolver false', function () {
+    mockCompare.mockReturnValueOnce(false);
+
     const result = usuario.validarPassword(pass);
 
     expect(result).toBe(false);
+    expect(mockCompare).toHaveBeenCalledTimes(1);
+    expect(mockCompare).toHaveBeenCalledWith(pass, usuario.password);
   });
+});
 
+describe('Tests del método fromJSON', () => {
   it('should create an object from a JSON', () => {
     const newUser = {
       nickname: 'mjnunez',
