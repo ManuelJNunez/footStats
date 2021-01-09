@@ -64,9 +64,10 @@ describe('Usuarios', () => {
       });
   });
 
-  /*it('GET /user', () => {
+  /*
+  it('GET /user', () => {
     return request(app.getHttpServer())
-      .get('/user')
+      .get('/user/0')
       .set('Authorization', `Bearer ${token}`)
       .send(user.email)
       .expect(200, usuarioService.findByEmail(user.email));
@@ -74,7 +75,7 @@ describe('Usuarios', () => {
 
   it('PUT /user', () => {
     return request(app.getHttpServer())
-      .put('/user')
+      .put('/user/0')
       .set('Authorization', `Bearer ${token}`)
       .send(user)
       .expect(200, {
@@ -85,7 +86,7 @@ describe('Usuarios', () => {
 
   it('DELETE /user', () => {
     return request(app.getHttpServer())
-      .delete('/user')
+      .delete('/user/0')
       .set('Authorization', `Bearer ${token}`)
       .send(user)
       .expect(200, {
@@ -108,8 +109,9 @@ describe('Usuarios', () => {
         token: usuarioService.generarToken(login),
       });
   });
+  */
 
   afterAll(async () => {
     await app.close();
-  });*/
+  });
 });
