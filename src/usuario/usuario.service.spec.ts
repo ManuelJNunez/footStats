@@ -6,10 +6,14 @@ const jwt = require('jsonwebtoken');
 import { Pool } from 'pg';
 import { Usuario } from './usuario.entity';
 import { UsuarioI } from './interfaces/usuario.interface';
+const bcrypt = require('bcrypt');
 
 describe('UsuarioService', () => {
+  const passCrypt = 'encryptedPassword:D';
+  const rounds = 10;
   let service: UsuarioService;
   let querySpy;
+  let mockHash;
 
   const data = {
     userId: 0,
@@ -65,10 +69,12 @@ describe('UsuarioService', () => {
   beforeEach(() => {
     service = new UsuarioService(new Pool());
     querySpy = Pool.prototype.query = jest.fn();
+    mockHash = jest.spyOn(bcrypt, 'hash');
   });
 
   afterEach(() => {
     querySpy.mockClear();
+    mockHash.mockClear();
   });
 
   it('should be defined', () => {
@@ -89,8 +95,12 @@ describe('UsuarioService', () => {
         rowCount: 1,
       });
 
+    mockHash.mockResolvedValueOnce(passCrypt);
+
     const newUser = await service.create(UserDto);
 
+    expect(mockHash).toHaveBeenCalledTimes(1);
+    expect(mockHash).toHaveBeenLastCalledWith(UserDto.password, rounds);
     expect(querySpy).toBeCalledTimes(3);
     expect(querySpy).toHaveBeenNthCalledWith(
       1,
@@ -102,7 +112,7 @@ describe('UsuarioService', () => {
     );
     expect(querySpy).toHaveBeenNthCalledWith(
       3,
-      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${UserDto.password}') RETURNING "userId"`,
+      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${passCrypt}') RETURNING "userId"`,
     );
     expect(mockCreate).toHaveBeenCalled();
     expect(mockCreate).toHaveBeenCalledWith(UserDto, userJson.userId);
@@ -206,8 +216,12 @@ describe('UsuarioService', () => {
         rowCount: 1,
       });
 
+    mockHash.mockResolvedValueOnce(passCrypt);
+
     const updatedUser = await service.update(userJson.userId, anotherUserDto);
 
+    expect(mockHash).toHaveBeenCalledTimes(1);
+    expect(mockHash).toHaveBeenLastCalledWith(anotherUserDto.password, rounds);
     expect(updatedUser).toEqual(returnedUser);
     expect(querySpy).toHaveBeenCalledTimes(3);
     expect(querySpy).toHaveBeenNthCalledWith(
@@ -221,7 +235,7 @@ describe('UsuarioService', () => {
     expect(querySpy).toHaveBeenNthCalledWith(
       3,
       `UPDATE users 
-      SET "nickname" = '${anotherUserDto.nickname}', "email" = '${anotherUserDto.email}', "password" = '${anotherUserDto.password}'
+      SET "nickname" = '${anotherUserDto.nickname}', "email" = '${anotherUserDto.email}', "password" = '${passCrypt}'
       WHERE "userId" = ${id}
       RETURNING "userId", "nickname", "email"`,
     );
