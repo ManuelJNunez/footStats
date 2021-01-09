@@ -1,13 +1,19 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { InjectKnex, Knex } from 'nestjs-knex';
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
+import { PG_CONNECTION } from '../../constants';
 import { EtcdService } from '../../etcd/etcd.service';
+import { Pool } from 'pg';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly etcdService: EtcdService,
-    @InjectKnex() private readonly knex: Knex,
+    @Inject(PG_CONNECTION) private readonly pool: Pool,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -36,12 +42,11 @@ export class AuthGuard implements CanActivate {
             return;
           }
 
-          const user = await this.knex
-            .select('*')
-            .from('users')
-            .where('userId', decoded.userId);
+          const user = await this.pool.query(
+            `SELECT * FROM users WHERE "userId" = '${decoded.userId}'`,
+          );
 
-          if (user.length === 0) {
+          if (user.rowCount === 0) {
             resolve(false);
             return;
           }
