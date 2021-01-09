@@ -3,6 +3,7 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { Usuario } from './usuario.entity';
 import { LoginDTO } from './dto/login.dto';
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 import { Pool } from 'pg';
 import { PG_CONNECTION } from '../constants';
 
@@ -37,9 +38,13 @@ export class UsuarioService {
       );
     }
 
+    // Encriptar password
+    const rounds = 10;
+    const hash = await bcrypt.hash(user.password, rounds);
+
     // Crear nuevo usuario
     const userId = await this.pool.query(
-      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${user.password}') RETURNING "userId"`,
+      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${hash}') RETURNING "userId"`,
     );
     const usuario = Usuario.create(user, userId.rows[0].userId);
 
@@ -105,11 +110,14 @@ export class UsuarioService {
       );
     }
 
-    // Modificar usuario
+    // Encriptar password
+    const rounds = 10;
+    const hash = await bcrypt.hash(user.password, rounds);
 
+    // Modificar usuario
     const usuario = await this.pool.query(
       `UPDATE users 
-      SET "nickname" = '${user.nickname}', "email" = '${user.email}', "password" = '${user.password}'
+      SET "nickname" = '${user.nickname}', "email" = '${user.email}', "password" = '${hash}'
       WHERE "userId" = ${id}
       RETURNING "userId", "nickname", "email"`,
     );
