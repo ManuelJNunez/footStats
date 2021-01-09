@@ -109,8 +109,8 @@ export class Usuario {
     this._password = nuevaPass;
   }
 
-  public async validarPassword(password: string): Promise<boolean> {
-    return await bcrypt.compare(password, this._password);
+  public validarPassword(password: string): boolean {
+    return bcrypt.compareSync(password, this._password);
   }
 
   /**
