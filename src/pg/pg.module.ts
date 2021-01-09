@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { Pool } from 'pg';
 import { PG_CONNECTION } from '../constants';
 
@@ -14,6 +15,7 @@ const dbConnection = {
 };
 
 @Module({
+  imports: [ConfigModule.forRoot()],
   providers: [dbConnection],
   exports: [dbConnection],
 })
