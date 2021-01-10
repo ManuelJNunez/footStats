@@ -8,6 +8,7 @@ import { Usuario } from './usuario.entity';
 import { UsuarioService } from './usuario.service';
 import { UsuarioI } from './interfaces/usuario.interface';
 import { UnauthorizedException } from '@nestjs/common';
+import { PgService } from '../pg/pg.service';
 const jwt = require('jsonwebtoken');
 
 describe('UsuarioController', () => {
@@ -47,7 +48,7 @@ describe('UsuarioController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [PgModule],
       controllers: [UsuarioController],
-      providers: [UsuarioService, EtcdService],
+      providers: [UsuarioService, EtcdService, PgService],
     }).compile();
 
     service = module.get<UsuarioService>(UsuarioService);

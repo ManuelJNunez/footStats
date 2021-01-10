@@ -1,15 +1,20 @@
-import { HttpException, HttpStatus, Injectable, Inject } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { Usuario } from './usuario.entity';
 import { LoginDTO } from './dto/login.dto';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { Pool } from 'pg';
-import { PG_CONNECTION } from '../constants';
+// import { PG_CONNECTION } from '../constants';
+import { PgService } from '../pg/pg.service';
 
 @Injectable()
 export class UsuarioService {
-  constructor(@Inject(PG_CONNECTION) private readonly pool: Pool) {}
+  private readonly pool: Pool;
+
+  constructor(private readonly pgService: PgService) {
+    this.pool = this.pgService.getPool();
+  }
 
   async create(user: CreateUserDTO) {
     // Comprobar si el e-mail ya está registrado

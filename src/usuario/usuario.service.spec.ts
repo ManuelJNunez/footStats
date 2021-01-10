@@ -66,8 +66,14 @@ describe('UsuarioService', () => {
     password: 'hola',
   } as LoginDTO;
 
+  const pgService = {
+    getPool: jest.fn(() => {
+      return new Pool();
+    }),
+  } as any;
+
   beforeEach(() => {
-    service = new UsuarioService(new Pool());
+    service = new UsuarioService(pgService);
     querySpy = Pool.prototype.query = jest.fn();
     mockHash = jest.spyOn(bcrypt, 'hash');
   });
