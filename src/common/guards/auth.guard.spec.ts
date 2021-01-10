@@ -12,6 +12,12 @@ const etcdService = {
   getClient: jest.fn(),
 } as any;
 
+const pgService = {
+  getPool: jest.fn(() => {
+    return new Pool();
+  }),
+} as any;
+
 const user = {
   userId: 0,
   nickname: 'mjnunez',
@@ -34,7 +40,7 @@ describe('AuthGuard', () => {
   });
 
   it('should be defined', () => {
-    expect(new AuthGuard(etcdService, new Pool())).toBeDefined();
+    expect(new AuthGuard(etcdService, pgService)).toBeDefined();
   });
 
   it('should accept the context', async () => {
@@ -51,7 +57,7 @@ describe('AuthGuard', () => {
     spyJwt.mockReturnValueOnce(user);
     mockQuery.mockResolvedValueOnce({ rows: [user], rowCount: 1 });
 
-    const result = await new AuthGuard(etcdService, new Pool()).canActivate(
+    const result = await new AuthGuard(etcdService, pgService).canActivate(
       context,
     );
 
@@ -71,7 +77,7 @@ describe('AuthGuard', () => {
       headers: {},
     });
 
-    const result = await new AuthGuard(etcdService, new Pool()).canActivate(
+    const result = await new AuthGuard(etcdService, pgService).canActivate(
       context,
     );
 
@@ -87,7 +93,7 @@ describe('AuthGuard', () => {
       },
     });
 
-    const result = await new AuthGuard(etcdService, new Pool()).canActivate(
+    const result = await new AuthGuard(etcdService, pgService).canActivate(
       context,
     );
 
@@ -104,7 +110,7 @@ describe('AuthGuard', () => {
       },
     });
 
-    const result = await new AuthGuard(etcdService, new Pool()).canActivate(
+    const result = await new AuthGuard(etcdService, pgService).canActivate(
       context,
     );
 
@@ -126,7 +132,7 @@ describe('AuthGuard', () => {
       throw new Error();
     });
 
-    const result = await new AuthGuard(etcdService, new Pool()).canActivate(
+    const result = await new AuthGuard(etcdService, pgService).canActivate(
       context,
     );
 
@@ -147,7 +153,7 @@ describe('AuthGuard', () => {
     spyJwt.mockReturnValueOnce(user);
     mockQuery.mockReturnValueOnce({ rows: [], rowCount: 0 });
 
-    const result = await new AuthGuard(etcdService, new Pool()).canActivate(
+    const result = await new AuthGuard(etcdService, pgService).canActivate(
       context,
     );
 
