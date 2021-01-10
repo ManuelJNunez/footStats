@@ -1,21 +1,20 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { PG_CONNECTION } from '../../constants';
 import { EtcdService } from '../../etcd/etcd.service';
 import { Pool } from 'pg';
 import { UsuarioI } from '../../usuario/interfaces/usuario.interface';
+import { PgService } from '../../pg/pg.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  private readonly pool: Pool;
+
   constructor(
     private readonly etcdService: EtcdService,
-    @Inject(PG_CONNECTION) private readonly pool: Pool,
-  ) {}
+    private readonly pgService: PgService,
+  ) {
+    this.pool = this.pgService.getPool();
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
