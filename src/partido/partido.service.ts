@@ -16,7 +16,7 @@ export class PartidoService {
 
     if (!isodate.test(horaIni) || !isodate.test(horaFin)) {
       throw new HttpException(
-        'Formato de fechas inválida. Pruebe con YYYY-MM-DD hh:mm:ss',
+        'Formato de fechas inválida. Use con el formato YYYY-MM-DD hh:mm:ss.',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -75,7 +75,10 @@ export class PartidoService {
     );
 
     if (queryResult.rowCount === 0) {
-      throw new HttpException('Partido no encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        'Este usuario no tiene partidos registrados',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const matches = queryResult.rows;
@@ -91,11 +94,8 @@ export class PartidoService {
   async update(matchDto: CreateMatchDTO, matchId: number, userId: number) {
     this.checkDates(matchDto.horaIni, matchDto.horaFin);
 
-    const queryResult = await this.pool.query(
-      `UPDATE matches
-       SET "horaIni" = '${matchDto.horaIni}', "horaFin" = '${matchDto.horaFin}', lugar = '${matchDto.lugar}'
-       WHERE "matchId" = ${matchId}
-       RETURNING "matchId", "horaIni", "horaFin", lugar, "userId"`,
+    let queryResult = await this.pool.query(
+      `SELECT * FROM matches WHERE "matchId" = '${matchId}`,
     );
 
     if (queryResult.rowCount === 0) {
@@ -108,6 +108,13 @@ export class PartidoService {
         HttpStatus.UNAUTHORIZED,
       );
     }
+
+    queryResult = await this.pool.query(
+      `UPDATE matches
+       SET "horaIni" = '${matchDto.horaIni}', "horaFin" = '${matchDto.horaFin}', lugar = '${matchDto.lugar}'
+       WHERE "matchId" = ${matchId}
+       RETURNING "matchId", "horaIni", "horaFin", lugar, "userId"`,
+    );
 
     const match = Partido.fromJSON(queryResult.rows[0]);
 
