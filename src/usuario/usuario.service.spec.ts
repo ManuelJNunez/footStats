@@ -163,7 +163,7 @@ describe('UsuarioService', () => {
     expect(userFound).toEqual(User);
     expect(querySpy).toHaveBeenCalled();
     expect(querySpy).toHaveBeenCalledWith(
-      `SELECT * FROM users WHERE "id" = '${anotherUserJSON.userId}'`,
+      `SELECT * FROM users WHERE "userId" = '${anotherUserJSON.userId}'`,
     );
     expect(mockFromJSON).toHaveBeenCalledWith(anotherUserJSON);
   });
