@@ -7,6 +7,7 @@
 import { Jugada } from '../jugada/jugada.entity';
 import { PartidoI } from './interfaces/partido.interface';
 import { JugadaI } from '../jugada/interfaces/jugada.interface';
+import { CreateMatchDTO } from './dto/create-match.dto';
 
 /**
  * Clase que representa los partidos
@@ -21,6 +22,9 @@ export class Partido {
   /** Hora de finalización del partido */
   private _horaFin: Date;
 
+  /** Lugar donde se jugará el partido */
+  private _lugar: string;
+
   /** Histórico de jugadas que se han producido en el partido */
   private _jugadas: Jugada[];
 
@@ -28,17 +32,14 @@ export class Partido {
    * Crea un partido
    * @param horaIni Hora de inicio del partido nuevo
    * @param horaFin Hora de finalización del partido nuevo
-   * @param usuario Usuario que ha registrado el partido nuevo
+   * @param lugar Lugar donde se jugará el partido
    */
-  constructor(horaIni: Date, horaFin: Date) {
-    if (horaIni > horaFin) {
-      throw new Error('Hora de inicio mayor que hora de fin');
-    }
-
-    this._id = 0;
+  constructor(id: number, horaIni: Date, horaFin: Date, lugar: string) {
+    this._id = id;
     this._horaIni = horaIni;
     this._horaFin = horaFin;
     this._jugadas = [];
+    this._lugar = lugar;
   }
 
   /**
@@ -74,6 +75,17 @@ export class Partido {
    */
   set horaFin(nuevaHora: Date) {
     this._horaFin = nuevaHora;
+  }
+
+  /**
+   * @return Lugar donde se jugará el partido
+   */
+  get lugar() {
+    return this._lugar;
+  }
+
+  set lugar(nuevoLugar: string) {
+    this._lugar = nuevoLugar;
   }
 
   /**
@@ -118,6 +130,15 @@ export class Partido {
     }
   }
 
+  static create(partidoDto: CreateMatchDTO, matchId: number) {
+    return new Partido(
+      matchId,
+      new Date(Date.parse(partidoDto.horaIni)),
+      new Date(Date.parse(partidoDto.horaFin)),
+      partidoDto.lugar,
+    );
+  }
+
   toJSON(): PartidoI {
     const jugadas: JugadaI[] = [];
 
@@ -129,9 +150,19 @@ export class Partido {
       id: this._id,
       horaIni: this._horaIni,
       horaFin: this._horaFin,
+      lugar: this._lugar,
       jugadas: jugadas,
     };
 
     return partido;
+  }
+
+  static fromJSON(partido: PartidoI): Partido {
+    return new Partido(
+      partido.id,
+      new Date(Date.parse(partido.horaIni.toISOString())),
+      new Date(Date.parse(partido.horaFin.toISOString())),
+      partido.lugar,
+    );
   }
 }
