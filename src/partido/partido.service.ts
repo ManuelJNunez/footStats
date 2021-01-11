@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PgService } from 'src/pg/pg.service';
+import { PgService } from '../pg/pg.service';
 import { CreateMatchDTO } from './dto/create-match.dto';
 import { Partido } from './partido.entity';
 
