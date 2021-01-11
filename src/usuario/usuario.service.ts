@@ -58,7 +58,7 @@ export class UsuarioService {
 
   async findById(id: number) {
     const queryResult = await this.pool.query(
-      `SELECT * FROM users WHERE "id" = '${id}'`,
+      `SELECT * FROM users WHERE "userId" = '${id}'`,
     );
 
     if (queryResult.rowCount === 0) {
