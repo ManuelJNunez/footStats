@@ -7,6 +7,6 @@ import { PartidoService } from './partido.service';
 
 @Module({
   controllers: [PartidoController],
-  providers: [PartidoService, PgService, EtcdService, AuthGuard],
+  providers: [PartidoService, EtcdService, AuthGuard, PgService],
 })
 export class PartidoModule {}
