@@ -38,14 +38,14 @@ export class AuthGuard implements CanActivate {
         decoded = jwt.verify(
           res[1],
           (await this.etcdService.get('JWT_SECRET')) || 'aRandomKey',
-        ) as UsuarioI;
+        ) as any;
       } catch (error) {
         resolve(false);
         return;
       }
 
       const user = await this.pool.query(
-        `SELECT * FROM users WHERE "userId" = '${decoded.userId}'`,
+        `SELECT * FROM users WHERE "userId" = ${decoded.userId}`,
       );
 
       if (user.rowCount === 0) {
