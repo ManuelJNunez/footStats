@@ -114,31 +114,6 @@ export class Usuario {
   }
 
   /**
-   * Añade un nuevo partido al usuario
-   * @param horaIni Hora de inicio del partido
-   * @param horaFin Hora de fin del partido
-   */
-  public addPartido(horaIni: Date, horaFin: Date): void {
-    this._partidos.push(new Partido(horaIni, horaFin));
-  }
-
-  /**
-   * Elimina un partido del usuario
-   * @param partido Partido que se debe de eliminar
-   * @return Si la operación ha tenido éxito o no
-   */
-  public removePartido(partido: Partido): boolean {
-    const index = this._partidos.indexOf(partido);
-
-    if (index > -1) {
-      this._partidos.splice(index);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**
    * @return Todos los objetos de tipo {@link Partido} registrado por el usuario
    */
   get partidos(): Partido[] {
