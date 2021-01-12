@@ -4,10 +4,6 @@ language: node_js
 # Versiones de node en las que funciona la aplicación
 node_js:
     - 14
-    - 13
-    - 12
-    - 11
-    - 10
 
 # Instalación de dependencias
 install:
