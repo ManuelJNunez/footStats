@@ -19,7 +19,7 @@ export class UsuarioService {
   async create(user: CreateUserDTO) {
     // Comprobar si el e-mail ya está registrado
     const result = await this.pool.query(
-      `SELECT * FROM "users" WHERE "email" = '${user.email}'`,
+      `SELECT * FROM users WHERE "email" = '${user.email}'`,
     );
 
     if (result.rowCount > 0) {
@@ -32,7 +32,7 @@ export class UsuarioService {
 
     // Comprobar si el nickname ya existe
     const result1 = await this.pool.query(
-      `SELECT * FROM "users" WHERE "nickname" = '${user.nickname}'`,
+      `SELECT * FROM users WHERE "nickname" = '${user.nickname}'`,
     );
 
     if (result1.rowCount > 0) {
@@ -49,7 +49,7 @@ export class UsuarioService {
 
     // Crear nuevo usuario
     const userId = await this.pool.query(
-      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${hash}') RETURNING "userId"`,
+      `INSERT INTO users ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${hash}') RETURNING "userId"`,
     );
     const usuario = Usuario.create(user, userId.rows[0].userId);
 
@@ -131,6 +131,8 @@ export class UsuarioService {
   }
 
   async delete(id: number) {
+    await this.pool.query(`DELETE FROM matches WHERE "userId" = ${id}`);
+
     const result = await this.pool.query(
       `DELETE FROM users WHERE "userId" = ${id} RETURNING "userId", "email", "nickname"`,
     );
