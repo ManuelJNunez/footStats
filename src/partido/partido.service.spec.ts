@@ -1,12 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PgService } from '../pg/pg.service';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { EtcdService } from '../etcd/etcd.service';
 import { PartidoService } from './partido.service';
 import { Pool } from 'pg';
 import { Partido } from './partido.entity';
 import { HttpException } from '@nestjs/common';
-import { match } from 'assert';
+import { PgModule } from '../pg/pg.module';
 
 describe('PartidoService', () => {
   let service: PartidoService;
@@ -90,7 +89,8 @@ describe('PartidoService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PartidoService, EtcdService, AuthGuard, PgService],
+      imports: [PgModule],
+      providers: [PartidoService, EtcdService, AuthGuard],
     }).compile();
 
     service = module.get<PartidoService>(PartidoService);
@@ -214,7 +214,7 @@ describe('PartidoService', () => {
     expect(mockFromJSON).toHaveBeenCalledWith(updatedQueryResult);
     expect(mockQuery).toHaveBeenNthCalledWith(
       1,
-      `SELECT * FROM matches WHERE "matchId" = '${matchId}`,
+      `SELECT * FROM matches WHERE "matchId" = '${matchId}'`,
     );
     expect(mockQuery).toHaveBeenNthCalledWith(
       2,
