@@ -1,14 +1,30 @@
 # Node setup
 language: node_js
 
+services:
+  - postgresql
+
 # Versiones de node en las que funciona la aplicación
 node_js:
-    - 14
+  - 14
 
 # Instalación de dependencias
 install:
-    - npm ci
+  - npm ci
+
+before_script:
+  - psql -c 'create database postgres;' -U postgres
+  - psql -c "ALTER USER postgres PASSWORD 'postgres';" -U postgres
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;' -U postgres
+
+env:
+  global:
+    - DB_NAME: postgres
+    - DB_USER: postgres
+    - DB_PASSWORD: postgres
+    - DB_HOST: localhost
+    - DB_PORT: 5432
 
 # Ejecución de los tests
 script:
-    - npm test
+  - npm test
