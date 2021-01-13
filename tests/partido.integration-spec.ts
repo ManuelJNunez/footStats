@@ -1,7 +1,7 @@
-import { INestApplication } from "@nestjs/common";
-import { Test } from "@nestjs/testing";
-import { UsuarioModule } from "../src/usuario/usuario.module";
-import { PartidoModule } from "../src/partido/partido.module";
+import { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import { UsuarioModule } from '../src/usuario/usuario.module';
+import { PartidoModule } from '../src/partido/partido.module';
 const request = require('supertest');
 
 describe('Partido endpoints', () => {
@@ -45,10 +45,7 @@ describe('Partido endpoints', () => {
   });
 
   it('POST /user', () => {
-    return request(app.getHttpServer())
-      .post('/user')
-      .send(user)
-      .expect(201);
+    return request(app.getHttpServer()).post('/user').send(user).expect(201);
   });
 
   it('POST /user/login', () => {
@@ -101,7 +98,7 @@ describe('Partido endpoints', () => {
           horaFin: '2021-02-22T20:45:00.000Z',
           lugar: updateMatch.lugar,
           jugadas: [],
-        }
+        },
       });
   });
 
@@ -118,7 +115,7 @@ describe('Partido endpoints', () => {
           horaFin: '2021-02-22T20:45:00.000Z',
           lugar: updateMatch.lugar,
           jugadas: [],
-        }
+        },
       });
   });
 
