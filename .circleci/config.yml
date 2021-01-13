@@ -18,9 +18,10 @@ jobs:
           DB_PORT: 5432
           JWT_SECRET: aSecretKey
       - image: circleci/postgres:alpine
-        POSTGRES_DB: test
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_USER: testuser
+        environment:
+          POSTGRES_DB: test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: testuser
     
     steps:
       - checkout
