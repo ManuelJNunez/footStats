@@ -1,8 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { PgModule } from '../pg/pg.module';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { EtcdService } from '../etcd/etcd.service';
-import { PgService } from '../pg/pg.service';
 import { PartidoController } from './partido.controller';
 import { Partido } from './partido.entity';
 import { PartidoService } from './partido.service';
@@ -41,8 +41,9 @@ describe('PartidoController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [PgModule],
       controllers: [PartidoController],
-      providers: [PartidoService, EtcdService, AuthGuard, PgService],
+      providers: [PartidoService, EtcdService, AuthGuard],
     }).compile();
 
     controller = module.get<PartidoController>(PartidoController);
