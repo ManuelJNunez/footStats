@@ -90,7 +90,7 @@ export class PartidoController {
     const userid = decoded.userId;
 
     return {
-      message: 'Usuario eliminado con éxito',
+      message: 'Partido eliminado con éxito',
       match: await this.partidoService.delete(id, userid),
     };
   }
