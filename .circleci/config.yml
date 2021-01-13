@@ -10,6 +10,17 @@ jobs:
   build:
     docker:
       - image: circleci/node:lts
+        envorironment:
+          DB_HOST: localhost
+          DB_USER: testuser
+          DB_PASSWORD: postgres
+          DB_NAME: test
+          DB_PORT: 5432
+          JWT_SECRET: aSecretKey
+      - image: circleci/postgres:alpine
+        POSTGRES_DB: test
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_USER: testuser
     
     steps:
       - checkout
@@ -22,6 +33,7 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Ejecutando tests
           command: npm run test:cov
