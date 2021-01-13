@@ -13,6 +13,7 @@ services:
       DB_PASSWORD: postgres
       DB_NAME: postgres
       DB_PORT: 5432
+      JWT_SECRET: aSecretKey
 
   db:
     image: postgres:alpine
