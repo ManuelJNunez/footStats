@@ -60,5 +60,5 @@ jobs:
         registry: ghcr.io
     - name: Obteniendo y ejecutando los contenedores 🧪
       run: docker-compose up --exit-code-from footstats
-    - name: Eliminando los conectedores construidos
+    - name: Eliminando los contedores construidos
       run: docker-compose down
