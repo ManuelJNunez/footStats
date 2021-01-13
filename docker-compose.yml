@@ -4,7 +4,7 @@ services:
   footstats:
     depends_on:
       - db
-    image: mjnunez/footstats
+    image: ghcr.io/manueljnunez/footstats:latest
     volumes:
       - "$PWD:/test"
     environment:
