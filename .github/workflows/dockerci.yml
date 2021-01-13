@@ -58,5 +58,7 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.SECRET_KEY }}
         registry: ghcr.io
-    - name: Obteniendo y ejecutando contenedor 🧪
-      run: docker run -t -v `pwd`:/test ghcr.io/manueljnunez/footstats:latest
+    - name: Obteniendo y ejecutando los contenedores 🧪
+      run: docker-compose up --exit-code-from footstats
+    - name: Eliminando los conectedores construidos
+      run: docker-compose down
