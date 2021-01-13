@@ -95,7 +95,7 @@ export class PartidoService {
     this.checkDates(matchDto.horaIni, matchDto.horaFin);
 
     let queryResult = await this.pool.query(
-      `SELECT * FROM matches WHERE "matchId" = '${matchId}`,
+      `SELECT * FROM matches WHERE "matchId" = '${matchId}'`,
     );
 
     if (queryResult.rowCount === 0) {
