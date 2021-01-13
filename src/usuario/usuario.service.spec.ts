@@ -83,7 +83,7 @@ describe('UsuarioService', () => {
     }).compile();
 
     service = module.get<UsuarioService>(UsuarioService);
-    querySpy = Pool.prototype.query = jest.fn().mockImplementation(() => {});
+    querySpy = Pool.prototype.query = jest.fn();
     mockHash = jest.spyOn(bcrypt, 'hash');
   });
 
