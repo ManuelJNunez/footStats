@@ -6,6 +6,10 @@ const jwt = require('jsonwebtoken');
 import { Pool } from 'pg';
 import { Usuario } from './usuario.entity';
 import { UsuarioI } from './interfaces/usuario.interface';
+import { Test, TestingModule } from '@nestjs/testing';
+import { PgModule } from '../pg/pg.module';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { EtcdService } from '../etcd/etcd.service';
 const bcrypt = require('bcrypt');
 
 describe('UsuarioService', () => {
@@ -72,9 +76,14 @@ describe('UsuarioService', () => {
     }),
   } as any;
 
-  beforeEach(() => {
-    service = new UsuarioService(pgService);
-    querySpy = Pool.prototype.query = jest.fn();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [PgModule],
+      providers: [UsuarioService, EtcdService, AuthGuard],
+    }).compile();
+
+    service = module.get<UsuarioService>(UsuarioService);
+    querySpy = Pool.prototype.query = jest.fn().mockImplementation(() => {});
     mockHash = jest.spyOn(bcrypt, 'hash');
   });
 
@@ -110,15 +119,15 @@ describe('UsuarioService', () => {
     expect(querySpy).toBeCalledTimes(3);
     expect(querySpy).toHaveBeenNthCalledWith(
       1,
-      `SELECT * FROM "users" WHERE "email" = '${UserDto.email}'`,
+      `SELECT * FROM users WHERE "email" = '${UserDto.email}'`,
     );
     expect(querySpy).toHaveBeenNthCalledWith(
       2,
-      `SELECT * FROM "users" WHERE "nickname" = '${UserDto.nickname}'`,
+      `SELECT * FROM users WHERE "nickname" = '${UserDto.nickname}'`,
     );
     expect(querySpy).toHaveBeenNthCalledWith(
       3,
-      `INSERT INTO "users" ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${passCrypt}') RETURNING "userId"`,
+      `INSERT INTO users ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${passCrypt}') RETURNING "userId"`,
     );
     expect(mockCreate).toHaveBeenCalled();
     expect(mockCreate).toHaveBeenCalledWith(UserDto, userJson.userId);
@@ -276,12 +285,13 @@ describe('UsuarioService', () => {
       email: anotherUserDto.email,
     };
 
-    querySpy.mockResolvedValueOnce({ rows: [returnedUser], rowCount: 1 });
+    querySpy
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({ rows: [returnedUser], rowCount: 1 });
 
     const deletedUser = await service.delete(returnedUser.userId);
 
     expect(deletedUser).toEqual(returnedUser);
-    expect(querySpy).toHaveBeenCalledTimes(1);
     expect(querySpy).toHaveBeenCalledWith(
       `DELETE FROM users WHERE "userId" = ${returnedUser.userId} RETURNING "userId", "email", "nickname"`,
     );
