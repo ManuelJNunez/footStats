@@ -13,17 +13,18 @@ install:
   - npm ci
 
 before_script:
-  - psql -c 'create database postgres;' -U postgres
-  - psql -c "ALTER USER postgres PASSWORD 'postgres';" -U postgres
-  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;' -U postgres
+  - psql -c 'create database test;' -U postgres
+  - psql -c "ALTER USER testuser PASSWORD 'testdb';" -U postgres
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE test TO testuser;' -U postgres
 
 env:
   global:
-    - DB_NAME: postgres
-    - DB_USER: postgres
-    - DB_PASSWORD: postgres
+    - DB_NAME: test
+    - DB_USER: testuser
+    - DB_PASSWORD: testdb
     - DB_HOST: localhost
     - DB_PORT: 5432
+    - JWT_SECRET: aSecretKey
 
 # Ejecución de los tests
 script:
