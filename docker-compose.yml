@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  footstats:
+    depends_on:
+      - db
+    image: mjnunez/footstats
+    volumes:
+      - "$PWD:/test"
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      DB_PORT: 5432
+
+  db:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
