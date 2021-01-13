@@ -10,7 +10,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:lts
-        envorironment:
+        environment:
           DB_HOST: localhost
           DB_USER: testuser
           DB_PASSWORD: postgres
