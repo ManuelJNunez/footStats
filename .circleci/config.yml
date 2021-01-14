@@ -35,6 +35,9 @@ jobs:
           paths:
             - ./node_modules
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: 
+          name: Creación de tablas en la BD
+          command: psql -d postgres://testuser:postgres@localhost:5432/test
       - run:
           name: Ejecutando tests
           command: npm run test:cov
