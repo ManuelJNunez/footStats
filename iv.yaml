@@ -6,3 +6,13 @@ test: tests/usuario.spec.ts
 taskfile: package.json
 URL: https://footstats.netlify.app/status
 make: make
+PaaS: https://footstatsiv.herokuapp.com/
+recurso:
+  nombre: user
+  metodo: POST
+  payload:
+    nickname: user1
+    email: user1@mail.com
+    password: 1234
+  IDs:
+    - 3
