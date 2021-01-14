@@ -15,38 +15,6 @@ export class PgService {
       password: process.env['DB_PASSWORD'],
       port: parseInt(process.env['DB_PORT']),
     });
-
-    this.createTables()
-      .then(() => {
-        this.logger.log(
-          'Tablas de la base de datos creadas con éxito o ya existían',
-        );
-      })
-      .catch(() => {
-        this.logger.log('Error al crear las tablas de la base de datos');
-      });
-  }
-
-  private async createTables() {
-    await this.pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        "userId" SERIAL PRIMARY KEY,
-        email VARCHAR(50) NOT NULL,
-        nickname VARCHAR(20) NOT NULL,
-        password VARCHAR(100) NOT NULL
-      )
-    `);
-
-    await this.pool.query(`
-    CREATE TABLE IF NOT EXISTS matches (
-      "matchId" SERIAL PRIMARY KEY,
-      "horaIni" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      "horaFin" timestamp NOT NULL,
-      lugar VARCHAR(30),
-      "userId" INT,
-      CONSTRAINT userId FOREIGN KEY ("userId") REFERENCES users("userId")
-    )
-  `);
   }
 
   getPool() {
