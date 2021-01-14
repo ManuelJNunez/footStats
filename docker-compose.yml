@@ -18,6 +18,8 @@ services:
   db:
     image: postgres:alpine
     restart: always
+    volumes:
+      - ./database/tables.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432
     environment:
