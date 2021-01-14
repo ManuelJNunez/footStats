@@ -19,6 +19,6 @@ jobs:
       - name: Login Heroku Container Registry
         run: heroku container:login
       - name: Push del contenedor hacia Heroku Container Registry
-        run: heroku container:push --recursirve --app ${{ secrets.HEROKU_APP }}
+        run: heroku container:push web --recursive --app ${{ secrets.HEROKU_APP }}
       - name: Release del contenedor
         run: heroku container:release web --app ${{ secrets.HEROKU_APP }}
