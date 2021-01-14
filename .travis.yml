@@ -16,6 +16,7 @@ before_script:
   - psql -c 'create database test;' -U postgres
   - psql -c "ALTER USER postgres PASSWORD 'testdb';" -U postgres
   - psql -c 'GRANT ALL PRIVILEGES ON DATABASE test TO postgres;' -U postgres
+  - psql -d postgres://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME -d database/tables.sql
 
 env:
   global:
