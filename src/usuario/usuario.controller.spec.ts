@@ -9,6 +9,7 @@ import { UsuarioService } from './usuario.service';
 import { UsuarioI } from './interfaces/usuario.interface';
 import { UnauthorizedException } from '@nestjs/common';
 import { PgService } from '../pg/pg.service';
+import { Response } from 'express';
 const jwt = require('jsonwebtoken');
 
 describe('UsuarioController', () => {
@@ -17,6 +18,13 @@ describe('UsuarioController', () => {
   let spyJwt;
   const id = 0;
   const wrongId = 1;
+
+  const mockResponse = ({
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    json: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    set: () => {},
+  } as unknown) as Response;
 
   const userObj = {
     id: 0,
@@ -91,31 +99,42 @@ describe('UsuarioController', () => {
     const spy = jest.spyOn(service, 'create');
     spy.mockResolvedValueOnce(userJson);
 
-    const res = await controller.createUser(userDto);
+    const spySet = jest.spyOn(mockResponse, 'set');
+    const spyJson = jest.spyOn(mockResponse, 'json');
 
-    expect(res.message).toEqual('Usuario registrado con éxito');
-    expect(res.user).toEqual(userJson);
+    await controller.createUser(userDto, mockResponse);
+
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(userDto);
+    expect(spySet).toHaveBeenCalledWith('Location', `/user/${userJson.id}`);
+    expect(spyJson).toHaveBeenCalledWith(userJson);
   });
 
   it('should retrieve the result of update', async () => {
     const spy = jest.spyOn(service, 'update');
     spy.mockResolvedValueOnce(userJson);
 
-    const res = await controller.updateUser(`Bearer ${token}`, userDto, id);
+    const spySet = jest.spyOn(mockResponse, 'set');
+    const spyJson = jest.spyOn(mockResponse, 'json');
 
-    expect(res.message).toEqual('Usuario modificado con éxito');
-    expect(res.user).toEqual(userJson);
+    await controller.updateUser(`Bearer ${token}`, userDto, id, mockResponse);
+
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(userObj.id, userDto);
     expect(spyJwt).toBeCalledTimes(1);
     expect(spyJwt).toBeCalledWith(token, { json: true });
+    expect(spySet).toHaveBeenCalledWith('Location', `/user/${userJson.id}`);
+    expect(spyJson).toHaveBeenCalledWith(userJson);
   });
 
   it('should throw an exception (put)', async () => {
     async function unauthorized() {
-      await controller.updateUser(`Bearer ${token}`, userDto, wrongId);
+      await controller.updateUser(
+        `Bearer ${token}`,
+        userDto,
+        wrongId,
+        mockResponse,
+      );
     }
 
     expect(unauthorized).rejects.toThrow(UnauthorizedException);

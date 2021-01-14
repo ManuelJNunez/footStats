@@ -12,7 +12,9 @@ import {
   Headers,
   Param,
   UnauthorizedException,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginDTO } from './dto/login.dto';
@@ -40,11 +42,11 @@ export class UsuarioController {
 
   @Post()
   @UsePipes(new ValidationPipe())
-  async createUser(@Body() user: CreateUserDTO) {
-    return {
-      message: 'Usuario registrado con éxito',
-      user: await this.usuarioService.create(user),
-    };
+  async createUser(@Body() user: CreateUserDTO, @Res() res: Response) {
+    const response = await this.usuarioService.create(user);
+
+    res.set('Location', `/user/${response.id}`);
+    res.json(response);
   }
 
   @Put(':id')
@@ -54,6 +56,7 @@ export class UsuarioController {
     @Headers('Authorization') auth: string,
     @Body() user: CreateUserDTO,
     @Param('id') id: number,
+    @Res() res: Response,
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
@@ -61,10 +64,10 @@ export class UsuarioController {
       throw new UnauthorizedException();
     }
 
-    return {
-      message: 'Usuario modificado con éxito',
-      user: await this.usuarioService.update(id, user),
-    };
+    const response = await this.usuarioService.update(id, user);
+    
+    res.set('Location', `/user/${response.id}`);
+    res.json(response);
   }
 
   @Delete(':id')

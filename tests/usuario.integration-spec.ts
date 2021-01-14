@@ -43,9 +43,9 @@ describe('Usuario endpoints', () => {
       .send(user)
       .expect(201)
       .expect((res) => {
-        id = res.body.user.id;
-        expect(res.body.user.email).toEqual(user.email);
-        expect(res.body.user.nickname).toEqual(user.nickname);
+        id = res.body.id;
+        expect(res.body.email).toEqual(user.email);
+        expect(res.body.nickname).toEqual(user.nickname);
       });
   });
 
@@ -88,13 +88,10 @@ describe('Usuario endpoints', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(updateUser)
       .expect(200, {
-        message: 'Usuario modificado con éxito',
-        user: {
           id,
           nickname: 'manuel',
           email: 'mjnunez@correo.ugr.es',
-        },
-      });
+        });
   });
 
   it('DELETE /user', () => {
