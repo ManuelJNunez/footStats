@@ -13,6 +13,8 @@ WORKDIR /app
 
 FROM base AS build
 
+WORKDIR /app
+
 COPY package.json package-lock.json tsconfig.json tsconfig.build.json src ./
 
 RUN npm install
