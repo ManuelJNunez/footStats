@@ -4,7 +4,7 @@ RUN addgroup -S node && adduser -S node -G node \
     && apk add --no-cache --update nodejs=12.20.1-r0 npm=12.20.1-r0 \
     && node -v \
     && npm -v \
-    && mkdir app && chown -R node:node app \
+    && mkdir /app && chown -R node:node /app \
     && npm install -g pm2@4.5.0
 
 USER node
