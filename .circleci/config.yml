@@ -35,7 +35,7 @@ jobs:
           paths:
             - ./node_modules
       - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client-12
+      - run: sudo apt-get install -y postgresql-client
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: 
           name: Creación de tablas en la BD
