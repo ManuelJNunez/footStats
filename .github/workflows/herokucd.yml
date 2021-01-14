@@ -1,0 +1,24 @@
+name: Heroku CD
+
+on: 
+  workflow_run:
+    workflows: ["Node.js CI & Autobuild"]
+    brances: [master]
+    types:
+      - completed
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login Heroku Container Registry
+        run: heroku container:login
+      - name: Push del contenedor hacia Heroku Container Registry
+        run: heroku container:push web --recursirve --app ${{ secrets.HEROKU_APP }}
+      - name: Release del contenedor
+        run: heroku container:release web --app ${{ secrets.HEROKU_APP }}
