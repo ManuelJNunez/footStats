@@ -30,7 +30,7 @@ export class PartidoController {
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    return await this.partidoService.create(match, decoded.userId);
+    return await this.partidoService.create(match, decoded.id);
   }
 
   @Get(':id')
@@ -42,7 +42,7 @@ export class PartidoController {
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    return await this.partidoService.findById(decoded.userId, id);
+    return await this.partidoService.findById(decoded.id, id);
   }
 
   @Get('user/:id')
@@ -53,7 +53,7 @@ export class PartidoController {
     @Param('id') id: number,
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
-    const userid = decoded.userId;
+    const userid = decoded.id;
 
     if (userid != id) {
       throw new UnauthorizedException();
@@ -71,7 +71,7 @@ export class PartidoController {
     @Param('id') id: number,
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
-    const userid = decoded.userId;
+    const userid = decoded.id;
 
     return {
       message: 'Partido actualizado con éxito',
@@ -87,7 +87,7 @@ export class PartidoController {
     @Param('id') id: number,
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
-    const userid = decoded.userId;
+    const userid = decoded.id;
 
     return {
       message: 'Partido eliminado con éxito',

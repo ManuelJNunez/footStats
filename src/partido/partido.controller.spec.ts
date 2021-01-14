@@ -13,7 +13,7 @@ describe('PartidoController', () => {
   let service: PartidoService;
   let spyDecode;
   const matchId = 1;
-  const anotherUserId = 2;
+  const anotherid = 2;
   const horaIni = '2021-01-10 16:00:00';
   const horaFin = '2021-01-10 16:45:00';
   const lugar = 'El Zaidín';
@@ -34,7 +34,7 @@ describe('PartidoController', () => {
   } as unknown) as Partido;
 
   const user = {
-    userId: 0,
+    id: 0,
     nickname: 'mjnunez',
     email: 'manueljesusnunezruiz@gmail.com',
   };
@@ -67,7 +67,7 @@ describe('PartidoController', () => {
 
     expect(response).toEqual(matchObj);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyCreate).toHaveBeenCalledWith(matchDto, user.userId);
+    expect(spyCreate).toHaveBeenCalledWith(matchDto, user.id);
   });
 
   it('should retrieve the match with matchId = 0', async () => {
@@ -80,7 +80,7 @@ describe('PartidoController', () => {
 
     expect(response).toEqual(matchObj);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyFindById).toHaveBeenCalledWith(user.userId, matchId);
+    expect(spyFindById).toHaveBeenCalledWith(user.id, matchId);
   });
 
   it('should retrieve all the matches of the user', async () => {
@@ -91,19 +91,19 @@ describe('PartidoController', () => {
 
     const response = await controller.getMatches(
       `Bearer ${token}`,
-      user.userId,
+      user.id,
     );
 
     expect(response).toEqual([matchObj]);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyMatchesOfUser).toHaveBeenCalledWith(user.userId);
+    expect(spyMatchesOfUser).toHaveBeenCalledWith(user.id);
   });
 
-  it('should throw an exception because the userId is different', () => {
+  it('should throw an exception because the id is different', () => {
     spyDecode.mockReturnValueOnce(user);
 
     async function unathorizedException() {
-      await controller.getMatches(`Bearer ${token}`, anotherUserId);
+      await controller.getMatches(`Bearer ${token}`, anotherid);
     }
 
     expect(unathorizedException).rejects.toThrow(UnauthorizedException);
@@ -123,7 +123,7 @@ describe('PartidoController', () => {
 
     expect(response.match).toEqual(matchObj);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyUpdate).toHaveBeenCalledWith(matchDto, matchId, user.userId);
+    expect(spyUpdate).toHaveBeenCalledWith(matchDto, matchId, user.id);
   });
 
   it('should retrieve the deleted user', async () => {
@@ -136,6 +136,6 @@ describe('PartidoController', () => {
 
     expect(response.match).toEqual(matchObj);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyDelete).toHaveBeenCalledWith(matchId, user.userId);
+    expect(spyDelete).toHaveBeenCalledWith(matchId, user.id);
   });
 });

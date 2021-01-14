@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS users (
-    "userId" SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     email VARCHAR(50) NOT NULL,
     nickname VARCHAR(20) NOT NULL,
     password VARCHAR(100) NOT NULL
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS matches (
     "horaFin" timestamp NOT NULL,
     lugar VARCHAR(30),
     "userId" INT,
-    CONSTRAINT userId FOREIGN KEY ("userId") REFERENCES users("userId")
+    CONSTRAINT userId FOREIGN KEY ("userId") REFERENCES users(id)
 );

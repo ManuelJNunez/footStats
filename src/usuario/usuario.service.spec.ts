@@ -20,27 +20,27 @@ describe('UsuarioService', () => {
   let mockHash;
 
   const data = {
-    userId: 0,
+    id: 0,
     nickname: 'mjnunez',
     email: 'manueljesusnunezruiz@gmail.com',
     password: '1234',
   };
 
   const userJson = {
-    userId: data.userId,
+    id: data.id,
     nickname: data.nickname,
     email: data.email,
   };
 
   const anotherUserJSON = {
-    userId: data.userId,
+    id: data.id,
     nickname: data.nickname,
     password: data.password,
     email: data.email,
   } as UsuarioI;
 
   const User = ({
-    userId: data.userId,
+    id: data.id,
     nickname: data.nickname,
     password: data.password,
     email: data.email,
@@ -106,7 +106,7 @@ describe('UsuarioService', () => {
       .mockResolvedValueOnce({ rows: [], rowCount: 0 })
       .mockResolvedValueOnce({ rows: [], rowCount: 0 })
       .mockResolvedValueOnce({
-        rows: [{ userId: userJson.userId }],
+        rows: [{ id: userJson.id }],
         rowCount: 1,
       });
 
@@ -127,12 +127,12 @@ describe('UsuarioService', () => {
     );
     expect(querySpy).toHaveBeenNthCalledWith(
       3,
-      `INSERT INTO users ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${passCrypt}') RETURNING "userId"`,
+      `INSERT INTO users ("email", "nickname", "password") VALUES ('${UserDto.email}', '${UserDto.nickname}', '${passCrypt}') RETURNING "id"`,
     );
     expect(mockCreate).toHaveBeenCalled();
-    expect(mockCreate).toHaveBeenCalledWith(UserDto, userJson.userId);
+    expect(mockCreate).toHaveBeenCalledWith(UserDto, userJson.id);
     expect(User.toJSON).toHaveBeenCalled();
-    expect(newUser.userId).toEqual(userJson.userId);
+    expect(newUser.id).toEqual(userJson.id);
     expect(newUser.email).toEqual(UserDto.email);
     expect(newUser.nickname).toEqual(UserDto.nickname);
     expect(newUser).not.toHaveProperty('password');
@@ -167,12 +167,12 @@ describe('UsuarioService', () => {
     mockFromJSON.mockReturnValueOnce(User);
     Usuario.fromJSON = mockFromJSON;
 
-    const userFound = await service.findById(anotherUserJSON.userId);
+    const userFound = await service.findById(anotherUserJSON.id);
 
     expect(userFound).toEqual(User);
     expect(querySpy).toHaveBeenCalled();
     expect(querySpy).toHaveBeenCalledWith(
-      `SELECT * FROM users WHERE "userId" = '${anotherUserJSON.userId}'`,
+      `SELECT * FROM users WHERE "id" = '${anotherUserJSON.id}'`,
     );
     expect(mockFromJSON).toHaveBeenCalledWith(anotherUserJSON);
   });
@@ -218,7 +218,7 @@ describe('UsuarioService', () => {
     const id = 0;
 
     const returnedUser = {
-      userId: id,
+      id: id,
       nickname: anotherUserDto.nickname,
       email: anotherUserDto.email,
     };
@@ -233,7 +233,7 @@ describe('UsuarioService', () => {
 
     mockHash.mockResolvedValueOnce(passCrypt);
 
-    const updatedUser = await service.update(userJson.userId, anotherUserDto);
+    const updatedUser = await service.update(userJson.id, anotherUserDto);
 
     expect(mockHash).toHaveBeenCalledTimes(1);
     expect(mockHash).toHaveBeenLastCalledWith(anotherUserDto.password, rounds);
@@ -241,24 +241,24 @@ describe('UsuarioService', () => {
     expect(querySpy).toHaveBeenCalledTimes(3);
     expect(querySpy).toHaveBeenNthCalledWith(
       1,
-      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "email" = '${anotherUserDto.email}'`,
+      `SELECT * FROM users WHERE NOT "id" = '${id}' AND "email" = '${anotherUserDto.email}'`,
     );
     expect(querySpy).toHaveBeenNthCalledWith(
       2,
-      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "nickname" = '${anotherUserDto.nickname}'`,
+      `SELECT * FROM users WHERE NOT "id" = '${id}' AND "nickname" = '${anotherUserDto.nickname}'`,
     );
     expect(querySpy).toHaveBeenNthCalledWith(
       3,
       `UPDATE users 
       SET "nickname" = '${anotherUserDto.nickname}', "email" = '${anotherUserDto.email}', "password" = '${passCrypt}'
-      WHERE "userId" = ${id}
-      RETURNING "userId", "nickname", "email"`,
+      WHERE "id" = ${id}
+      RETURNING "id", "nickname", "email"`,
     );
   });
 
   it('should throw an exception because the email is used', async () => {
     async function emailUsed() {
-      await service.update(userJson.userId, anotherUserDto);
+      await service.update(userJson.id, anotherUserDto);
     }
 
     querySpy.mockResolvedValueOnce({ rowCount: 1 });
@@ -268,7 +268,7 @@ describe('UsuarioService', () => {
 
   it('should throw an exception because the nickname is used', async () => {
     async function nicknameUsed() {
-      await service.update(userJson.userId, anotherUserDto);
+      await service.update(userJson.id, anotherUserDto);
     }
 
     querySpy
@@ -280,7 +280,7 @@ describe('UsuarioService', () => {
 
   it('should delete the user', async () => {
     const returnedUser = {
-      userId: 0,
+      id: 0,
       nickname: anotherUserDto.nickname,
       email: anotherUserDto.email,
     };
@@ -289,11 +289,11 @@ describe('UsuarioService', () => {
       .mockResolvedValueOnce({ rows: [], rowCount: 0 })
       .mockResolvedValueOnce({ rows: [returnedUser], rowCount: 1 });
 
-    const deletedUser = await service.delete(returnedUser.userId);
+    const deletedUser = await service.delete(returnedUser.id);
 
     expect(deletedUser).toEqual(returnedUser);
     expect(querySpy).toHaveBeenCalledWith(
-      `DELETE FROM users WHERE "userId" = ${returnedUser.userId} RETURNING "userId", "email", "nickname"`,
+      `DELETE FROM users WHERE "id" = ${returnedUser.id} RETURNING "id", "email", "nickname"`,
     );
   });
 

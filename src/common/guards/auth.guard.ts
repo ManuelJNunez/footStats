@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
       }
 
       const user = await this.pool.query(
-        `SELECT * FROM users WHERE "userId" = ${decoded.userId}`,
+        `SELECT * FROM users WHERE "id" = ${decoded.id}`,
       );
 
       if (user.rowCount === 0) {

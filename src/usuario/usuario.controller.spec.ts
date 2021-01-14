@@ -26,7 +26,7 @@ describe('UsuarioController', () => {
   } as Usuario;
 
   const userJson = {
-    userId: 0,
+    id: 0,
     email: 'manueljesusnunezruiz@gmail.com',
     nickname: 'mjnunez',
   } as UsuarioI;

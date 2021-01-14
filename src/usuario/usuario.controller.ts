@@ -31,7 +31,7 @@ export class UsuarioController {
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    if (id != decoded.userId) {
+    if (id != decoded.id) {
       throw new UnauthorizedException();
     }
 
@@ -57,7 +57,7 @@ export class UsuarioController {
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    if (id != decoded.userId) {
+    if (id != decoded.id) {
       throw new UnauthorizedException();
     }
 
@@ -75,7 +75,7 @@ export class UsuarioController {
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    if (id != decoded.userId) {
+    if (id != decoded.id) {
       throw new UnauthorizedException();
     }
 

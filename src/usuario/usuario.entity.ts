@@ -122,7 +122,7 @@ export class Usuario {
 
   toJSON(): UsuarioI {
     const usuario: UsuarioI = {
-      userId: this._id,
+      id: this._id,
       nickname: this._nickname,
       email: this._email,
     };
@@ -135,7 +135,7 @@ export class Usuario {
       usuarioJson.nickname,
       usuarioJson.email,
       usuarioJson.password || '',
-      usuarioJson.userId,
+      usuarioJson.id,
     );
   }
 }

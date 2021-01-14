@@ -3,7 +3,7 @@
  */
 export interface UsuarioI {
   /** Identificador único del usuario */
-  userId: number;
+  id: number;
   /** Nombre del usuario */
   nickname: string;
   /** Dirección de correo electrónico del usuario */

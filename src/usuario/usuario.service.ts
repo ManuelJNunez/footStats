@@ -48,17 +48,17 @@ export class UsuarioService {
     const hash = await bcrypt.hash(user.password, rounds);
 
     // Crear nuevo usuario
-    const userId = await this.pool.query(
-      `INSERT INTO users ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${hash}') RETURNING "userId"`,
+    const id = await this.pool.query(
+      `INSERT INTO users ("email", "nickname", "password") VALUES ('${user.email}', '${user.nickname}', '${hash}') RETURNING "id"`,
     );
-    const usuario = Usuario.create(user, userId.rows[0].userId);
+    const usuario = Usuario.create(user, id.rows[0].id);
 
     return usuario.toJSON();
   }
 
   async findById(id: number) {
     const queryResult = await this.pool.query(
-      `SELECT * FROM users WHERE "userId" = '${id}'`,
+      `SELECT * FROM users WHERE "id" = '${id}'`,
     );
 
     if (queryResult.rowCount === 0) {
@@ -91,7 +91,7 @@ export class UsuarioService {
 
     // Comprobar si el nuevo e-mail ya está registrado por otro usuario
     const result1 = await this.pool.query(
-      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "email" = '${user.email}'`,
+      `SELECT * FROM users WHERE NOT "id" = '${id}' AND "email" = '${user.email}'`,
     );
 
     if (result1.rowCount > 0) {
@@ -104,7 +104,7 @@ export class UsuarioService {
 
     // Comprobar si el nuevo nickname ya está registrado por otro usuario
     const result2 = await this.pool.query(
-      `SELECT * FROM users WHERE NOT "userId" = '${id}' AND "nickname" = '${user.nickname}'`,
+      `SELECT * FROM users WHERE NOT "id" = '${id}' AND "nickname" = '${user.nickname}'`,
     );
 
     if (result2.rowCount > 0) {
@@ -123,8 +123,8 @@ export class UsuarioService {
     const usuario = await this.pool.query(
       `UPDATE users 
       SET "nickname" = '${user.nickname}', "email" = '${user.email}', "password" = '${hash}'
-      WHERE "userId" = ${id}
-      RETURNING "userId", "nickname", "email"`,
+      WHERE "id" = ${id}
+      RETURNING "id", "nickname", "email"`,
     );
 
     return usuario.rows[0];
@@ -134,7 +134,7 @@ export class UsuarioService {
     await this.pool.query(`DELETE FROM matches WHERE "userId" = ${id}`);
 
     const result = await this.pool.query(
-      `DELETE FROM users WHERE "userId" = ${id} RETURNING "userId", "email", "nickname"`,
+      `DELETE FROM users WHERE "id" = ${id} RETURNING "id", "email", "nickname"`,
     );
 
     return result.rows[0];

@@ -19,7 +19,7 @@ const pgService = {
 } as any;
 
 const user = {
-  userId: 0,
+  id: 0,
   nickname: 'mjnunez',
   email: 'manueljesusnunezruiz@gmail.com',
 } as UsuarioI;
@@ -66,7 +66,7 @@ describe('AuthGuard', () => {
     expect(spyJwt).toBeCalledWith(token, password);
     expect(etcdService.get).toBeCalledTimes(1);
     expect(mockQuery).toBeCalledWith(
-      `SELECT * FROM users WHERE "userId" = ${user.userId}`,
+      `SELECT * FROM users WHERE "id" = ${user.id}`,
     );
   });
 

@@ -50,7 +50,7 @@ describe('Tests del toJSON de la clase Usuario', function () {
   it('Debería de devolver el objeto JSON con la información del usuario', function () {
     const usuariojson = usuario.toJSON();
 
-    expect(usuariojson.userId).toEqual(usuario.id);
+    expect(usuariojson.id).toEqual(usuario.id);
     expect(usuariojson.nickname).toEqual(usuario.nickname);
     expect(usuariojson.email).toEqual(usuario.email);
     expect(usuariojson).not.toHaveProperty('password');
@@ -95,12 +95,12 @@ describe('Tests del método fromJSON', () => {
       nickname: 'mjnunez',
       email: 'manueljesusnunezruiz@gmail.com',
       password: '1234',
-      userId: 0,
+      id: 0,
     };
 
     const createdUser = Usuario.fromJSON(newUser);
 
-    expect(createdUser.id).toBe(newUser.userId);
+    expect(createdUser.id).toBe(newUser.id);
     expect(createdUser.nickname).toEqual(newUser.nickname);
     expect(createdUser.email).toEqual(newUser.email);
     expect(createdUser.password).toEqual(newUser.password);
@@ -110,12 +110,12 @@ describe('Tests del método fromJSON', () => {
     const newUser = {
       nickname: 'mjnunez',
       email: 'manueljesusnunezruiz@gmail.com',
-      userId: 0,
+      id: 0,
     };
 
     const createdUser = Usuario.fromJSON(newUser);
 
-    expect(createdUser.id).toBe(newUser.userId);
+    expect(createdUser.id).toBe(newUser.id);
     expect(createdUser.nickname).toEqual(newUser.nickname);
     expect(createdUser.email).toEqual(newUser.email);
     expect(createdUser.password).toEqual('');

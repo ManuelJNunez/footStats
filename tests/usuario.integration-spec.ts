@@ -9,7 +9,7 @@ describe('Usuario endpoints', () => {
   const nickname = 'mjnunez';
   const password = '1234';
   let token;
-  let userId;
+  let id;
 
   const user = {
     email,
@@ -43,7 +43,7 @@ describe('Usuario endpoints', () => {
       .send(user)
       .expect(201)
       .expect((res) => {
-        userId = res.body.user.userId;
+        id = res.body.user.id;
         expect(res.body.user.email).toEqual(user.email);
         expect(res.body.user.nickname).toEqual(user.nickname);
       });
@@ -62,10 +62,10 @@ describe('Usuario endpoints', () => {
 
   it('GET /user', () => {
     return request(app.getHttpServer())
-      .get(`/user/${userId}`)
+      .get(`/user/${id}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200, {
-        userId: userId,
+        id: id,
         email: user.email,
         nickname: user.nickname,
       });
@@ -79,18 +79,18 @@ describe('Usuario endpoints', () => {
   });
 
   it('GET /user 403', () => {
-    return request(app.getHttpServer()).get(`/user/${userId}`).expect(403);
+    return request(app.getHttpServer()).get(`/user/${id}`).expect(403);
   });
 
   it('PUT /user', () => {
     return request(app.getHttpServer())
-      .put(`/user/${userId}`)
+      .put(`/user/${id}`)
       .set('Authorization', `Bearer ${token}`)
       .send(updateUser)
       .expect(200, {
         message: 'Usuario modificado con éxito',
         user: {
-          userId,
+          id,
           nickname: 'manuel',
           email: 'mjnunez@correo.ugr.es',
         },
@@ -99,13 +99,13 @@ describe('Usuario endpoints', () => {
 
   it('DELETE /user', () => {
     return request(app.getHttpServer())
-      .delete(`/user/${userId}`)
+      .delete(`/user/${id}`)
       .set('Authorization', `Bearer ${token}`)
       .send(user)
       .expect(200, {
         message: 'Usuario eliminado con éxito',
         user: {
-          userId,
+          id,
           nickname: 'manuel',
           email: 'mjnunez@correo.ugr.es',
         },
