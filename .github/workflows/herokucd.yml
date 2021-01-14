@@ -3,7 +3,7 @@ name: Heroku CD
 on: 
   workflow_run:
     workflows: ["Node.js CI & Autobuild"]
-    brances: [master]
+    branches: [master]
     types:
       - completed
 
