@@ -140,7 +140,7 @@ describe('UsuarioController', () => {
     expect(unauthorized).rejects.toThrow(UnauthorizedException);
   });
 
-  it('should retrieve the result of delete', async () => {
+  it('should retrieve the result of delete function', async () => {
     const spy = jest.spyOn(service, 'delete');
     spy.mockResolvedValueOnce(userObj);
 
