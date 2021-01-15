@@ -11,11 +11,13 @@ import {
   UsePipes,
   ValidationPipe,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { CreateMatchDTO } from './dto/create-match.dto';
 import { PartidoService } from './partido.service';
 import * as jwt from 'jsonwebtoken';
+import { Response } from 'express';
 
 @Controller('matches')
 export class PartidoController {
@@ -27,10 +29,14 @@ export class PartidoController {
   async create(
     @Headers('Authorization') auth: string,
     @Body() match: CreateMatchDTO,
+    @Res() res: Response,
   ) {
     const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    return await this.partidoService.create(match, decoded.id);
+    const response = await this.partidoService.create(match, decoded.id);
+
+    res.set('Location', `/matches/${response.id}`);
+    res.json(response);
   }
 
   @Get(':id')
@@ -63,20 +69,20 @@ export class PartidoController {
   }
 
   @Put(':id')
-  @UseGuards(AuthGuard)
+  //@UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   async updateMatch(
-    @Headers('Authorization') auth: string,
+    //@Headers('Authorization') auth: string,
     @Body() matchDto: CreateMatchDTO,
     @Param('id') id: number,
+    @Res() res: Response,
   ) {
-    const decoded = jwt.decode(auth.split(' ')[1], { json: true });
-    const userid = decoded.id;
+    // const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+    // const userid = decoded.id;
+    const response = await this.partidoService.update(matchDto, id);
 
-    return {
-      message: 'Partido actualizado con éxito',
-      match: await this.partidoService.update(matchDto, id, userid),
-    };
+    res.set('Location', `/matches/${id}`);
+    res.json(response); //, userid),
   }
 
   @Delete(':id')

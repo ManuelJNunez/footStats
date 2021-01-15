@@ -202,40 +202,39 @@ describe('PartidoService', () => {
     expect(noMatches).rejects.toThrow(HttpException);
   });
 
-  it('should update an existing user', async () => {
+  it('should update an existing match', async () => {
     mockQuery
-      .mockResolvedValueOnce({ rows: [queryResult], rowCount: 1 })
+      //.mockResolvedValueOnce({ rows: [queryResult], rowCount: 1 })
       .mockResolvedValueOnce({ rows: [updatedQueryResult], rowCount: 1 });
     mockFromJSON.mockResolvedValueOnce(updateMatchObj);
 
-    const updatedUser = await service.update(updateMatchDto, matchId, userId);
+    await service.update(updateMatchDto, matchId); //, userId);
 
-    expect(updatedUser).toEqual(updateMatchObj);
     expect(mockFromJSON).toHaveBeenCalledWith(updatedQueryResult);
-    expect(mockQuery).toHaveBeenNthCalledWith(
+    /*expect(mockQuery).toHaveBeenNthCalledWith(
       1,
       `SELECT * FROM matches WHERE "matchId" = '${matchId}'`,
-    );
+    );*/
     expect(mockQuery).toHaveBeenNthCalledWith(
-      2,
+      1,
       `UPDATE matches
        SET "horaIni" = '${updateMatchDto.horaIni}', "horaFin" = '${updateMatchDto.horaFin}', lugar = '${updateMatchDto.lugar}'
        WHERE "matchId" = ${matchId}
-       RETURNING "matchId", "horaIni", "horaFin", lugar, "userId"`,
+       RETURNING "matchId", "horaIni", "horaFin", lugar`, //"userId"`,
     );
   });
 
-  it('should throw an exception because the match does not exist', () => {
+  /*it('should throw an exception because the match does not exist', () => {
     mockQuery.mockResolvedValueOnce({ rows: [], rowCount: 0 });
 
     async function matchDontFound() {
-      await service.update(updateMatchDto, matchId, userId);
+      await service.update(updateMatchDto, matchId); //userId);
     }
 
     expect(matchDontFound).rejects.toThrow(HttpException);
-  });
+  });*/
 
-  it('should throw an exception because userId is diferent', () => {
+  /*it('should throw an exception because userId is diferent', () => {
     mockQuery.mockResolvedValueOnce({ rows: [queryResult], rowCount: 1 });
 
     async function invalidUser() {
@@ -243,7 +242,7 @@ describe('PartidoService', () => {
     }
 
     expect(invalidUser).rejects.toThrow(HttpException);
-  });
+  });*/
 
   it('should delete the match', async () => {
     mockQuery

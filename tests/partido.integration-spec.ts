@@ -127,13 +127,10 @@ describe('Partido endpoints', () => {
       .send(updateMatch)
       .expect(200)
       .expect({
-        message: 'Partido actualizado con éxito',
-        match: {
-          horaIni: updateMatch.horaIni,
-          horaFin: updateMatch.horaFin,
-          lugar: updateMatch.lugar,
-          jugadas: [],
-        },
+        horaIni: updateMatch.horaIni,
+        horaFin: updateMatch.horaFin,
+        lugar: updateMatch.lugar,
+        jugadas: [],
       });
   });
 

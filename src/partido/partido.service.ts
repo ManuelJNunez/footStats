@@ -91,8 +91,9 @@ export class PartidoService {
     return matchesObj;
   }
 
-  async update(matchDto: CreateMatchDTO, matchId: number, userId: number) {
-    this.checkDates(matchDto.horaIni, matchDto.horaFin);
+  async update(matchDto: CreateMatchDTO, matchId: number) {
+    // , userId: number) {
+    /*this.checkDates(matchDto.horaIni, matchDto.horaFin);
 
     let queryResult = await this.pool.query(
       `SELECT * FROM matches WHERE "matchId" = '${matchId}'`,
@@ -107,13 +108,13 @@ export class PartidoService {
         'Este partido no ha sido registrado por ti',
         HttpStatus.UNAUTHORIZED,
       );
-    }
+    }*/
 
-    queryResult = await this.pool.query(
+    const queryResult = await this.pool.query(
       `UPDATE matches
        SET "horaIni" = '${matchDto.horaIni}', "horaFin" = '${matchDto.horaFin}', lugar = '${matchDto.lugar}'
        WHERE "matchId" = ${matchId}
-       RETURNING "matchId", "horaIni", "horaFin", lugar, "userId"`,
+       RETURNING "matchId", "horaIni", "horaFin", lugar`, //"userId"`,
     );
 
     const match = Partido.fromJSON(queryResult.rows[0]);

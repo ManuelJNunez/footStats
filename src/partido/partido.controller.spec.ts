@@ -6,6 +6,7 @@ import { EtcdService } from '../etcd/etcd.service';
 import { PartidoController } from './partido.controller';
 import { Partido } from './partido.entity';
 import { PartidoService } from './partido.service';
+import { Response } from 'express';
 const jwt = require('jsonwebtoken');
 
 describe('PartidoController', () => {
@@ -18,6 +19,13 @@ describe('PartidoController', () => {
   const horaFin = '2021-01-10 16:45:00';
   const lugar = 'El Zaidín';
   const token = 'aValidToken';
+
+  const mockResponse = ({
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    json: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    set: () => {},
+  } as unknown) as Response;
 
   const matchDto = {
     horaIni,
@@ -57,17 +65,21 @@ describe('PartidoController', () => {
     spyDecode.mockClear();
   });
 
-  it('should retrieve the user registered', async () => {
+  it('should retrieve the match registered', async () => {
     const spyCreate = jest.spyOn(service, 'create');
 
     spyDecode.mockReturnValueOnce(user);
     spyCreate.mockResolvedValueOnce(matchObj);
 
-    const response = await controller.create(`Bearer ${token}`, matchDto);
+    const spySet = jest.spyOn(mockResponse, 'set');
+    const spyJson = jest.spyOn(mockResponse, 'json');
 
-    expect(response).toEqual(matchObj);
+    await controller.create(`Bearer ${token}`, matchDto, mockResponse);
+
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
     expect(spyCreate).toHaveBeenCalledWith(matchDto, user.id);
+    expect(spySet).toHaveBeenCalledWith('Location', `/matches/${matchObj.id}`);
+    expect(spyJson).toHaveBeenCalledWith(matchObj);
   });
 
   it('should retrieve the match which matchId is 0', async () => {
@@ -112,15 +124,20 @@ describe('PartidoController', () => {
     spyDecode.mockReturnValueOnce(user);
     spyUpdate.mockResolvedValueOnce(matchObj);
 
-    const response = await controller.updateMatch(
-      `Bearer ${token}`,
+    const spySet = jest.spyOn(mockResponse, 'set');
+    const spyJson = jest.spyOn(mockResponse, 'json');
+
+    await controller.updateMatch(
+      //`Bearer ${token}`,
       matchDto,
       matchId,
+      mockResponse,
     );
 
-    expect(response.match).toEqual(matchObj);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyUpdate).toHaveBeenCalledWith(matchDto, matchId, user.id);
+    expect(spyUpdate).toHaveBeenCalledWith(matchDto, matchId); // user.id);
+    expect(spySet).toHaveBeenCalledWith('Location', `/matches/${matchId}`);
+    expect(spyJson).toHaveBeenCalledWith(matchObj);
   });
 
   it('should retrieve the deleted user', async () => {
