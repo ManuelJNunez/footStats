@@ -89,10 +89,7 @@ describe('PartidoController', () => {
     spyDecode.mockReturnValueOnce(user);
     spyMatchesOfUser.mockResolvedValueOnce([matchObj]);
 
-    const response = await controller.getMatches(
-      `Bearer ${token}`,
-      user.id,
-    );
+    const response = await controller.getMatches(`Bearer ${token}`, user.id);
 
     expect(response).toEqual([matchObj]);
     expect(spyDecode).toHaveBeenCalledWith(token, { json: true });

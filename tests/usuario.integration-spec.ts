@@ -88,10 +88,10 @@ describe('Usuario endpoints', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(updateUser)
       .expect(200, {
-          id,
-          nickname: 'manuel',
-          email: 'mjnunez@correo.ugr.es',
-        });
+        id,
+        nickname: 'manuel',
+        email: 'mjnunez@correo.ugr.es',
+      });
   });
 
   it('DELETE /user', () => {

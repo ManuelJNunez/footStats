@@ -65,7 +65,7 @@ export class UsuarioController {
     }
 
     const response = await this.usuarioService.update(id, user);
-    
+
     res.set('Location', `/user/${response.id}`);
     res.json(response);
   }
