@@ -59,9 +59,9 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 
     npm run doc
 
-## Microservicios
+## Platform as a Service
 
-Se ha utilizado el microframework `NestJS` para la implementación del microservicio. Se puede encontrar mas información sobre la implementación [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/microservicios.md)
+Se ha utilizado Heroku para el despliegue del microservicio. Puede encontrar toda la información sobre el despliegue así como de la implementación de la base de datos [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/heroku.md)
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
@@ -73,6 +73,7 @@ Todos ellos están en el directorio docs. También se pueden consultar en [GH pa
 - [Documentación del Dockerfile](https://github.com/ManuelJNunez/footStats/blob/master/docs/docker.md)
 - [Integración Continua](https://github.com/ManuelJNunez/footStats/blob/master/docs/ci.md)
 - [Serverless](https://github.com/ManuelJNunez/footStats/blob/master/docs/serverless.md)
+- [Microservicios](https://github.com/ManuelJNunez/footStats/blob/master/docs/microservicios.md)
 
 ## Autor
 - [Manuel Jesús Núñez Ruiz](https://github.com/ManuelJNunez)
