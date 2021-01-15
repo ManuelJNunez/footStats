@@ -70,7 +70,7 @@ describe('PartidoController', () => {
     expect(spyCreate).toHaveBeenCalledWith(matchDto, user.id);
   });
 
-  it('should retrieve the match with matchId = 0', async () => {
+  it('should retrieve the match which matchId is 0', async () => {
     const spyFindById = jest.spyOn(service, 'findById');
 
     spyDecode.mockReturnValueOnce(user);
