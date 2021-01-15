@@ -1,13 +1,17 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { UsuarioModule } from '../src/usuario/usuario.module';
 import { PartidoModule } from '../src/partido/partido.module';
+import { AuthGuard } from '../src/common/guards/auth.guard';
+import { PartidoService } from '../src/partido/partido.service';
 const request = require('supertest');
+const jwt = require('jsonwebtoken');
 
 describe('Partido endpoints', () => {
   let app: INestApplication;
   let token;
-  let matchId;
+  const matchId = 5;
+  const userId = 1;
+  let spyDecode;
   const email = 'validemail@gmail.com';
   const nickname = 'manolo';
   const password = 'holaqtal';
@@ -35,27 +39,58 @@ describe('Partido endpoints', () => {
     lugar: 'El Zaidín',
   };
 
+  const partidoService = {
+    create: (newMatch, userid) => {
+      return {
+        matchId,
+        horaIni: newMatch.horaIni,
+        horaFin: newMatch.horaFin,
+        lugar: match.lugar,
+      };
+    },
+    findById: (userid, id) => {
+      return {
+        horaIni: match.horaIni,
+        horaFin: match.horaFin,
+        lugar: match.lugar,
+        jugadas: [],
+      };
+    },
+    update: (matchDto, id, userid) => {
+      return {
+        horaIni: matchDto.horaIni,
+        horaFin: matchDto.horaFin,
+        lugar: matchDto.lugar,
+        jugadas: [],
+      };
+    },
+    delete: (id, userid) => {
+      return {
+        horaIni: updateMatch.horaIni,
+        horaFin: updateMatch.horaFin,
+        lugar: updateMatch.lugar,
+        jugadas: [],
+      };
+    },
+  };
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [PartidoModule, UsuarioModule],
-    }).compile();
+      imports: [PartidoModule],
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .overrideProvider(PartidoService)
+      .useValue(partidoService)
+      .compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
-  });
 
-  it('POST /user', () => {
-    return request(app.getHttpServer()).post('/user').send(user).expect(201);
-  });
-
-  it('POST /user/login', () => {
-    return request(app.getHttpServer())
-      .post('/user/login')
-      .send(login)
-      .expect(200)
-      .expect((res) => {
-        token = res.body.token;
-      });
+    spyDecode = jest.spyOn(jwt, 'decode');
+    spyDecode.mockImplementation(() => {
+      return { id: userId };
+    });
   });
 
   it('POST /matches', () => {
@@ -65,9 +100,9 @@ describe('Partido endpoints', () => {
       .send(match)
       .expect(201)
       .expect((res) => {
-        matchId = res.body.id;
-        expect(res.body.horaIni).toEqual('2021-02-22T18:00:00.000Z');
-        expect(res.body.horaFin).toEqual('2021-02-22T18:45:00.000Z');
+        expect(res.body.matchId).toEqual(matchId);
+        expect(res.body.horaIni).toEqual(match.horaIni);
+        expect(res.body.horaFin).toEqual(match.horaFin);
         expect(res.body.lugar).toEqual(match.lugar);
       });
   });
@@ -78,8 +113,8 @@ describe('Partido endpoints', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
       .expect({
-        horaIni: '2021-02-22T18:00:00.000Z',
-        horaFin: '2021-02-22T18:45:00.000Z',
+        horaIni: match.horaIni,
+        horaFin: match.horaFin,
         lugar: match.lugar,
         jugadas: [],
       });
@@ -94,8 +129,8 @@ describe('Partido endpoints', () => {
       .expect({
         message: 'Partido actualizado con éxito',
         match: {
-          horaIni: '2021-02-22T20:00:00.000Z',
-          horaFin: '2021-02-22T20:45:00.000Z',
+          horaIni: updateMatch.horaIni,
+          horaFin: updateMatch.horaFin,
           lugar: updateMatch.lugar,
           jugadas: [],
         },
@@ -111,8 +146,8 @@ describe('Partido endpoints', () => {
       .expect({
         message: 'Partido eliminado con éxito',
         match: {
-          horaIni: '2021-02-22T20:00:00.000Z',
-          horaFin: '2021-02-22T20:45:00.000Z',
+          horaIni: updateMatch.horaIni,
+          horaFin: updateMatch.horaFin,
           lugar: updateMatch.lugar,
           jugadas: [],
         },
