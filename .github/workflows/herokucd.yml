@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Login Heroku Container Registry
+      - name: Login en Heroku Container Registry
         run: heroku container:login
       - name: Push del contenedor hacia Heroku Container Registry
         run: heroku container:push web --recursive --app ${{ secrets.HEROKU_APP }}
