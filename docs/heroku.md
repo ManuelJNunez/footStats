@@ -31,6 +31,8 @@ Me faltaría por finalizar con la [HU4](https://github.com/ManuelJNunez/footStat
 
 ## Uso de bases de datos y logs dentro del PaaS.
 
-He usado `PostgreSQL` debido a que uso datos estructuras y es más indicada para producción que `MySQL`. La base de datos ha sido provisionada tal y como indiqué antes, tengo que añadir que lo hice con una BD limpia, con las tablas recién creadas. Además puedo acceder a ella desde mi PC con la orden `heroku pg:psql`.
+He usado `PostgreSQL` debido a que uso datos estructuras y es más indicada para producción que `MySQL`. La base de datos ha sido provisionada tal y como indiqué antes, tengo que añadir que lo hice con una BD limpia, con las tablas recién creadas. Además puedo acceder a ella desde mi PC con la orden `heroku pg:psql`. El módulo de la BD se encuentra [aquí](https://github.com/ManuelJNunez/footStats/tree/master/src/pg). La clase PgService es singleton, solo se crea una instancia, por tanto solo existe un Pool para toda la aplicación y además es inyectada en todas las clases que la usa.
 
 Para el sistema de logs, debido a que el de Heroku los guarda durante muy poco tiempo, he conectado mediante la CLI (usando [esta guia](https://devcenter.heroku.com/articles/logdna)) con `logDNA`. He usado esa plataforma debido a los beneficios que me aporta en la misma el [pack de estudiante de GitHub](https://education.github.com/pack).
+
+![](img/log/logdna.png)
