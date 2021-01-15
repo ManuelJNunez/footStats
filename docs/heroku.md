@@ -33,4 +33,4 @@ Me faltaría por finalizar con la [HU4](https://github.com/ManuelJNunez/footStat
 
 He usado `PostgreSQL` debido a que uso datos estructuras y es más indicada para producción que `MySQL`. La base de datos ha sido provisionada tal y como indiqué antes, tengo que añadir que lo hice con una BD limpia, con las tablas recién creadas. Además puedo acceder a ella desde mi PC con la orden `heroku pg:psql`.
 
-Para el sistema de logs, debido a que el de Heroku los guarda durante muy poco tiempo, he conectado mediante la CLI (usando [esta guia](https://devcenter.heroku.com/articles/logdna)) con `logDNA`. He usado esa plataforma debido a los beneficios que me aporta en la misma el pack de estudiante de GitHub.
+Para el sistema de logs, debido a que el de Heroku los guarda durante muy poco tiempo, he conectado mediante la CLI (usando [esta guia](https://devcenter.heroku.com/articles/logdna)) con `logDNA`. He usado esa plataforma debido a los beneficios que me aporta en la misma el [pack de estudiante de GitHub](https://education.github.com/pack).
