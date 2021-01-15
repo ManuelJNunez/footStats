@@ -57,7 +57,7 @@ describe('PartidoController', () => {
     spyDecode.mockClear();
   });
 
-  it('should retrieve the user created', async () => {
+  it('should retrieve the user registered', async () => {
     const spyCreate = jest.spyOn(service, 'create');
 
     spyDecode.mockReturnValueOnce(user);
