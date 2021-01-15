@@ -1,15 +1,20 @@
 import { Test } from '@nestjs/testing';
 import { UsuarioModule } from '../src/usuario/usuario.module';
-import { INestApplication } from '@nestjs/common';
+import { ExecutionContext, INestApplication } from '@nestjs/common';
+import { AuthGuard } from '../src/common/guards/auth.guard';
+import { UsuarioService } from '../src/usuario/usuario.service';
+import { Usuario } from '../src/usuario/usuario.entity';
 const request = require('supertest');
+const jwt = require('jsonwebtoken');
 
 describe('Usuario endpoints', () => {
   let app: INestApplication;
   const email = 'manueljesusnunezruiz@gmail.com';
   const nickname = 'mjnunez';
   const password = '1234';
-  let token;
-  let id;
+  const token = 'aValidToken';
+  const id = 1;
+  let spyDecode;
 
   const user = {
     email,
@@ -28,13 +33,80 @@ describe('Usuario endpoints', () => {
     password,
   };
 
+  const usuarioService = {
+    create: (user) => {
+      return {
+        id,
+        email: user.email,
+        nickname: user.nickname,
+      } as Usuario;
+    },
+    findByEmail: (email) => {
+      return {
+        id,
+        email: user.email,
+        nickname: user.nickname,
+      };
+    },
+    update: (id, user) => {
+      return {
+        id,
+        email: user.email,
+        nickname: user.nickname,
+      };
+    },
+    delete: (id) => {
+      return {
+        id,
+        email: updateUser.email,
+        nickname: updateUser.nickname,
+      };
+    },
+    generarToken: (login) => {
+      return `aValidToken`;
+    },
+  };
+
+  const authGuard = {
+    canActivate: (context: ExecutionContext): boolean => {
+      const req = context.switchToHttp().getRequest();
+      const token = req.headers.authorization;
+
+      if (token == null) {
+        return false;
+      }
+
+      const res = token.split(' ');
+
+      if (res.length < 2 || res[0] != 'Bearer') {
+        return false;
+      }
+
+      if (res[1] === 'aValidToken') {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  };
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [UsuarioModule],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue(authGuard)
+      .overrideProvider(UsuarioService)
+      .useValue(usuarioService)
+      .compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
+
+    spyDecode = jest.spyOn(jwt, 'decode');
+    spyDecode.mockImplementation(() => {
+      return { id };
+    });
   });
 
   it('POST /user', () => {
@@ -43,9 +115,10 @@ describe('Usuario endpoints', () => {
       .send(user)
       .expect(201)
       .expect((res) => {
-        id = res.body.id;
+        expect(res.body.id).toEqual(id);
         expect(res.body.email).toEqual(user.email);
         expect(res.body.nickname).toEqual(user.nickname);
+        expect(res.body).not.toHaveProperty('password');
       });
   });
 
@@ -56,7 +129,6 @@ describe('Usuario endpoints', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body).toHaveProperty('token');
-        token = res.body.token;
       });
   });
 
@@ -87,10 +159,12 @@ describe('Usuario endpoints', () => {
       .put(`/user/${id}`)
       .set('Authorization', `Bearer ${token}`)
       .send(updateUser)
-      .expect(200, {
-        id,
-        nickname: 'manuel',
-        email: 'mjnunez@correo.ugr.es',
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.id).toEqual(`${id}`);
+        expect(res.body.email).toEqual(updateUser.email);
+        expect(res.body.nickname).toEqual(updateUser.nickname);
+        expect(res.body).not.toHaveProperty('password');
       });
   });
 
@@ -102,9 +176,9 @@ describe('Usuario endpoints', () => {
       .expect(200, {
         message: 'Usuario eliminado con éxito',
         user: {
-          id,
-          nickname: 'manuel',
-          email: 'mjnunez@correo.ugr.es',
+          id: `${id}`,
+          nickname: updateUser.nickname,
+          email: updateUser.email,
         },
       });
   });
