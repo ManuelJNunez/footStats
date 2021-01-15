@@ -110,7 +110,7 @@ describe('UsuarioController', () => {
     expect(spyJson).toHaveBeenCalledWith(userJson);
   });
 
-  it('should retrieve the result of update', async () => {
+  it('should retrieve the result of update function', async () => {
     const spy = jest.spyOn(service, 'update');
     spy.mockResolvedValueOnce(userJson);
 
