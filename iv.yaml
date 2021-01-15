@@ -8,11 +8,14 @@ URL: https://footstats.netlify.app/status
 make: make
 PaaS: https://footstatsiv.herokuapp.com/
 recurso:
-  nombre: user
+  nombre: matches
   metodo: POST
   payload:
-    nickname: user1
-    email: user1@mail.com
-    password: 1234
+    horaIni: '2021-01-10 16:00:00'
+    horaFin: '2021-01-10 16:45:00'
+    lugar: 'Granada'
   IDs:
-    - 2
+    - 5
+    - 6
+    - 7
+    - 8
