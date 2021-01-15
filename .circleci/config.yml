@@ -10,18 +10,6 @@ jobs:
   build:
     docker:
       - image: circleci/node:lts
-        environment:
-          DB_HOST: localhost
-          DB_USER: testuser
-          DB_PASSWORD: postgres
-          DB_NAME: test
-          DB_PORT: 5432
-          JWT_SECRET: aSecretKey
-      - image: circleci/postgres:alpine
-        environment:
-          POSTGRES_DB: test
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: testuser
     
     steps:
       - checkout
@@ -34,12 +22,6 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y postgresql-client
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: 
-          name: Creación de tablas en la BD
-          command: psql -d postgres://testuser:postgres@localhost:5432/test -f database/tables.sql
       - run:
           name: Ejecutando tests
           command: npm run test:cov
