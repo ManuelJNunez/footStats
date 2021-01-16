@@ -25,7 +25,7 @@ Además de lo anterior, he actualizado los tests de integración para Usuario (s
 - Un [script SQL](https://github.com/ManuelJNunez/footStats/blob/master/database/tables.sql) para crear las tablas de la BD, tanto para producción, como para desarrollo.
 - He añadido un [docker-compose.yml](https://github.com/ManuelJNunez/footStats/blob/master/docker-compose.yml) para poder hacer staging en un futuro.
 
-Me faltaría por finalizar con la [HU4](https://github.com/ManuelJNunez/footStats/issues/7), me pondré con ella con la mayor brevedad posible, ya que tengo que tenerlo listo para la presentación.
+También se ha trabajado en la [HU6](https://github.com/ManuelJNunez/footStats/issues/87) y en la [HU7](https://github.com/ManuelJNunez/footStats/issues/89). Me faltaría por finalizar con la [HU4](https://github.com/ManuelJNunez/footStats/issues/7), me pondré con ella con la mayor brevedad posible, ya que tengo que tenerlo listo para la presentación.
 
 ## Uso de bases de datos y logs dentro del PaaS.
 
