@@ -74,10 +74,10 @@ describe('PartidoController', () => {
     const spySet = jest.spyOn(mockResponse, 'set');
     const spyJson = jest.spyOn(mockResponse, 'json');
 
-    await controller.create(/*`Bearer ${token}`,*/ matchDto, mockResponse);
+    await controller.create(`Bearer ${token}`, matchDto, mockResponse);
 
-    //expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyCreate).toHaveBeenCalledWith(matchDto); //, user.id);
+    expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
+    expect(spyCreate).toHaveBeenCalledWith(matchDto, user.id);
     expect(spySet).toHaveBeenCalledWith('Location', `/matches/${matchObj.id}`);
     expect(spyJson).toHaveBeenCalledWith(matchObj);
   });
@@ -88,11 +88,11 @@ describe('PartidoController', () => {
     spyDecode.mockReturnValueOnce(user);
     spyFindById.mockResolvedValueOnce(matchObj);
 
-    const response = await controller.getMatch(/*`Bearer ${token}`,*/ matchId);
+    const response = await controller.getMatch(`Bearer ${token}`, matchId);
 
     expect(response).toEqual(matchObj);
-    //expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
-    expect(spyFindById).toHaveBeenCalledWith(/*user.id,*/ matchId);
+    expect(spyDecode).toHaveBeenCalledWith(token, { json: true });
+    expect(spyFindById).toHaveBeenCalledWith(user.id, matchId);
   });
 
   it('should retrieve all the matches of the user', async () => {

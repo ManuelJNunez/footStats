@@ -32,12 +32,12 @@ export class PartidoService {
     }
   }
 
-  async create(partidoDto: CreateMatchDTO /*, userId: number*/) {
+  async create(partidoDto: CreateMatchDTO, userId: number) {
     this.checkDates(partidoDto.horaIni, partidoDto.horaFin);
 
     const matchId = await this.pool.query(
-      `INSERT INTO matches ("horaIni", "horaFin", "lugar") 
-      VALUES ('${partidoDto.horaIni}', '${partidoDto.horaFin}', '${partidoDto.lugar}')
+      `INSERT INTO matches ("horaIni", "horaFin", "lugar", "userId") 
+      VALUES ('${partidoDto.horaIni}', '${partidoDto.horaFin}', '${partidoDto.lugar}', ${userId})
       RETURNING "matchId"`,
     );
 
@@ -46,7 +46,7 @@ export class PartidoService {
     return partido;
   }
 
-  async findById(/*userId: number,*/ matchId: number) {
+  async findById(userId: number, matchId: number) {
     const queryResult = await this.pool.query(
       `SELECT * FROM matches WHERE "matchId" = '${matchId}'`,
     );
@@ -57,12 +57,12 @@ export class PartidoService {
 
     const match = queryResult.rows[0];
 
-    /*if (userId != match.userId) {
+    if (userId != match.userId) {
       throw new HttpException(
         'Este partido no ha sido registrado por ti',
         HttpStatus.UNAUTHORIZED,
       );
-    }*/
+    }
 
     const matchObj = Partido.fromJSON(match);
 

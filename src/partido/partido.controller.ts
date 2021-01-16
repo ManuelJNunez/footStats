@@ -24,31 +24,31 @@ export class PartidoController {
   constructor(private readonly partidoService: PartidoService) {}
 
   @Post()
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   async create(
-    //@Headers('Authorization') auth: string,
+    @Headers('Authorization') auth: string,
     @Body() match: CreateMatchDTO,
     @Res() res: Response,
   ) {
-    //const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+    const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    const response = await this.partidoService.create(match); //decoded.id);
+    const response = await this.partidoService.create(match, decoded.id);
 
     res.set('Location', `/matches/${response.id}`);
     res.json(response);
   }
 
   @Get(':id')
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   async getMatch(
-    //@Headers('Authorization') auth: string,
+    @Headers('Authorization') auth: string,
     @Param('id') id: number,
   ) {
-    //const decoded = jwt.decode(auth.split(' ')[1], { json: true });
+    const decoded = jwt.decode(auth.split(' ')[1], { json: true });
 
-    return await this.partidoService.findById(/*decoded.id,*/ id);
+    return await this.partidoService.findById(decoded.id, id);
   }
 
   @Get('user/:id')
@@ -82,7 +82,7 @@ export class PartidoController {
     const response = await this.partidoService.update(matchDto, id, userid);
 
     res.set('Location', `/matches/${id}`);
-    res.json(response); //, userid),
+    res.json(response);
   }
 
   @Delete(':id')

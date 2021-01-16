@@ -114,7 +114,7 @@ describe('PartidoService', () => {
     mockQuery.mockResolvedValueOnce({ rows: [{ matchId }], rowCount: 1 });
     mockCreate.mockReturnValueOnce(matchObj);
 
-    const newMatch = await service.create(matchDto); //, userId);
+    const newMatch = await service.create(matchDto, userId);
 
     expect(newMatch.id).toEqual(matchId);
     expect(newMatch.horaIni).toEqual(matchDto.horaIni);
@@ -122,8 +122,8 @@ describe('PartidoService', () => {
     expect(newMatch.lugar).toEqual(matchDto.lugar);
     expect(newMatch.jugadas).toHaveLength(0);
     expect(mockQuery).toHaveBeenCalledWith(
-      `INSERT INTO matches ("horaIni", "horaFin", "lugar") 
-      VALUES ('${matchDto.horaIni}', '${matchDto.horaFin}', '${matchDto.lugar}')
+      `INSERT INTO matches ("horaIni", "horaFin", "lugar", "userId") 
+      VALUES ('${matchDto.horaIni}', '${matchDto.horaFin}', '${matchDto.lugar}', ${userId})
       RETURNING "matchId"`,
     );
     expect(mockCreate).toHaveBeenCalledWith(matchDto, matchId);
@@ -131,7 +131,7 @@ describe('PartidoService', () => {
 
   it('should faild because the date string format is not valid', () => {
     async function invalidDateFormat() {
-      await service.create(invalidStringMatchDto); //, userId);
+      await service.create(invalidStringMatchDto, userId);
     }
 
     expect(invalidDateFormat).rejects.toThrow(HttpException);
@@ -139,7 +139,7 @@ describe('PartidoService', () => {
 
   it('should faild because the date string format is not valid', () => {
     async function invalidDates() {
-      await service.create(invalidDatesDto); //, userId);
+      await service.create(invalidDatesDto, userId);
     }
 
     expect(invalidDates).rejects.toThrow(HttpException);
@@ -149,7 +149,7 @@ describe('PartidoService', () => {
     mockQuery.mockResolvedValueOnce({ rows: [queryResult], rowCount: 1 });
     mockFromJSON.mockReturnValueOnce(matchObj);
 
-    const matchFound = await service.findById(/*userId,*/ matchId);
+    const matchFound = await service.findById(userId, matchId);
 
     expect(matchFound).toEqual(matchObj);
     expect(mockQuery).toHaveBeenCalledWith(
@@ -162,13 +162,13 @@ describe('PartidoService', () => {
     mockQuery.mockResolvedValueOnce({ rows: [], rowCount: 0 });
 
     async function userNotExists() {
-      await service.findById(userId); //, matchId);
+      await service.findById(userId, matchId);
     }
 
     expect(userNotExists).rejects.toThrow(HttpException);
   });
 
-  /*it('should throw an exception because the userId is different.', () => {
+  it('should throw an exception because the userId is different.', () => {
     mockQuery.mockResolvedValueOnce({ rows: [queryResult], rowCount: 1 });
 
     async function userNotExists() {
@@ -176,7 +176,7 @@ describe('PartidoService', () => {
     }
 
     expect(userNotExists).rejects.toThrow(HttpException);
-  });*/
+  });
 
   it('should retrieve all the matches of a user', async () => {
     mockQuery.mockResolvedValueOnce({ rows: [queryResult], rowCount: 1 });
