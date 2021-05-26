@@ -61,7 +61,7 @@ Este proyecto trata sobre desarrollar una API que recoge estadísticas de un par
 
 ## Platform as a Service
 
-Se ha utilizado Heroku para el despliegue del microservicio. Puede encontrar toda la información sobre el despliegue así como de la implementación de la base de datos [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/heroku.md)
+Se ha utilizado Heroku para el despliegue del microservicio. Puede encontrar toda la información sobre el despliegue así como de la implementación de la base de datos [aquí](https://github.com/ManuelJNunez/footStats/blob/master/docs/heroku.md).
 
 ## Enlaces de interés
 Todos ellos están en el directorio docs. También se pueden consultar en [GH pages](https://manueljnunez.github.io/footStats/).
